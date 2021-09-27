@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fantasy Soccer</title>
-</head>
-<body>
-  <h1>Homepage works!</h1>
-</body>
-</html>
+<?php include_once "header.php" ?>
+
+<div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; font-size: 64px;">
+  This is our homepage!
+</div>
+
+<?php include_once "footer.php" ?>
