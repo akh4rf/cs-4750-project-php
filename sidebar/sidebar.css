@@ -61,8 +61,8 @@
 }
 
 .sidebar-wrapper:hover .sidebar-text {
-  font-size: 28px;
-  margin-left: 10px;
+  font-size: 24px;
+  margin-left: 15px;
   transition: font-size 0.4s, margin-left 0.4s;
   transition-delay: 0.4s;
 }

@@ -29,10 +29,10 @@ function isCurrentPath($path)
 
   <div style="display: grid; grid-template-rows: 10vh 90vh; width: 100vw; height: 100vh; color: white;">
     <div class="top-bar">
-      <a style="height: 100%; text-decoration: none; padding: 0 25px; color: white;" href="./">
+      <a style="height: 100%; text-decoration: none; padding: 0 25px; color: white;" href="/">
         <div style="display: flex; align-items: center; height: 100%; font-size: 32px;">Upper90</div>
       </a>
-      <div style="font-size: 45px; padding: 0 25px;"><a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href=""><i class="far fa-user-circle"></i></a></div>
+      <div style="font-size: 45px; padding: 0 25px;"><a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href="/"><i class="far fa-user-circle"></i></a></div>
     </div>
     <div style="height: 100%; width: 100%; position: relative;">
       <?php include_once "sidebar/sidebar.php" ?>
