@@ -29,7 +29,7 @@ function getHoverClassFromURI($uri)
 
 <link rel="stylesheet" href="sidebar/sidebar.css">
 
-<div style="position: absolute; height: 100%;">
+<div style="position: absolute; height: 100%; z-index: 10;">
   <div class="sidebar-wrapper">
     <div class="sidebar-contents">
       <?php foreach ($sidebar_items as $key => $value) : ?>

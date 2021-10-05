@@ -35,5 +35,5 @@ function isCurrentPath($path)
       <div style="font-size: 45px; padding: 0 25px;"><a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href="/"><i class="far fa-user-circle"></i></a></div>
     </div>
     <div style="height: 100%; width: 100%; position: relative;">
-      <?php include_once "sidebar/sidebar.php" ?>
-      <div style="width: 100%; height: 100%; background: var(--light-blue);">
+      <?php include_once "includes/sidebar/sidebar.php" ?>
+      <div style="width: 100%; height: 100%; background: var(--light-blue); position: absolute; z-index: 5;">
