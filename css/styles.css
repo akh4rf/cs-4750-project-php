@@ -5,6 +5,10 @@
   font-family: "Open Sans", sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap");
 
 .top-bar {
@@ -17,7 +21,7 @@
 
 .inner-page-contents {
   height: 100%;
-  width: calc(100% - 70px);
+  width: 100%;
   padding-left: 70px;
   display: flex;
   justify-content: center;
@@ -88,9 +92,10 @@
 }
 
 .table-wrapper {
-  height: 500px;
+  height: 90%;
   width: 95%;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 table {
@@ -114,10 +119,6 @@ tr:not(.table-header) {
 }
 
 .table-wrapper tr:nth-child(even) {
-  background: #999999;
-}
-
-.table-wrapper tr:hover {
   background: #eeeeee;
 }
 
