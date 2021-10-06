@@ -16,6 +16,7 @@ function getIconClassFromValue($v)
 
 function getHoverClassFromURI($uri)
 {
+  echo 'data="' . $uri . ' ' . $_SERVER['REQUEST_URI'] . '" ';
   $class = 'class="sidebar-item';
   if (isCurrentPath($uri)) {
     $class .= ' active"';

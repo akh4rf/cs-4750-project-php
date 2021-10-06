@@ -16,7 +16,6 @@
 function isCurrentPath($path)
 {
   $uri = $_SERVER['REQUEST_URI'];
-  echo $uri . " " . $path . " ";
   if (strpos($uri, '/cs-4750-project-php/') !== false) {
     $uri = substr($uri, strlen('/cs-4750-project-php/'));
   }
