@@ -27,7 +27,7 @@ function getHoverClassFromURI($uri)
 
 ?>
 
-<link rel="stylesheet" href="sidebar/sidebar.css">
+<link rel="stylesheet" href="css/sidebar.css">
 
 <div style="position: absolute; height: 100%; z-index: 10;">
   <div class="sidebar-wrapper">
