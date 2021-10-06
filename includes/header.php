@@ -20,7 +20,7 @@ function isCurrentPath($path)
     $uri = substr($uri, strlen('/cs-4750-project-php/'));
   }
   if ($path == "./") {$path = "";}
-  echo $uri;
+  echo $uri . " " . $path . " ";
   return $uri == $path;
 }
 
