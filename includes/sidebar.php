@@ -1,12 +1,15 @@
 <?php
 
+$host = $_SERVER['HTTP_HOST'];
+echo $host;
+
 $sidebar_items = array(
 
-  "Home" => array("classes" => "fas fa-home", "path" => "./"),
-  "How to Play" => array("classes" => "fas fa-info-circle", "path" => "how-to-play"),
-  "Player Search" => array("classes" => "fas fa-search", "path" => "player-search"),
-  "My Roster" => array("classes" => "fas fa-user-friends", "path" => "my-roster"),
-  "Submit Feedback" => array("classes" => "fas fa-comment", "path" => "submit-feedback")
+  "Home" => array("classes" => "fas fa-home", "path" => "/"),
+  "How to Play" => array("classes" => "fas fa-info-circle", "path" => "/how-to-play"),
+  "Player Search" => array("classes" => "fas fa-search", "path" => "/player-search"),
+  "My Roster" => array("classes" => "fas fa-user-friends", "path" => "/my-roster"),
+  "Submit Feedback" => array("classes" => "fas fa-comment", "path" => "/submit-feedback")
 );
 
 function getIconClassFromValue($v)
@@ -14,9 +17,16 @@ function getIconClassFromValue($v)
   echo 'class="' . $v . '"';
 }
 
+function transformPath($path) {
+  global $host;
+  if ($host != "cs4750-fantasy-sports.herokuapp.com") {
+    $path = '/cs-4750-project-php' . $path;
+  }
+  return $path;
+}
+
 function getHoverClassFromURI($uri)
 {
-  echo 'data="' . $uri . ' ' . $_SERVER['REQUEST_URI'] . '" ';
   $class = 'class="sidebar-item';
   if (isCurrentPath($uri)) {
     $class .= ' active"';
@@ -34,7 +44,7 @@ function getHoverClassFromURI($uri)
   <div class="sidebar-wrapper">
     <div class="sidebar-contents">
       <?php foreach ($sidebar_items as $key => $value) : ?>
-        <a <?php getHoverClassFromURI($value['path']) ?> href=<?php echo $value['path'] ?>>
+        <a <?php getHoverClassFromURI($value['path']) ?> href=<?php echo transformPath($value['path']); ?>>
           <div>
             <div class="sidebar-icon">
               <div><i <?php getIconClassFromValue($value['classes']) ?>></i></div>

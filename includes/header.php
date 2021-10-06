@@ -16,12 +16,12 @@
 function isCurrentPath($path)
 {
   $uri = $_SERVER['REQUEST_URI'];
+
   if (strpos($uri, '/cs-4750-project-php/') !== false) {
     $uri = substr($uri, strlen('/cs-4750-project-php/'));
   }
-  if ($path == "./") {$path = "";}
 
-  return $uri == $path;
+  return ('/' . $uri) == $path;
 }
 
 ?>
