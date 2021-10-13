@@ -11,29 +11,16 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<?php
-
-function isCurrentPath($path)
-{
-  $uri = $_SERVER['REQUEST_URI'];
-
-  if (strpos($uri, '/cs-4750-project-php/') !== false) {
-    $uri = substr($uri, strlen('/cs-4750-project-php'));
-  }
-
-  return $uri == $path;
-}
-
-?>
+<?php include 'url-helpers.php' ?>
 
 <body>
 
   <div style="display: grid; grid-template-rows: 10vh 90vh; width: 100vw; height: 100vh; color: white;">
     <div class="top-bar">
-      <a style="height: 100%; text-decoration: none; padding: 0 25px; color: white;" href="/">
+      <a style="height: 100%; text-decoration: none; padding: 0 25px; color: white;" href=<?php echo transformPath('/') ?>>
         <div style="display: flex; align-items: center; height: 100%; font-size: 32px;">Upper90</div>
       </a>
-      <div style="font-size: 45px; padding: 0 25px;"><a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href="/"><i class="far fa-user-circle"></i></a></div>
+      <div style="font-size: 45px; padding: 0 25px;"><a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href=<?php echo transformPath('/login') ?>><i class="far fa-user-circle"></i></a></div>
     </div>
     <div style="height: 100%; width: 100%; position: relative;">
       <?php include_once "includes/sidebar.php" ?>
