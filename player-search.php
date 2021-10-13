@@ -1,16 +1,19 @@
-<?php include_once "includes/header.php" ?>
-
 <?php
 
-$rows = array("One" => "One",
-              "Two" => "Two",
-              "Three" => "Three",
-              "Four" => "Four",
-              "Five" => "Five",
-              "Six" => "Six");
+include_once "includes/header.php";
+
+$rows = array(
+  "One" => "One",
+  "Two" => "Two",
+  "Three" => "Three",
+  "Four" => "Four",
+  "Five" => "Five",
+  "Six" => "Six"
+);
 
 ?>
 
+<link rel="stylesheet" href="css/player-search.css">
 <div class="inner-page-contents">
   <div class="player-search">
     <div class="player-search-top-section">
