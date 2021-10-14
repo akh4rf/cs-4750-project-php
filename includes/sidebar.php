@@ -1,7 +1,5 @@
 <?php
 
-$host = $_SERVER['HTTP_HOST'];
-
 $sidebar_items = array(
 
   "Home" => array("classes" => "fas fa-home", "path" => "/"),
@@ -11,29 +9,7 @@ $sidebar_items = array(
   "Submit Feedback" => array("classes" => "fas fa-comment", "path" => "/submit-feedback")
 );
 
-function getIconClassFromValue($v)
-{
-  echo 'class="' . $v . '"';
-}
-
-function transformPath($path) {
-  global $host;
-  if ($host != "cs4750-fantasy-sports.herokuapp.com") {
-    $path = '/cs-4750-project-php' . $path;
-  }
-  return $path;
-}
-
-function getHoverClassFromURI($uri)
-{
-  $class = 'class="sidebar-item';
-  if (isCurrentPath($uri)) {
-    $class .= ' active"';
-  } else {
-    $class .= '"';
-  }
-  echo $class;
-}
+function getIconClassFromValue($v) { echo 'class="' . $v . '"'; }
 
 ?>
 
