@@ -1,7 +1,8 @@
 :root {
-  --dark-blue: #042d4a;
-  --blue: #59819e;
-  --light-blue: #a1d3f7;
+  --dark-blue: hsl(205, 90%, 15%);
+  --blue: hsl(205, 28%, 48%);
+  --light-blue: hsl(205, 66%, 67%);
+  --lightest-blue: hsl(205, 84%, 85%);
   font-family: "Open Sans", sans-serif;
 }
 
@@ -28,40 +29,64 @@
   align-items: center;
 }
 
-.login-form {
+.profile-column {
+  padding: 20px;
+  height: 100%;
+  width: 100%;
+}
+
+.profile-info-container {
+  height: 100%;
+  width: 100%;
+  border: 2px solid var(--dark-blue);
+  border-radius: 10px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+}
+
+.profile-info-header {
+  background: var(--dark-blue);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.profile-info {
+  background: var(--lightest-blue);
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  width: 100%;
   align-items: center;
+  justify-content: center;
 }
 
-.login-form > input {
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.5em;
-  height: 50px;
-  width: 30%;
-  margin-bottom: 25px;
-  padding: 0 10px;
+.profile-photo {
+  font-size: 200px;
+  height: 200px;
+  color: black;
 }
 
-.login-form > button {
-  width: 20%;
-  background-color: var(--dark-blue);
-  color: white;
-  border: none;
+.profile-contents {
+  color: black;
+  text-align: center;
+}
+
+.profile-button {
+  background-color: white;
+  color: black;
+  border: 2px solid black;
   padding: 1rem;
   font-family: "Open Sans", sans-serif;
   font-size: 1.25em;
   cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
 
-.login-form > button:hover {
-  background-color: var(--blue);
-}
-
-.login-form > a {
-  line-height: 1.25;
-  font-size: 1.125rem;
-  color: var(--dark-blue);
-  text-decoration: none;
+.profile-button:hover {
+  background-color: black;
+  color: white;
+  transition: background 0.3s, color 0.3s;
 }
