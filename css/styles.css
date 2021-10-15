@@ -90,3 +90,57 @@
   color: white;
   transition: background 0.3s, color 0.3s;
 }
+
+#stats-header {
+  color: black;
+  font-size: 2.5em;
+  font-weight: 700;
+  letter-spacing: 5px;
+  width: 100%;
+  text-align: center;
+  font-style: italic;
+}
+
+#stats-header > hr {
+  border: none;
+  height: 4px;
+  width: 150px;
+  background: black;
+}
+
+#stats-body {
+  width: 90%;
+  max-width: 600px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin: 10px 0 50px;
+}
+
+.stat-box {
+  height: 210px;
+  width: 100%;
+  background: var(--dark-blue);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.stat-num {
+  font-size: 5em;
+}
+
+.stat-label {
+  font-size: 2.5em;
+}
+
+#chart {
+  border-bottom: 4px solid black;
+  border-left: 4px solid black;
+  width: 90%;
+  max-width: 600px;
+  height: 200px;
+  position: relative;
+}

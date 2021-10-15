@@ -20,7 +20,30 @@
         </div>
       </div>
     </div>
-    <div class="profile-column"></div>
+    <div class="profile-column" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <div id="stats-header">
+        <hr>
+        <h1>STATS</h1>
+        <hr>
+      </div>
+      <div id="stats-body">
+        <div class="stat-box">
+          <p class="stat-num">17</p>
+          <p class="stat-label">MVPs</p>
+        </div>
+        <div class="stat-box">
+          <p class="stat-num">24</p>
+          <p class="stat-label">Goals</p>
+        </div>
+        <div class="stat-box">
+          <p class="stat-num">33</p>
+          <p class="stat-label">Assists</p>
+        </div>
+      </div>
+      <div id="chart">
+        <h2 style="position: absolute; text-align: center; font-size: 1.5em; width: 100%; color: black; top: -1em;">Points Over Time</h2>
+      </div>
+    </div>
   </div>
 </div>
 
