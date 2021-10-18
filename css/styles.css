@@ -144,3 +144,40 @@
   height: 200px;
   position: relative;
 }
+
+.chart-layer {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.dot-wrapper {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.dot {
+  height: 20px;
+  width: 20px;
+  border-radius: 999px;
+  position: absolute;
+}
+
+.line {
+  height: 4px;
+  position: absolute;
+}
+
+.dot-popup {
+  height: 50px;
+  width: 50px;
+  background: white;
+  position: absolute;
+  display: none;
+  color: black;
+}
+
+.dot:hover > .dot-popup {
+  display: block;
+}
