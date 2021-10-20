@@ -8,7 +8,9 @@ $stats = array(
   "Jeffrey" => array(0, 1, 1, 7, 9, 9, 10),
 );
 
+$days = count($stats[array_key_first($stats)]);
 $max = 0;
+
 foreach ($stats as $k => $v) {
   for ($idx = 0; $idx < sizeof($v); $idx++) {
     $max = $max < $v[$idx] ? $v[$idx] : $max;
@@ -42,7 +44,7 @@ function rand_color()
         </div>
       </div>
     </div>
-    <div class="profile-column" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <div class="profile-column" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
       <div id="stats-header">
         <hr>
         <h1>STATS</h1>
@@ -74,7 +76,7 @@ function rand_color()
           <div class="chart-layer">
             <div class="dot-wrapper">
               <?php for ($i = 0; $i < sizeof($stat); $i++) : ?>
-                <div class="dot" style="background: <?php echo $color ?>;"></div>
+                <div class="dot hidden-dot" style="background: <?php echo $color ?>;"></div>
                 <?php if ($i < sizeof($stat) - 1) : ?>
                   <div class="line" style="background: <?php echo $color ?>;"></div>
                 <?php endif; ?>
@@ -82,6 +84,11 @@ function rand_color()
             </div>
           </div>
         <?php endforeach; ?>
+        <div class="chart-covers">
+          <?php for ($i = 0; $i < $days; $i++) : ?>
+            <div class="chart-cover" style="width: <?php echo 100 / $days ?>%"></div>
+          <?php endfor; ?>
+        </div>
       </div>
     </div>
   </div>
@@ -91,12 +98,12 @@ function rand_color()
 <?php
 echo '<script>
 let js_stats = ' . json_encode($stats) . ';
-drawChart(10, 4, js_stats,' . $max . ');
+drawChart(10, 4, js_stats,' . $max . ', ' . $days .' );
 </script>';
 ?>
 <script>
   function resize() {
-    drawChart(10, 4, js_stats, <?php echo $max ?>)
+    drawChart(10, 4, js_stats, <?php echo $max . ', ' . $days ?>)
   }
   window.addEventListener("resize", resize);
 </script>

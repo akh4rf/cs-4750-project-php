@@ -30,7 +30,6 @@
 }
 
 .profile-column {
-  padding: 20px;
   height: 100%;
   width: 100%;
 }
@@ -164,6 +163,10 @@
   position: absolute;
 }
 
+.dot:not(.hidden-dot) {
+  animation: dotpop 0.5s;
+}
+
 .line {
   height: 4px;
   position: absolute;
@@ -180,4 +183,39 @@
 
 .dot:hover > .dot-popup {
   display: block;
+}
+
+.chart-covers {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.chart-cover {
+  background-color: var(--light-blue);
+  height: 100%;
+  transition: width 0.5s;
+}
+
+.hidden {
+  width: 0 !important;
+  transition: width 1s;
+}
+
+.hidden-dot {
+  transform: scale(0);
+}
+
+@keyframes dotpop {
+  0% {
+    transform: scale(0);
+  }
+  80% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

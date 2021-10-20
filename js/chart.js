@@ -9,6 +9,10 @@ function getStyleFloat(el, attr) {
   return parseFloat(window.getComputedStyle(el)[attr]);
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 /***
  * A method to plot the chart's data, with each player's data being plotted on a separate layer.
  * @author Austin Houck <akh4rf@virginia.edu>
@@ -16,9 +20,10 @@ function getStyleFloat(el, attr) {
  * @param {number} chart_border The thickness of the chart's border, in pixels
  * @param {any} stats An array of player stats, with each key mapped to an array of integers (representing points)
  * @param {number} max The maximum points value of all players
+ * @param {number} days The number of days being plotted
  * @returns null
  */
-function drawChart(dot_r, chart_border, stats, max) {
+function drawChart(dot_r, chart_border, stats, max, days) {
   let layers = document.querySelectorAll(".chart-layer>div");
   let chart = new Chart(
     dot_r,
@@ -26,14 +31,15 @@ function drawChart(dot_r, chart_border, stats, max) {
     getStyleFloat(layers[0], "height"),
     getStyleFloat(layers[0], "width"),
     max,
-    7
+    days
   );
-  layer = 0;
-  for (stat in stats) {
+  let layer = 0;
+  for (let stat in stats) {
     chart.drawChartLayer(stats[stat], layers[layer]);
     layer++;
   }
-  console.log(chart);
+  // Animate the chart
+  chart.animate(1000);
 }
 
 class Chart {
@@ -61,6 +67,22 @@ class Chart {
     line.connectDots(this.dot_r, this.border);
     this.lines.push(line);
   }
+
+  async animate(ms) {
+    let covers = document.querySelectorAll(".chart-cover"),
+      count = this.days;
+    // Remove the chart covers
+    for (let i = 0; i < count; i++) {
+      covers[i].classList.add("hidden");
+    }
+    // Animate the dots appearing
+    for (let i = 0; i < count; i++) {
+      for (let line of this.lines) {
+        line.revealDotAt(i);
+      }
+      await sleep(ms / count);
+    }
+  }
 }
 
 class Line {
@@ -84,6 +106,10 @@ class Line {
       this.dots[i].style.left = -10 + dw_w * (i / (days - 1)) + "px";
       this.dots[i].style.bottom = -10 + (0.9 * dw_h * stat[i]) / max + "px";
     }
+  }
+
+  revealDotAt(index) {
+    this.dots[index].classList.remove("hidden-dot");
   }
 
   /**
