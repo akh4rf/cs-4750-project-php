@@ -4,12 +4,11 @@
 <div class="inner-page-contents">
   <div style="width: 100%;">
     <form class="login-form" action="">
-      <h1 style="font-size: 48px; font-weight: 700; margin-bottom: 40px; text-shadow: -4px 4px 5px var(--dark-blue);">LOG IN</h1>
+      <h1 style="font-size: 48px; font-weight: 700; margin-bottom: 40px; text-shadow: -4px 4px 5px var(--dark-blue);">REGISTER</h1>
       <input type="text" name="username" id="username" autofocus placeholder="Enter Username...">
       <input type="password" name="password" id="password" placeholder="Enter Password...">
       <button type="submit">Submit</button>
-      <a style="margin-top: 20px;" href="">Forgot Password</a>
-      <a href=<?php echo transformPath('/register') ?>>Register</a>
+      <a style="margin-top: 20px;" href=<?php echo transformPath('/login') ?>>Log In</a>
     </form>
   </div>
 </div>
