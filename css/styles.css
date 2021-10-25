@@ -47,9 +47,8 @@
 .profile-info-header {
   background: var(--dark-blue);
   color: white;
-  display: flex;
-  align-items: center;
   padding: 10px;
+  text-align: center;
 }
 
 .profile-info {
@@ -60,6 +59,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 0 20px;
 }
 
 .profile-photo {
@@ -90,7 +90,119 @@
   transition: background 0.3s, color 0.3s;
 }
 
-#stats-header {
+.team-info-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  color: black;
+  font-weight: 700;
+}
+
+.team-color {
+  height: 64px;
+  width: 64px;
+  border-radius: 999px;
+  border: 2px solid black;
+}
+
+.roster {
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 20px;
+  padding: 0 50px;
+}
+
+.roster-player-wrapper {
+  width: 90%;
+  height: 75px;
+  display: flex;
+}
+
+.roster-player-wrapper:nth-child(even) {
+  margin-left: auto;
+  justify-content: flex-end;
+}
+
+.roster-player-info {
+  width: 90%;
+  height: 100%;
+  background: var(--lightest-blue);
+  position: relative;
+  padding: 5px 0 5px 100px;
+  font-size: 1.25em;
+  color: black;
+  border: 2px solid black;
+}
+
+.roster-player-wrapper:nth-child(even) > .roster-player-info {
+  padding: 5px 100px 5px 0;
+}
+
+.roster-player-info > button {
+  position: absolute;
+  background: red;
+  border-radius: 999px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  padding: unset;
+  right: -15px;
+  top: -15px;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.roster-player-wrapper:nth-child(even) > .roster-player-info > button {
+  right: unset;
+  left: -15px;
+}
+
+.roster-player-pfp {
+  height: 125px;
+  width: 125px;
+  position: absolute;
+  background: black;
+  border-radius: 999px;
+  left: -25px;
+  top: -27px; /* Need extra 2px to compensate for border */
+  overflow: hidden;
+}
+
+.roster-player-pfp > img {
+  height: 100%;
+  width: 100%;
+  filter: drop-shadow(0 0 5px white);
+}
+
+.roster-player-wrapper:nth-child(even)
+  > .roster-player-info
+  > .roster-player-pfp {
+  left: unset;
+  right: -25px;
+}
+
+.roster-player-statbox {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.roster-player-statbox > div:nth-child(1) {
+  font-size: 1.25em;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+#stats-header,
+#roster-header {
   color: black;
   font-size: 2.5em;
   font-weight: 700;
@@ -100,7 +212,8 @@
   font-style: italic;
 }
 
-#stats-header > hr {
+#stats-header > hr,
+#roster-header > hr {
   border: none;
   height: 4px;
   width: 150px;
