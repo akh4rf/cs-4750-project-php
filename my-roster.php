@@ -9,7 +9,7 @@ $color2 = "#0000FF";
 <link rel="stylesheet" href="./vendor/components/flag-icon-css/css/flag-icon.min.css">
 
 <div class="inner-page-contents">
-  <div style="height: 100%; width: 100%; display: grid; grid-template-columns: 500px 1fr;">
+  <div style="width: 100%; display: grid; grid-template-columns: 500px 1fr;">
     <div class="profile-column" style="padding: 20px 0 20px 40px">
       <div class="profile-info-container">
         <div class="profile-info-header">
