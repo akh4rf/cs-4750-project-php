@@ -3,9 +3,10 @@
 include_once "includes/header.php";
 
 $stats = array(
-  "Austin" => array(0, 0, 2, 4, 5, 9, 13),
+  "Austin" => array(0, 0, 2, 4, 5, 11, 11),
   "Ziyao" => array(0, 5, 6, 6, 7, 7, 7),
   "Jeffrey" => array(0, 1, 1, 7, 9, 9, 10),
+  "Emily" => array(3, 3, 7, 9, 10, 13, 13),
 );
 
 $days = count($stats[array_key_first($stats)]);
@@ -15,11 +16,6 @@ foreach ($stats as $k => $v) {
   for ($idx = 0; $idx < sizeof($v); $idx++) {
     $max = $max < $v[$idx] ? $v[$idx] : $max;
   }
-}
-
-function rand_color()
-{
-  return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
 }
 
 ?>
@@ -46,9 +42,9 @@ function rand_color()
     </div>
     <div class="profile-column" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
       <div id="stats-header">
-        <hr>
+        <hr style="margin-bottom: 10px;">
         <h1>STATS</h1>
-        <hr>
+        <hr style="margin-top: 10px;">
       </div>
       <div id="stats-body">
         <div class="stat-box">
@@ -68,9 +64,13 @@ function rand_color()
         <h2 style="position: absolute; text-align: center; font-size: 1.5em; width: 100%; color: black; top: -1em;">Points Over Time</h2>
         <?php
 
+        $colors = ['#b34d61', '#456ede', '#1ea159', '#dad271'];
+        shuffle($colors);
+        $c = 0;
+
         foreach ($stats as $stat) :
 
-          $color = rand_color();
+          $color = $colors[$c++];
 
         ?>
           <div class="chart-layer">
@@ -98,7 +98,7 @@ function rand_color()
 <?php
 echo '<script>
 let js_stats = ' . json_encode($stats) . ';
-drawChart(10, 4, js_stats,' . $max . ', ' . $days .' );
+drawChart(10, 4, js_stats,' . $max . ', ' . $days . ' );
 </script>';
 ?>
 <script>
