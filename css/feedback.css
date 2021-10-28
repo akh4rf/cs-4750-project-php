@@ -1,0 +1,38 @@
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    background-color: var(--lightest-blue);
+  }
+
+  .feedback-form > textarea {
+    font-family: "Open Sans", sans-serif;
+    font-size: 1em;
+    height: 300px;
+    width: 75%;
+    margin-bottom: 25px;
+    padding: 10px 10px;
+  }
+
+  .feedback-form > button {
+    width: 20%;
+    background-color: var(--dark-blue);
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1.25em;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+
+  .feedback-form > input {
+      margin-bottom:25px;
+      justify-content: center;
+  }
+
+  .feedback-form > button:hover {
+    background-color: var(--blue);
+  }
+
