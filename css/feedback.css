@@ -1,38 +1,85 @@
+.feedback-container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: 60%;
+  text-align: center;
+}
+
+.feedback-title {
+  font-size: 1em;
+  padding: 10px;
+  background: var(--dark-blue);
+}
+
 .feedback-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-    background-color: var(--lightest-blue);
-  }
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  background-color: var(--lightest-blue);
+}
 
-  .feedback-form > textarea {
-    font-family: "Open Sans", sans-serif;
-    font-size: 1em;
-    height: 300px;
-    width: 75%;
-    margin-bottom: 25px;
-    padding: 10px 10px;
-  }
+.feedback-form > textarea {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1em;
+  height: 300px;
+  width: 75%;
+  margin-bottom: 25px;
+  padding: 10px 10px;
+}
 
-  .feedback-form > button {
-    width: 20%;
-    background-color: var(--dark-blue);
-    color: white;
-    border: none;
-    padding: 1rem;
-    font-family: "Open Sans", sans-serif;
-    font-size: 1.25em;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
+.feedback-form > button {
+  width: 30%;
+  background-color: var(--dark-blue);
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.25em;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background 0.2s;
+}
 
-  .feedback-form > input {
-      margin-bottom:25px;
-      justify-content: center;
-  }
+.feedback-form > button:hover {
+  background-color: var(--blue);
+  transition: background 0.2s;
+}
 
-  .feedback-form > button:hover {
-    background-color: var(--blue);
-  }
+.rate {
+  margin: 10px 0 25px;
+}
 
+.rate:not(:checked) > input {
+  position: absolute;
+  top: -9999px;
+}
+.rate:not(:checked) > label {
+  height: 30px;
+  width: 50px;
+  text-align: center;
+  padding: 0 5px;
+  float: right;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 30px;
+  color: #fff;
+}
+
+.rate > input:checked ~ label {
+  color: var(--dark-blue);
+}
+
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+  color: var(--light-blue);
+}
+
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+  color: var(--blue);
+}
