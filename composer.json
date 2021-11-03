@@ -1,6 +1,7 @@
 {
   "require": {
     "php": "^7.3.0 | ^8.0",
-    "components/flag-icon-css": "^3.5.0"
+    "components/flag-icon-css": "^3.5.0",
+    "curl/curl": "^2.3"
   }
 }
