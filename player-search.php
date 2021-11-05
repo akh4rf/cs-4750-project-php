@@ -2,14 +2,24 @@
 
 include_once "includes/header.php";
 
-$rows = array(
-  "One" => "One",
-  "Two" => "Two",
-  "Three" => "Three",
-  "Four" => "Four",
-  "Five" => "Five",
-  "Six" => "Six"
-);
+include './database/db-helpers.php';
+
+$sql = "SELECT RLPID, name, position, mvps, goals, assists FROM RLPlayer";
+
+$data = execute_query($sql);
+
+function actionsTD($RLPID)
+{
+  echo '<div class="ps-actions">
+          <button style="color: green;">+</button>
+          <button style="color: red;">-</button>
+        </div>';
+}
+
+function textTD($contents)
+{
+  echo '<div class="ps_text">' . $contents . '</div>';
+}
 
 ?>
 
@@ -20,14 +30,6 @@ $rows = array(
       <div class="ps-input">
         <input type="text" name="player-search" id="player-search" placeholder="Search Player Info..." autofocus>
         <i class="fas fa-search"></i>
-      </div>
-      <div class="ps-dropdown">
-        <label for="actions">Actions: </label>
-        <select name="actions" id="actions-input">
-          <option selected disabled value="">----- Select Option -----</option>
-          <option value="Add">Add Player(s) To Team</option>
-          <option value="Remove">Remove Player(s) From Team</option>
-        </select>
       </div>
       <div class="ps-dropdown">
         <label for="sort">Sort By: </label>
@@ -46,23 +48,26 @@ $rows = array(
         <table>
           <thead>
             <tr class="table-header">
-              <th>Select</th>
               <th>Player Name</th>
-              <th>Goals</th>
-              <th>Assists</th>
-              <th>MVPs</th>
+              <th>Position</th>
+              <th style="width: 100px;">Goals</th>
+              <th style="width: 100px;">Assists</th>
+              <th style="width: 100px;">MVPs</th>
+              <th style="width: 200px;">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($rows as $key => $value) : ?>
+            <?php for ($i = 0; $i < $data['row_count']; $i++) :
+              $player = $data['rows_affected'][$i]; ?>
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><?php textTD($player['name']) ?></td>
+                <td><?php textTD(substr($player['position'], 0, strlen($player['position']) - 1)) ?></td>
+                <td><?php textTD($player['goals']) ?></td>
+                <td><?php textTD($player['assists']) ?></td>
+                <td><?php textTD($player['mvps']) ?></td>
+                <td style="vertical-align: top;"><?php actionsTD($player['RLPID']) ?></td>
               </tr>
-            <?php endforeach; ?>
+            <?php endfor; ?>
           </tbody>
         </table>
       </div>

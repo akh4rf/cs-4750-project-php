@@ -100,3 +100,26 @@ tr:not(.table-header) {
   top: 0;
   position: sticky;
 }
+
+.ps_text,
+.ps-actions {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ps-actions button {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border: none;
+  color: unset;
+  background: unset;
+  margin: unset;
+  padding: unset;
+  line-height: 1;
+  font-size: 50px;
+  cursor: pointer;
+}
