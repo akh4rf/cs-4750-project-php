@@ -4,7 +4,7 @@ include 'db-connect.php';
 
 function bindAllParams($stmt, $params) {
   for ($i = 0; $i < count($params); $i++) {
-    $stmt->bindValue($i + 1, $params[$i]);
+    $stmt->bindValue($i + 1, $params[$i],PDO::PARAM_STR);
   }
 }
 
