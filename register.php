@@ -5,7 +5,7 @@
   if($_SERVER["REQUEST_METHOD"]==='POST'){
     $myusername=$_POST['username'];
     $mypassword=$_POST['password'];
-    $sql="INSERT INTO Users VALUES (NULL, :username, :password)";
+    $sql="INSERT INTO Users VALUES (NULL, ?, ?)";
     $statement=$db->prepare($sql);
     try{
       $data=execute_query($sql,array($myusername,$mypassword));
