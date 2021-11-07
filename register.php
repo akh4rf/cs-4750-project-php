@@ -5,19 +5,23 @@
   if($_SERVER["REQUEST_METHOD"]==='POST'){
     $myusername=$_POST['username'];
     $mypassword=$_POST['password'];
-    $sql="INSERT INTO Users VALUES (NULL, ?, ?)";
-    $data=execute_query($sql,array($myusername,$mypassword));
-    if($data['row_count']==1){
-      $user=$data['rows_affected'][0];
-      $_SESSION['username']=$user['username'];
-      header("location: login");
-    }else{
-      $error=$data["error_info"];
-      if($error[1]=='1062'){
-        $error_msg="Your username is taken";
+    $sql="INSERT INTO Users VALUES (NULL, :username, :password)";
+    $statement=$db->prepare($sql);
+    try{
+      $data=execute_query($sql,array($myusername,$mypassword));
+      if($data['row_count']==1){
+        $user=$data['rows_affected'][0];
+        $_SESSION['username']=$user['username'];
+        header("location: login");
       }
-      
+    }catch(PDOException $e){
+      if($e->getCode() == 'HY093'){ //Handle duplicate error
+        $error_msg="Your username is taken";
+      }else{
+        $error_msg=$e;
+      }
     }
+  
   }
 ?>
 
@@ -29,7 +33,8 @@
       <input type="text" name="username" id="username" autofocus placeholder="Enter Username...">
       <input type="password" name="password" id="password" placeholder="Enter Password...">
       <button type="submit">Submit</button>
-      <a style="margin-top: 20px;" href=<?php echo transformPath('/login') ?>>Log In</a>
+      <?php if (isset($error_msg)){echo "<p style='color:red;margin-top: 10px'>".$error_msg."</p>";}?>
+      <a style="margin-top: 10px;" href=<?php echo transformPath('/login') ?>>Log In</a>
     </form>
   </div>
 </div>
