@@ -6,7 +6,8 @@
     $myusername=$_POST['username'];
     $mypassword=$_POST['password'];
     $sql="SELECT UserID,username FROM Users WHERE username=? AND password=?;";
-    // "INSERT INTO Users VALUES (NULL, :username, :password)"
+    // "INSERT INTO Users VALUES (NULL, ?, ?)"
+    
     $data=execute_query($sql,array($myusername,$mypassword));
     if($data['row_count']==1){
       $user=$data['rows_affected'][0];
