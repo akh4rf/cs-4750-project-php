@@ -9,6 +9,10 @@
     $statement=$db->prepare($sql);
     try{
       $data=execute_query($sql,array($myusername,$mypassword));
+      if(strlen($mypassword)<6){
+        $code=6;
+        throw new PDOException('Password has to be greater than 6 characters.',$code);
+      }
       if($data['row_count']==1){
         $user=$data['rows_affected'][0];
         $_SESSION['username']=$user['username'];
@@ -18,7 +22,7 @@
       if($e->getCode() == 'HY093'){ //Handle duplicate error
         $error_msg="Your username is taken";
       }else{
-        $error_msg=$e;
+        $error_msg='Password has to be greater than 6 characters.';
       }
     }
   
