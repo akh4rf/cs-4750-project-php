@@ -27,8 +27,8 @@
       <input type="text" name="username" id="username" autofocus placeholder="Enter Username...">
       <input type="password" name="password" id="password" placeholder="Enter Password...">
       <button type="submit">Submit</button>
-      <?php if (isset($error_msg)){echo "<p>".$error_msg."</p>";}?>
-      <a style="margin-top: 20px;" href="">Forgot Password</a>
+      <?php if (isset($error_msg)){echo "<p style='color:red;margin-top: 10px'>".$error_msg."</p>";}?>
+      <a style="margin-top: 10px;" href="">Forgot Password</a>
       <a href=<?php echo transformPath('/register') ?>>Register</a>
     </form>
   </div>
