@@ -7,6 +7,30 @@ include './database/db-helpers.php';
 // i.e. INSERT INTO FEEDBACK VALUES (?, ?, ?, ?, ?);
 // $data = execute_query($sql, array($userID, $date, $title, $comment, $rating))
 
+
+
+//1: get post data:
+session_start();
+  if($_SERVER["REQUEST_METHOD"]==='POST'){
+    $myuserid=$_POST['UserID'];
+    $mytitle=$_POST['title'];
+    $mycomment=$_POST['comment'];
+    $mytimestamp=$_POST['timestamp'];
+    $myrating=$_POST['rating'];
+    $sql="SELECT UserID,timestamp,title, comment,rating FROM Feedback WHERE UserID=? AND timestamp=? AND title=? AND comment=? AND rating=?;";
+    //"INSERT INTO Users VALUES (NULL, ?, ?)"
+    
+    $data=execute_query($sql,array($myuserid, $mytimestamp,$mytitle,$mycomment,$myrating));
+    if($data['row_count']==1){
+      $user=$data['rows_affected'][0];
+      $_SESSION['UserID']=$user['UserID'];
+      $_SESSION['timestamp']=$user['timestamp'];
+      $_SESSION['title']=$user['title'];
+      $_SESSION['comment']=$user['comment'];
+      $_SESSION['rating']=$user['rating'];
+      header("location: submit-feedback");
+    }
+  }
 ?>
 
 <link rel="stylesheet" href="css/feedback.css">
@@ -29,7 +53,7 @@ include './database/db-helpers.php';
           <label for="star<?php echo $i ?>" title="star<?php echo $i ?>">★</label>
         <?php endfor ?>
       </div>
-      <input type="text" placeholder="Enter your title here..." class="title"  style="margin-bottom: 25px; width: 80%;" autofocus>
+        <input type="text" placeholder="Enter your title here..." class="title"  style="margin-bottom: 25px; width: 30%; height: 50px;" autofocus>
       <textarea placeholder="Enter your review here..."></textarea>
       <p>Your feedback will not be shared with anyone else!</p>
       <button type="submit">Submit</button>
