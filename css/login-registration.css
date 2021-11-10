@@ -39,19 +39,18 @@
 .login-error-bar {
   position: absolute;
   display: flex;
-  align-items: center;
   justify-content: center;
   width: 100%;
   background: #4B0707;
-  padding: 10px;
+  padding: 10px 10px 10px 80px;
   top: 0;
-  border-radius: 10px;
+  left: 0;
   font-size: 1.5em;
 }
 
 .login-error-dismiss {
   position: absolute;
-  right: 50px;
+  right: 25px;
   cursor: pointer;
 }
 
