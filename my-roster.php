@@ -30,12 +30,29 @@ if($teaminfo['row_count']==1){
 //TeamPlayer RLPID, TeamID
 //Team TeamID, UserID(input)
 
-$sql2="SELECT RLplayer.name, RLplayer.age FROM RLplayer NATURAL JOIN TeamPlayer NATURAL JOIN Team WHERE userid=?;";
-$rosterinfo = execute_query($sql2,array($myuserid));
-if($rosterinfo['row_count']==1){
-  $info=$rosterinfo['rows_affected'][0];
-    $player1name=$info['RLplayer.name'];
-    $player1age=$info['age'];
+$sql2="SELECT name, picURL, age, position, mvps, goals, assists FROM RLPlayer NATURAL JOIN TeamPlayer WHERE TeamID=?"; 
+$teamid=2;//teamID=2 is example
+$rosterinfo = execute_query($sql2,array($teamid));
+$rostersize=$rosterinfo['row_count'];
+$playernames=array();
+$playerages=array();
+$playerpositions=array();
+$playermvps=array();
+$playergoals=array();
+$playerassists=array();
+$playerpics=array();
+
+if($rostersize>0){
+  for ($i = 0; $i < $rostersize; $i++){
+    $info=$rosterinfo['rows_affected'][$i];
+    $playernames[$i]=$info['name'];
+    $playerpics[$i]=$info['picURL'];
+    $playerages[$i]=$info['age'];
+    $playerpositions[$i]=$info['position'];
+    $playermvps[$i]=$info['mvps'];
+    $playergoals[$i]=$info['goals'];
+    $playerassists[$i]=$info['assists'];
+  }
 }else{
   $error_msg="Error!";
 }
@@ -78,32 +95,33 @@ if($rosterinfo['row_count']==1){
         <hr style="margin-top: 10px;">
       </div>
       <div class="roster">
-        <?php for ($i = 0; $i < 1; $i++) : ?>
+        <?php for ($i = 0; $i < $rostersize; $i++) : ?>
           <div class="roster-player-wrapper">
             <div class="roster-player-info">
               <div style="height: 100%; display: flex; padding: 0 20px;">
                 <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; font-weight: 700;">
-                  <div><?php echo $info ?></div>
-                  <div><?php echo $player1age ?></div>
+                  <div><?php echo $playernames[$i]?></div>
+                  <div>Age: <?php echo $playerages[$i] ?></div>
+                  <div><?php echo $playerpositions[$i] ?></div>
                 </div>
                 <div style="display: flex; margin: 0 auto;">
                   <div class="roster-player-statbox">
-                    <div>12</div>
+                  <div><?php echo $playergoals[$i] ?></div>
                     <div>Goals</div>
                   </div>
                   <div class="roster-player-statbox" style="margin: 0 25px">
-                    <div>9</div>
+                  <div><?php echo $playerassists[$i] ?></div>
                     <div>Assists</div>
                   </div>
                   <div class="roster-player-statbox">
-                    <div>20</div>
+                  <div><?php echo $playermvps[$i] ?></div>
                     <div>MVPs</div>
                   </div>
                 </div>
               </div>
               <button id=<?php echo $i ?> onclick="removePlayer(this.id)"><i class="far fa-times-circle" style="display: flex;"></i></button>
               <div class="roster-player-pfp">
-                <img src="./Messi.png" alt="">
+                <img src=<?php echo $playerpics[$i] ?> alt="">
               </div>
             </div>
           </div>
