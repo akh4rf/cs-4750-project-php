@@ -1,11 +1,47 @@
 <?php
 
 include_once "includes/header.php";
-$iso = "us";
-$color1 = "#FFFFFF";
-$color2 = "#0000FF";
+include("./database/db-helpers.php");
 
+session_start(); //did session start so i could see changes take place, but in reality will only occur after button press
+//Update Team Information
+//information is retrieved from Team Settings
+// $sql="UPDATE Team SET homeColor = 'Blue', awayColor = 'Red', nationality = 'England', description = 'test for aayush query', name = 'Tottenham' WHERE UserID = 100001;";
+// $myuserid='100001'; //hardcoded, needs to be gained from session later
+// $data=execute_query($sql,array($myuserid)); //updates database
+
+//Team Information
+$myuserid='100001'; //hardcoded, needs to be gained from session later
+$sql="SELECT name, description, homeColor, awayColor, nationality FROM Team WHERE userid=?;";
+$teaminfo = execute_query($sql,array($myuserid));
+if($teaminfo['row_count']==1){
+  $user=$teaminfo['rows_affected'][0];
+    $teamname=$user['name'];
+    $description=$user['description'];
+    $homeColor=$user['homeColor'];
+    $awayColor=$user['awayColor'];
+    $nationality=$user['nationality'];
+}else{
+  $error_msg="Error!";
+}
+
+//Roster
+//RLPlayer age, name, RLPID
+//TeamPlayer RLPID, TeamID
+//Team TeamID, UserID(input)
+
+$sql2="SELECT RLplayer.name, RLplayer.age FROM RLplayer NATURAL JOIN TeamPlayer NATURAL JOIN Team WHERE userid=?;";
+$rosterinfo = execute_query($sql2,array($myuserid));
+if($rosterinfo['row_count']==1){
+  $info=$rosterinfo['rows_affected'][0];
+    $player1name=$info['RLplayer.name'];
+    $player1age=$info['age'];
+}else{
+  $error_msg="Error!";
+}
 ?>
+
+
 <link rel="stylesheet" href="./vendor/components/flag-icon-css/css/flag-icon.min.css">
 
 <div class="inner-page-contents">
@@ -17,19 +53,19 @@ $color2 = "#0000FF";
         </div>
         <div class="profile-info">
           <div class="profile-contents">
-            <h1 style="font-size: 2.5em; font-weight: 700; margin-top: 20px;">TEAM NAME</h1>
+            <h1 style="font-size: 2.5em; font-weight: 700; margin-top: 20px;"><?php echo $teamname ?></h1>
             <hr style="margin-top: 10px; border: none; background: black; height: 4px; width: 75%;">
             </hr>
-            <p style="color: black; padding: 25px 75px; font-size: 1.25em;">This is my team's description! My team is the best!</p>
+            <p style="color: black; padding: 25px 75px; font-size: 1.25em;"><?php echo $description ?></p>
           </div>
           <div class="team-info-row">
             <h2 style="font-size: 1.5em;">Team Nationality</h2>
-            <span style="font-size: 80px; margin-left: auto;" class="flag-icon flag-icon-<?php echo $iso ?>"></span>
+            <span style="font-size: 80px; margin-left: auto;" class="flag-icon flag-icon-<?php echo $nationality ?>"></span>
           </div>
           <div class="team-info-row">
             <h2 style="font-size: 1.5em;">Team Colors</h2>
-            <div class="team-color" style="margin-left: auto; background: <?php echo $color1 ?>"></div>
-            <div class="team-color" style="margin-left: 16px; background: <?php echo $color2 ?>"></div>
+            <div class="team-color" style="margin-left: auto; background: <?php echo $homeColor ?>"></div>
+            <div class="team-color" style="margin-left: 16px; background: <?php echo $awayColor ?>"></div>
           </div>
           <button class="profile-button" style="margin-top: 15px;"> <i class="fas fa-cog"></i> Team Settings </button>
         </div>
@@ -42,13 +78,13 @@ $color2 = "#0000FF";
         <hr style="margin-top: 10px;">
       </div>
       <div class="roster">
-        <?php for ($i = 0; $i < 5; $i++) : ?>
+        <?php for ($i = 0; $i < 1; $i++) : ?>
           <div class="roster-player-wrapper">
             <div class="roster-player-info">
               <div style="height: 100%; display: flex; padding: 0 20px;">
                 <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; font-weight: 700;">
-                  <div>Lionel Messi</div>
-                  <div>Age: 34</div>
+                  <div><?php echo $info ?></div>
+                  <div><?php echo $player1age ?></div>
                 </div>
                 <div style="display: flex; margin: 0 auto;">
                   <div class="roster-player-statbox">
