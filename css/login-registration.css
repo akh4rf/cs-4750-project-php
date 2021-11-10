@@ -35,3 +35,26 @@
   color: var(--dark-blue);
   text-decoration: none;
 }
+
+.login-error-bar {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: #4B0707;
+  padding: 10px;
+  top: 0;
+  border-radius: 10px;
+  font-size: 1.5em;
+}
+
+.login-error-dismiss {
+  position: absolute;
+  right: 50px;
+  cursor: pointer;
+}
+
+.display-none {
+  display: none;
+}
