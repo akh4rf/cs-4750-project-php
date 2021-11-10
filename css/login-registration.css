@@ -38,21 +38,21 @@
 
 .login-error-bar {
   position: absolute;
-  width: 90%;
-  background: red;
-  height: 50px;
+  width: 100%;
+  background: #4B0707;
+  height: 25px;
   top: 0;
   border-radius: 10px;
-  margin-top: 25px;
+  margin-top: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .login-error-dismiss {
-  font-size: 2em;
+  font-size: 1em;
   position: absolute;
-  right: 25px;
+  right: 50px;
   cursor: pointer;
 }
 
