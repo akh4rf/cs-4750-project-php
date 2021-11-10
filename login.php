@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
     $_SESSION['UserID'] = $user['UserID'];
     header("location: index");
   } else {
-    $error_msg = "Your Username or Password is invalid";
+    $error_msg = "Your Username or Password is invalid.";
   }
 }
 ?>
