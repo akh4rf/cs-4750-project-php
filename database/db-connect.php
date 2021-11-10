@@ -30,6 +30,6 @@ catch (Exception $e){
    echo "<p>Error message: $error_message </p>";
 }
 
-// echo "Connected to the database!";
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
 
 ?>
