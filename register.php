@@ -5,28 +5,28 @@
   if($_SERVER["REQUEST_METHOD"]==='POST'){
     $myusername=$_POST['username'];
     $mypassword=$_POST['password'];
-    $sql="INSERT INTO Users VALUES (NULL, ?, ?)";
-    $statement=$db->prepare($sql);
-    try{
-      $data=execute_query($sql,array($myusername,$mypassword));
-      if(strlen($mypassword)<6){
-        $code=6;
-        throw new PDOException('Password has to be greater than 6 characters.',$code);
-      }
-      if($data['row_count']==1){
-        $user=$data['rows_affected'][0];
-        $_SESSION['username']=$user['username'];
+
+    if (strlen($mypassword) < 6) {
+      $error_msg = "Password too short.";
+    } else {
+      $sql = "INSERT INTO Users VALUES (NULL, ?, ?)";
+      $data = execute_query($sql, array($myusername, $mypassword));
+
+      if ($data['row_count'] == 1) {
+        $user = $data['rows_affected'][0];
+        $_SESSION['username'] = $user['username'];
         $_SESSION['UserID']=$user['UserID'];
         header("location: login");
-      }
-    }catch(PDOException $e){
-      if($e->getCode() == 'HY093'){ //Handle duplicate error
-        $error_msg="Your username is taken";
-      }else{
-        $error_msg='Password has to be greater than 6 characters.';
+      } else {
+        $error_code = $data['error_info'][1];
+       if ($error_code == 1062) {
+         $error_msg = "This username is taken!";
+       } else {
+         $error_msg = "Error creating user. Please contact support.";
+       }
       }
     }
-  
+
   }
 ?>
 

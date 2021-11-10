@@ -7,7 +7,7 @@
     $mypassword=$_POST['password'];
     $sql="SELECT UserID,username FROM Users WHERE username=? AND password=?;";
     // "INSERT INTO Users VALUES (NULL, ?, ?)"
-    
+
     $data=execute_query($sql,array($myusername,$mypassword));
     if($data['row_count']==1){
       $user=$data['rows_affected'][0];
@@ -15,7 +15,7 @@
       $_SESSION['UserID']=$user['UserID'];
       header("location: index");
     }else{
-      $error_msg="Your Login Name or Password is invalid";
+      $error_msg="Your Username or Password is invalid";
     }
   }
 ?>
