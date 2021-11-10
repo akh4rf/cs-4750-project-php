@@ -24,6 +24,15 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 
     $data = execute_query($sql, array($UserID, $timestamp, $title, $comment, $rating));
   }
+  if(isset($_POST['rating'])){
+    alert ("You have successfully submitted a feedback to us!");
+  }
+  else if(empty($title)){
+    alert ("The title field cannot be empty!");
+  }
+  else {
+    alert ("The comment field cannot be empty!");
+  }
 }
 ?>
 
@@ -37,14 +46,17 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
       <h2 style="margin-top: 25px; color: var(--dark-blue); font-weight: 700;">How Would You Rate Our App?</h2>
       <div id="rate" class="rate">
         <?php for ($i = 5; $i > 0; $i--) : ?>
-          <input type="radio" id="star<?php echo $i ?>" name="rating" value="<?php echo $i ?>" />
-          <label for="star<?php echo $i ?>" title="star<?php echo $i ?>">★</label>
+          <input type="radio" id="star<?php echo $i ?>" name="rating" value=" <?php echo $i ?>"/>
+          <label for="star<?php echo $i ?>" title="star<?php echo $i ?>">★ </label>
         <?php endfor ?>
-      </div>
-      <input type="text" placeholder="Enter your title here..." name="title" style="margin-bottom: 10px; width: 75%; font-size: 1em; padding: 10px;" autofocus required>
-      <textarea name="comment" placeholder="Enter your review here..."></textarea>
+      </div>  
+      <input type="text" placeholder="Enter your title here..." name="title" id="title" style="margin-bottom: 10px; width: 75%; font-size: 1em; padding: 10px;" autofocus required>
+      <textarea name="comment" placeholder="Enter your review here..." required></textarea>
       <button type="submit">Submit</button>
     </form>
+    <script>
+      document.getElementById("title").innerHTML = "Hello JavaScript!";
+    </script>
   </div>
 </div>
 
