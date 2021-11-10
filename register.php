@@ -16,6 +16,7 @@
       if($data['row_count']==1){
         $user=$data['rows_affected'][0];
         $_SESSION['username']=$user['username'];
+        $_SESSION['UserID']=$user['UserID'];
         header("location: login");
       }
     }catch(PDOException $e){
