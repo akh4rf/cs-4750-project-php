@@ -15,8 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 
     if ($data['row_count'] == 1) {
       $user = $data['rows_affected'][0];
-      $_SESSION['username'] = $user['username'];
-      $_SESSION['UserID'] = $user['UserID'];
       header("location: login");
     } else {
       $error_code = $data['error_info'][1];
