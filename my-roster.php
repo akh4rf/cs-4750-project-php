@@ -30,7 +30,7 @@ if($teaminfo['row_count']==1){
 //TeamPlayer RLPID, TeamID
 //Team TeamID, UserID(input)
 
-$sql2="SELECT name, picURL, age, position, mvps, goals, assists FROM RLPlayer NATURAL JOIN TeamPlayer WHERE TeamID=?"; 
+$sql2="SELECT name, picURL, age, position, mvps, goals, assists FROM RLPlayer NATURAL JOIN TeamPlayer WHERE TeamID=?";
 $teamid=2;//teamID=2 is example
 $rosterinfo = execute_query($sql2,array($teamid));
 $rostersize=$rosterinfo['row_count'];
@@ -95,14 +95,16 @@ if($rostersize>0){
         <hr style="margin-top: 10px;">
       </div>
       <div class="roster">
-        <?php for ($i = 0; $i < $rostersize; $i++) : ?>
+        <?php for ($i = 0; $i < $rostersize; $i++) :
+            // $player = $rosterinfo['rows_affected][$i];
+          ?>
           <div class="roster-player-wrapper">
             <div class="roster-player-info">
               <div style="height: 100%; display: flex; padding: 0 20px;">
                 <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; font-weight: 700;">
                   <div><?php echo $playernames[$i]?></div>
                   <div>Age: <?php echo $playerages[$i] ?></div>
-                  <div><?php echo $playerpositions[$i] ?></div>
+                  <div><?php echo substr($playerpositions[$i], 0, strlen($playerpositions[$i]) - 1) ?></div>
                 </div>
                 <div style="display: flex; margin: 0 auto;">
                   <div class="roster-player-statbox">
