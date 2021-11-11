@@ -1,6 +1,19 @@
 <?php
 
 include_once "includes/header.php";
+include("./database/db-helpers.php");
+$myuserid = "100001";
+$sql="SELECT UserID, username, description, profilePicURL FROM Users NATURAL JOIN UserInfo WHERE UserID=?;";
+$data=execute_query($sql,array($myuserid));
+if($data['row_count']==1){
+  $user=$data['rows_affected'][0];
+  $UserID = $user['UserID'];
+  $username = $user['username'];
+  $description = $user['description'];
+  $profilePicURL = $user['profilePicURL'];
+}else{
+  $error_msg = "Error";
+}
 
 $stats = array(
   "Austin" => array(0, 0, 2, 4, 5, 11, 11),
@@ -32,9 +45,9 @@ foreach ($stats as $k => $v) {
             <i class="far fa-user-circle"></i>
           </div>
           <div class="profile-contents">
-            <h1 style="font-size: 2.5em; font-weight: 700; margin-top: 20px;">USERNAME</h1>
-            <h2 style="font-size: 1.5em; font-weight: 700; margin-top: 10px;">(ID #000000)</h2>
-            <p style="color: black; padding: 50px 75px; font-size: 1.25em;">This is my profile's description! My team is the best!</p>
+            <h1 style="font-size: 2.5em; font-weight: 700; margin-top: 20px;"><?php echo $username?></h1>
+            <h2 style="font-size: 1.5em; font-weight: 700; margin-top: 10px;">(ID #<?php echo $UserID?>)</h2>
+            <p style="color: black; padding: 50px 75px; font-size: 1.25em;"><?php echo $description?></p>
           </div>
           <button class="profile-button"> <i class="fas fa-pencil-alt"></i> Edit Profile </button>
         </div>
