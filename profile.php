@@ -7,11 +7,6 @@ $sql="SELECT UserID, username, description, profilePicURL FROM Users NATURAL JOI
 $data=execute_query($sql,array($myuserid));
 if($data['row_count']==1){
   $user=$data['rows_affected'][0];
-  // $_SESSION['UserID']=$user['UserID'];
-  // $_SESSION['timestamp']=$user['timestamp'];
-  // $_SESSION['title']=$user['title'];
-  // $_SESSION['comment']=$user['comment'];
-  // $_SESSION['rating']=$user['rating'];
   $UserID = $user['UserID'];
   $username = $user['username'];
   $description = $user['description'];
