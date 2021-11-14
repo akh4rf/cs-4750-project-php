@@ -34,28 +34,6 @@ $sql2="SELECT name, picURL, age, position, mvps, goals, assists FROM RLPlayer NA
 $teamid=2;//teamID=2 is example
 $rosterinfo = execute_query($sql2,array($teamid));
 $rostersize=$rosterinfo['row_count'];
-$playernames=array();
-$playerages=array();
-$playerpositions=array();
-$playermvps=array();
-$playergoals=array();
-$playerassists=array();
-$playerpics=array();
-
-if($rostersize>0){
-  for ($i = 0; $i < $rostersize; $i++){
-    $info=$rosterinfo['rows_affected'][$i];
-    $playernames[$i]=$info['name'];
-    $playerpics[$i]=$info['picURL'];
-    $playerages[$i]=$info['age'];
-    $playerpositions[$i]=$info['position'];
-    $playermvps[$i]=$info['mvps'];
-    $playergoals[$i]=$info['goals'];
-    $playerassists[$i]=$info['assists'];
-  }
-}else{
-  $error_msg="Error!";
-}
 ?>
 
 
@@ -96,37 +74,51 @@ if($rostersize>0){
       </div>
       <div class="roster">
         <?php for ($i = 0; $i < $rostersize; $i++) :
-            // $player = $rosterinfo['rows_affected][$i];
-          ?>
+            $info=$rosterinfo['rows_affected'][$i];
+        ?>
           <div class="roster-player-wrapper">
             <div class="roster-player-info">
               <div style="height: 100%; display: flex; padding: 0 20px;">
                 <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; font-weight: 700;">
-                  <div><?php echo $playernames[$i]?></div>
-                  <div>Age: <?php echo $playerages[$i] ?></div>
-                  <div><?php echo substr($playerpositions[$i], 0, strlen($playerpositions[$i]) - 1) ?></div>
+                  <div><?php echo $info['name']?></div>
+                  <div>Age: <?php echo $info['age'] ?></div>
+                  <div><?php echo substr($info['position'], 0, strlen($info['position']) - 1) ?></div>
                 </div>
                 <div style="display: flex; margin: 0 auto;">
                   <div class="roster-player-statbox">
-                  <div><?php echo $playergoals[$i] ?></div>
+                  <div><?php echo $info['goals'] ?></div>
                     <div>Goals</div>
                   </div>
                   <div class="roster-player-statbox" style="margin: 0 25px">
-                  <div><?php echo $playerassists[$i] ?></div>
+                  <div><?php echo $info['assists'] ?></div>
                     <div>Assists</div>
                   </div>
                   <div class="roster-player-statbox">
-                  <div><?php echo $playermvps[$i] ?></div>
+                  <div><?php echo $info['mvps'] ?></div>
                     <div>MVPs</div>
                   </div>
                 </div>
               </div>
               <button id=<?php echo $i ?> onclick="removePlayer(this.id)"><i class="far fa-times-circle" style="display: flex;"></i></button>
-              <div class="roster-player-pfp">
-                <img src=<?php echo $playerpics[$i] ?> alt="">
+              <div class="roster-player-pfp"> 
+                <img src=<?php echo $info['picURL'] ?> alt="">
               </div>
             </div>
           </div>
+        <?php endfor ?>
+        <?php for ($i = $rostersize; $i < 5; $i++) :
+        ?>
+        <div class="roster-player-wrapper">
+            <div class="roster-player-info">
+              <div style="height: 100%; display: flex; padding: 0 20px;">
+                <div>ADD A PLAYER</div>
+              </div>
+              <button id=<?php echo $i ?> onclick="removePlayer(this.id)"><i class="far fa-times-circle" style="display: flex;"></i></button>
+              <div class="roster-player-pfp">
+                <img src="Messi.png" alt="">
+              </div>
+            </div>
+        </div>
         <?php endfor ?>
       </div>
     </div>
