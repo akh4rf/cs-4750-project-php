@@ -1,7 +1,10 @@
 <?php include_once "includes/header.php" ?>
 
+<link rel="stylesheet" href="css/home.css">
 <div class="inner-page-contents">
-  This is our homepage! It looks really cool!
+  <div class="homeImage-container">
+  <?php echo "<img src='images/homePageDesign.png'>"?>
+  </div>
 </div>
 
 <?php include_once "includes/footer.php" ?>

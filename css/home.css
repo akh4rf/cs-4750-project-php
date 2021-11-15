@@ -1,0 +1,7 @@
+.homeImage-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    margin-top: 10%;
+    width: 60%;
+    text-align: center;
+  }
