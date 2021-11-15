@@ -172,6 +172,9 @@
   left: -25px;
   top: -27px; /* Need extra 2px to compensate for border */
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .roster-player-pfp > img {
