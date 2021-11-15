@@ -43,7 +43,9 @@ for ($i = 0; $i < $rostersize; $i++) {
     $removeinfo = execute_query($sql3, array($teamid, $player));
     // Decrement roster size and nullify player in returned team data
     $rostersize -= 1;
-    $rosterinfo['rows_affected'][$i] = NULL;
+    for ($j = $i; $j < $rostersize; $j++) {
+      $rosterinfo['rows_affected'][$j] = $rosterinfo['rows_affected'][$j+1];
+    }
   }
 }
 
