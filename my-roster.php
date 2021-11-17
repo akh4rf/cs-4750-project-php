@@ -3,13 +3,6 @@
 include_once "includes/header.php";
 include("./database/db-helpers.php");
 
-session_start(); //did session start so i could see changes take place, but in reality will only occur after button press
-//Update Team Information
-//information is retrieved from Team Settings
-// $sql="UPDATE Team SET homeColor = 'Blue', awayColor = 'Red', nationality = 'England', description = 'test for aayush query', name = 'Tottenham' WHERE UserID = 100001;";
-// $myuserid='100001'; //hardcoded, needs to be gained from session later
-// $data=execute_query($sql,array($myuserid)); //updates database
-
 //Team Information
 $myuserid = '100001'; //hardcoded, needs to be gained from session later
 $sql = "SELECT name, description, homeColor, awayColor, nationality FROM Team WHERE userid=?;";
