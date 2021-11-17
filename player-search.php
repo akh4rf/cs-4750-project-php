@@ -8,11 +8,73 @@ $sql = "SELECT RLPID, name, position, mvps, goals, assists FROM RLPlayer";
 
 $data = execute_query($sql);
 
+// Current Team Members
+$sql2 = "SELECT RLPID, TeamID FROM TeamPlayer NATURAL JOIN (SELECT TeamID FROM Team WHERE UserID=?) R";
+$team_players = execute_query($sql2, array($_SESSION['UserID']));
+$current_players = array();
+for ($i = 0; $i < $team_players['row_count']; $i++) {
+  array_push($current_players, intval($team_players['rows_affected'][$i]['RLPID']));
+}
+
+// Get clicked player button
+foreach ($_POST as $button => $val) {
+  $button_info = explode('-', $button);
+  $RLPID = intval($button_info[1]);
+  switch ($button_info[2]) {
+    case 'add':
+      if (count($current_players) < 5) {
+        $timestamp = date('Y-m-d H:i:s');
+        $add_sql = "INSERT INTO TeamPlayer VALUES (?, ?, ?, 0, 0, 0)";
+        $addinfo = execute_query($add_sql, array($RLPID, $team_players['rows_affected'][0]['TeamID'], $timestamp));
+        array_push($current_players, $RLPID);
+      }
+      break;
+    case 'remove':
+      if (count($current_players) > 0) {
+        $remove_sql = "DELETE FROM TeamPlayer WHERE TeamID=? AND RLPID=?";
+        // Delete player from team in DB
+        $removeinfo = execute_query($remove_sql, array($team_players['rows_affected'][0]['TeamID'], $RLPID));
+        if (($idx = array_search($RLPID, $current_players)) !== false) {
+          unset($current_players[$idx]);
+        }
+      }
+      break;
+    default:
+      echo "ERROR";
+      break;
+  }
+}
+
 function actionsTD($RLPID)
 {
-  echo '<div class="ps-actions">
-          <button style="color: green;">+</button>
-          <button style="color: red;">-</button>
+  global $current_players;
+  $style = 'width: 80%;
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-family: \'Open Sans\', sans-serif;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;';
+
+    if (in_array($RLPID, $current_players)) {
+      $style .= ' background-color: red;';
+      $action = "Remove";
+      $RLPID .= '-remove';
+    } else {
+      if (count($current_players) == 5) {
+        $style .= ' background-color: gray;';
+        echo '<div class="ps-actions">
+            <button type="submit" style="' . $style . '">Roster Full</button>
+            </div>';
+        return;
+      }
+      $style .= ' background-color: green;';
+      $action = "Add";
+      $RLPID .= '-add';
+    }
+    echo '<div class="ps-actions">
+          <button name="button-' . $RLPID . '" type="submit" style="' . $style . '">' . $action . ' Player</button>
         </div>';
 }
 
@@ -44,7 +106,7 @@ function textTD($contents)
       </div>
     </div>
     <div class="player-search-bottom-section">
-      <div class="table-wrapper">
+      <form class="table-wrapper" action="player-search" method="post">
         <table>
           <thead>
             <tr class="table-header">
@@ -70,7 +132,7 @@ function textTD($contents)
             <?php endfor; ?>
           </tbody>
         </table>
-      </div>
+        </form>
     </div>
   </div>
 </div>
