@@ -113,4 +113,42 @@ function fill_rlplayer_table() {
 fill_rlplayer_table();
 */
 
+$timestamp = date('Y-m-d H:i:s');
+
+function get_game_ids_from_range($date1, $date2, $league_id) {
+  global $domain, $validation;
+  $url = $domain . '?action=get_events';
+  $url .= '&from=' . $date1 . '&to=' . $date2 . '&league_id=' . $league_id;
+  $url .= $validation;
+  $data = curl_get($url);
+  $game_ids = array();
+  for ($i = 0; $i < count($data); $i++) {
+    if (strlen($data[$i]['match_id']) > 0) {
+      array_push($game_ids, $data[$i]['match_id']);
+    }
+  }
+  return $game_ids;
+}
+
+function get_match_stats($match_id) {
+  global $domain, $validation;
+  $url = $domain . '?action=get_statistics&match_id=' . $match_id . $validation;
+  echo $url;
+  $data = curl_get($url);
+  return $data;
+}
+
+function compute_teamstats($date1, $date2) {
+  global $leagues;
+  foreach ($leagues as $name => $id) {
+    $game_ids = get_game_ids_from_range($date1, $date2, $id);
+    for ($match = 0; $match < count($game_ids); $match++) {
+      $match_stats = get_match_stats($game_ids[$match]);
+      break;
+    }
+  }
+}
+
+compute_teamstats('2021-10-02', '2021-11-02');
+
 ?>
