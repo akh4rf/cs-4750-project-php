@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<?php include 'url-helpers.php' ?>
+<?php include 'url-helpers.php'; session_start(); ?>
 
 <body>
 

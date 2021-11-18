@@ -3,16 +3,9 @@
 include_once "includes/header.php";
 include("./database/db-helpers.php");
 
-session_start(); //did session start so i could see changes take place, but in reality will only occur after button press
-//Update Team Information
-//information is retrieved from Team Settings
-// $sql="UPDATE Team SET homeColor = 'Blue', awayColor = 'Red', nationality = 'England', description = 'test for aayush query', name = 'Tottenham' WHERE UserID = 100001;";
-// $myuserid='100001'; //hardcoded, needs to be gained from session later
-// $data=execute_query($sql,array($myuserid)); //updates database
-
 //Team Information
-$myuserid = '100001'; //hardcoded, needs to be gained from session later
-$sql = "SELECT name, description, homeColor, awayColor, nationality FROM Team WHERE userid=?;";
+$myuserid = $_SESSION['UserID'];
+$sql = "SELECT TeamID, name, description, homeColor, awayColor, nationality FROM Team WHERE userid=?;";
 $teaminfo = execute_query($sql, array($myuserid));
 if ($teaminfo['row_count'] == 1) {
   $user = $teaminfo['rows_affected'][0];
@@ -21,6 +14,7 @@ if ($teaminfo['row_count'] == 1) {
   $homeColor = $user['homeColor'];
   $awayColor = $user['awayColor'];
   $nationality = $user['nationality'];
+  $teamid = $user['TeamID'];
 } else {
   $error_msg = "Error!";
 }
@@ -31,16 +25,14 @@ if ($teaminfo['row_count'] == 1) {
 //Team TeamID, UserID(input)
 
 $sql2 = "SELECT RLPID, name, picURL, age, position, mvps, goals, assists FROM RLPlayer NATURAL JOIN TeamPlayer WHERE TeamID=?";
-$teamid = 2; //teamID=2 is example
 $rosterinfo = execute_query($sql2, array($teamid));
 $rostersize = $rosterinfo['row_count'];
 
 for ($i = 0; $i < $rostersize; $i++) {
   if (isset($_POST['button-' . $i])) {
     $sql3 = "DELETE FROM TeamPlayer WHERE TeamID=? AND RLPID=?";
-    $player = $rosterinfo['rows_affected'][$i]['RLPID'];
     // Delete player from team in DB
-    $removeinfo = execute_query($sql3, array($teamid, $player));
+    $removeinfo = execute_query($sql3, array($teamid, $rosterinfo['rows_affected'][$i]['RLPID']));
     // Decrement roster size and nullify player in returned team data
     $rostersize -= 1;
     for ($j = $i; $j < $rostersize; $j++) {
