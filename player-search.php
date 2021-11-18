@@ -65,7 +65,7 @@ function actionsTD($RLPID)
       if (count($current_players) == 5) {
         $style .= ' background-color: gray;';
         echo '<div class="ps-actions">
-            <button type="submit" style="' . $style . '">Roster Full</button>
+            <button type="submit" style="' . $style . ' cursor: unset;" disabled>Roster Full</button>
             </div>';
         return;
       }
