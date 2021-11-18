@@ -1,15 +1,12 @@
 .homeImage-container {
-    display: grid;
-    grid-template-rows: auto 1fr;
     width: 70%;
-    height: 95%;
     text-align: center;
 }
 
 .home-title{
-    font-size: 48px; 
-    font-weight: 700; 
-    margin-bottom: 50px; 
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 50px;
     text-shadow: -4px 4px 5px var(--dark-blue);
 }
 
