@@ -1,0 +1,13 @@
+.htpheader {
+  font-weight: bold;
+  text-align: center;
+}
+
+.pagecontents {
+  height: 100%;
+  width: 100%;
+  padding-left: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
