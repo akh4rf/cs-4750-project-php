@@ -13,7 +13,12 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
     $data = execute_query($sql, array($myusername, $mypassword));
 
     if ($data['row_count'] == 1) {
-      $user = $data['rows_affected'][0];
+      $user_query = "SELECT UserID FROM Users WHERE username = ?";
+      $user_data = execute_query($user_query, array($myusername));
+      $user = $user_data['rows_affected'][0];
+      $timestamp = date('Y-m-d H:i:s');
+      $sql2 = "INSERT INTO Team VALUES (NULL, ?, ?, 'Team Name', 'Team description', 'Blue', 'White', 'us')";
+      $data2 = execute_query($sql2, array($user['UserID'], $timestamp));
       header("location: login");
     } else {
       $error_code = $data['error_info'][1];
