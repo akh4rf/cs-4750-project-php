@@ -4,6 +4,10 @@ include_once "includes/header.php";
 
 include './database/db-helpers.php';
 
+if(!isset($_SESSION['UserID'])){
+  header("location: login");
+}
+
 $sql = "SELECT RLPID, name, position, mvps, goals, assists FROM RLPlayer";
 
 $data = execute_query($sql);

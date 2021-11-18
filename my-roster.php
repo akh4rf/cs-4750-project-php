@@ -10,6 +10,10 @@ session_start(); //did session start so i could see changes take place, but in r
 // $myuserid='100001'; //hardcoded, needs to be gained from session later
 // $data=execute_query($sql,array($myuserid)); //updates database
 
+if(!isset($_SESSION['UserID'])){
+  header("location: login");
+}
+
 //Team Information
 $myuserid = '100001'; //hardcoded, needs to be gained from session later
 $sql = "SELECT name, description, homeColor, awayColor, nationality FROM Team WHERE userid=?;";

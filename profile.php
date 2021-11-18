@@ -1,8 +1,13 @@
 <?php
 
 include_once "includes/header.php";
+
+if(!isset($_SESSION['UserID'])){
+  header("location: login");
+}
+
 include("./database/db-helpers.php");
-$myuserid = "100001";
+$myuserid = $_SESSION['UserID'];
 $sql="SELECT UserID, username, description, profilePicURL FROM Users NATURAL JOIN UserInfo WHERE UserID=?;";
 $data=execute_query($sql,array($myuserid));
 if($data['row_count']==1){

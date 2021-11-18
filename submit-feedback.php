@@ -3,6 +3,10 @@
 include './database/db-helpers.php';
 session_start();
 
+if(!isset($_SESSION['UserID'])){
+  header("location: login");
+}
+
 // Get post data (see example on Emily's branch)
 // Construct SQL query, parameterize with "?"
 // i.e. INSERT INTO FEEDBACK VALUES (?, ?, ?, ?, ?);
