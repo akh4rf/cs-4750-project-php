@@ -2,9 +2,7 @@
 
 include_once "includes/header.php";
 
-if(!isset($_SESSION['UserID'])){
-  header("location: login");
-}
+loginCheck();
 
 include("./database/db-helpers.php");
 $myuserid = $_SESSION['UserID'];

@@ -4,9 +4,7 @@ include_once "includes/header.php";
 
 include './database/db-helpers.php';
 
-if(!isset($_SESSION['UserID'])){
-  header("location: login");
-}
+loginCheck();
 
 $sql = "SELECT RLPID, name, position, mvps, goals, assists FROM RLPlayer";
 

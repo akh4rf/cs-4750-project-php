@@ -12,6 +12,7 @@
 </head>
 
 <?php include 'url-helpers.php' ?>
+<?php include 'login-check.php' ?>
 
 <body>
 
