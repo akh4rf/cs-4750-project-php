@@ -16,34 +16,43 @@ for ($i = 0; $i < $team_players['row_count']; $i++) {
   array_push($current_players, intval($team_players['rows_affected'][$i]['RLPID']));
 }
 
-// Get clicked player button
-foreach ($_POST as $button => $val) {
-  $button_info = explode('-', $button);
-  $RLPID = intval($button_info[1]);
-  switch ($button_info[2]) {
-    case 'add':
-      if (count($current_players) < 5) {
-        $timestamp = date('Y-m-d H:i:s');
-        $add_sql = "INSERT INTO TeamPlayer VALUES (?, ?, ?, 0, 0, 0)";
-        $addinfo = execute_query($add_sql, array($RLPID, $team_players['rows_affected'][0]['TeamID'], $timestamp));
-        array_push($current_players, $RLPID);
-      }
-      break;
-    case 'remove':
-      if (count($current_players) > 0) {
-        $remove_sql = "DELETE FROM TeamPlayer WHERE TeamID=? AND RLPID=?";
-        // Delete player from team in DB
-        $removeinfo = execute_query($remove_sql, array($team_players['rows_affected'][0]['TeamID'], $RLPID));
-        if (($idx = array_search($RLPID, $current_players)) !== false) {
-          unset($current_players[$idx]);
+if(isset($_POST['Add/Remove'])){
+  // Get clicked player button
+  foreach ($_POST as $button => $val) {
+    $button_info = explode('-', $button);
+    $RLPID = intval($button_info[1]);
+    switch ($button_info[2]) {
+      case 'add':
+        if (count($current_players) < 5) {
+          $timestamp = date('Y-m-d H:i:s');
+          $add_sql = "INSERT INTO TeamPlayer VALUES (?, ?, ?, 0, 0, 0)";
+          $addinfo = execute_query($add_sql, array($RLPID, $team_players['rows_affected'][0]['TeamID'], $timestamp));
+          array_push($current_players, $RLPID);
         }
-      }
-      break;
-    default:
-      echo "ERROR";
-      break;
+        break;
+      case 'remove':
+        if (count($current_players) > 0) {
+          $remove_sql = "DELETE FROM TeamPlayer WHERE TeamID=? AND RLPID=?";
+          // Delete player from team in DB
+          $removeinfo = execute_query($remove_sql, array($team_players['rows_affected'][0]['TeamID'], $RLPID));
+          if (($idx = array_search($RLPID, $current_players)) !== false) {
+            unset($current_players[$idx]);
+          }
+        }
+        break;
+      default:
+        echo "ERROR";
+        break;
+    }
   }
+}else if(isset($_POST['Search'])){
+  $searchInput=$_POST['player-search'];
+  $find_sql='SELECT RLPID, name, position, mvps, goals, assists FROM RLPlayer WHERE name LIKE ?;';
+  $data = execute_query($find_sql, array("%$searchInput%"));
+  
 }
+
+
 
 function actionsTD($RLPID)
 {
@@ -88,8 +97,9 @@ function textTD($contents)
 <link rel="stylesheet" href="css/player-search.css">
 <div class="inner-page-contents">
   <div class="player-search">
-    <div class="player-search-top-section">
+    <form class="player-search-top-section" action="player-search" method="post">
       <div class="ps-input">
+      <input type="text" name="POST-TYPE" value="Search" style="visibility:invisible;"> => $_POST['POST-TYPE']
         <input type="text" name="player-search" id="player-search" placeholder="Search Player Info..." autofocus>
         <i class="fas fa-search"></i>
       </div>
@@ -104,9 +114,11 @@ function textTD($contents)
           <option value="MVPs">MVPs</option>
         </select>
       </div>
-    </div>
+    </form>
+
     <div class="player-search-bottom-section">
       <form class="table-wrapper" action="player-search" method="post">
+        <input type="text" name="POST-TYPE" value="Add/Remove" style="visibility:invisible;"> => $_POST['POST-TYPE']
         <table>
           <thead>
             <tr class="table-header">
