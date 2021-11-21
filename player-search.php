@@ -49,6 +49,12 @@ if(isset($_POST['Add/Remove'])){
   $searchInput=$_POST['player-search'];
   $find_sql='SELECT RLPID, name, position, mvps, goals, assists FROM RLPlayer WHERE name LIKE ?;';
   $data = execute_query($find_sql, array("%$searchInput%"));
+  $curr_player_sql = "SELECT RLPID, TeamID FROM TeamPlayer NATURAL JOIN (SELECT TeamID FROM Team WHERE UserID=?) R";
+  $team_mem = execute_query($curr_player_sql, array($_SESSION['UserID'])); 
+  $curr_players = array();
+  for ($j = 0; $j < $team_mem['row_count']; $j++) {
+  array_push($curr_players, intval($team_mem['rows_affected'][$j]['RLPID']));
+}
   
 }
 
