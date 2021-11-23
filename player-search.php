@@ -55,8 +55,31 @@ if (isset($_POST['POST-TYPE'])) {
   } else if ($_POST['POST-TYPE'] == 'Search') {
     // Update results to match search terms
     $searchInput = "%" . $_POST['player-search'] . "%";
-    $sql .= ' WHERE name LIKE ?;';
+    $sql .= ' WHERE name LIKE ?';
     array_push($search_params, $searchInput);
+  }
+}
+
+if (isset($_POST['sort'])) {
+  switch ($_POST['sort']) {
+    case 'Name_A_Z':
+      // Sort by ascending name
+      $sql .= " ORDER BY name";
+      break;
+    case 'Name_Z_A':
+      // Sort by descending name
+      break;
+    case 'Goals':
+      // Sort by descending goals
+      break;
+    case 'Assists':
+      // Sort by descending assists
+      break;
+    case 'MVPs':
+      // Sort by descending mvps
+      break;
+    default:
+      break;
   }
 }
 
@@ -113,7 +136,7 @@ function textTD($contents)
       </div>
       <div class="ps-dropdown">
         <label for="sort">Sort By: </label>
-        <select name="sort" id="sort-input">
+        <select name="sort" id="sort-input" onchange="this.form.submit()">
           <option selected disabled value="">----- Select Option -----</option>
           <option value="Name_A_Z">Name (A-Z)</option>
           <option value="Name_Z_A">Name (Z-A)</option>
@@ -153,14 +176,14 @@ function textTD($contents)
               </tr>
             <?php endfor;
             for (; $i < 5; $i++) : ?>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
             <?php endfor; ?>
           </tbody>
         </table>
