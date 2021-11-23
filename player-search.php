@@ -4,13 +4,17 @@ include_once "includes/header.php";
 
 include './database/db-helpers.php';
 
+loginCheck();
+
 $sql = "SELECT RLPID, name, position, mvps, goals, assists FROM RLPlayer";
 
 $data = execute_query($sql);
 
+$teamid = execute_query("SELECT TeamID FROM Team WHERE UserID=?", array($_SESSION['UserID']))['rows_affected'][0]['TeamID'];
+
 // Current Team Members
-$sql2 = "SELECT RLPID, TeamID FROM TeamPlayer NATURAL JOIN (SELECT TeamID FROM Team WHERE UserID=?) R";
-$team_players = execute_query($sql2, array($_SESSION['UserID']));
+$sql2 = "SELECT RLPID, TeamID FROM TeamPlayer WHERE TeamID=?";
+$team_players = execute_query($sql2, array($teamid));
 $current_players = array();
 for ($i = 0; $i < $team_players['row_count']; $i++) {
   array_push($current_players, intval($team_players['rows_affected'][$i]['RLPID']));
@@ -25,7 +29,7 @@ foreach ($_POST as $button => $val) {
       if (count($current_players) < 5) {
         $timestamp = date('Y-m-d H:i:s');
         $add_sql = "INSERT INTO TeamPlayer VALUES (?, ?, ?, 0, 0, 0)";
-        $addinfo = execute_query($add_sql, array($RLPID, $team_players['rows_affected'][0]['TeamID'], $timestamp));
+        $addinfo = execute_query($add_sql, array($RLPID, $teamid, $timestamp));
         array_push($current_players, $RLPID);
       }
       break;
@@ -33,7 +37,7 @@ foreach ($_POST as $button => $val) {
       if (count($current_players) > 0) {
         $remove_sql = "DELETE FROM TeamPlayer WHERE TeamID=? AND RLPID=?";
         // Delete player from team in DB
-        $removeinfo = execute_query($remove_sql, array($team_players['rows_affected'][0]['TeamID'], $RLPID));
+        $removeinfo = execute_query($remove_sql, array($teamid, $RLPID));
         if (($idx = array_search($RLPID, $current_players)) !== false) {
           unset($current_players[$idx]);
         }
