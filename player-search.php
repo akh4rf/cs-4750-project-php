@@ -68,15 +68,19 @@ if (isset($_POST['sort'])) {
       break;
     case 'Name_Z_A':
       // Sort by descending name
+      $sql .= " ORDER BY name DESC";
       break;
     case 'Goals':
       // Sort by descending goals
+      $sql .= " ORDER BY goals DESC";
       break;
     case 'Assists':
       // Sort by descending assists
+      $sql .= " ORDER BY assists DESC";
       break;
     case 'MVPs':
       // Sort by descending mvps
+      $sql .= " ORDER BY mvps DESC";
       break;
     default:
       break;
