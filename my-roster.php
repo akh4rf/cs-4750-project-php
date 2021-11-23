@@ -3,6 +3,8 @@
 include_once "includes/header.php";
 include("./database/db-helpers.php");
 
+loginCheck();
+
 //Team Information
 $myuserid = $_SESSION['UserID'];
 $sql = "SELECT TeamID, name, description, homeColor, awayColor, nationality FROM Team WHERE userid=?;";
