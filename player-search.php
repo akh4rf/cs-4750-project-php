@@ -141,12 +141,12 @@ function textTD($contents)
       <div class="ps-dropdown">
         <label for="sort">Sort By: </label>
         <select name="sort" id="sort-input" onchange="this.form.submit()">
-          <option selected disabled value="">----- Select Option -----</option>
-          <option value="Name_A_Z">Name (A-Z)</option>
-          <option value="Name_Z_A">Name (Z-A)</option>
-          <option value="Goals">Goals</option>
-          <option value="Assists">Assists</option>
-          <option value="MVPs">MVPs</option>
+          <option <?php if(! isset($_POST['sort'])){echo 'selected';} ?>disabled value="">----- Select Option -----</option>
+          <option <?php if(isset($_POST['sort'])) {if($_POST['sort']=='Name_A_Z'){echo 'selected';}} ?>value="Name_A_Z">Name (A-Z)</option>
+          <option <?php if(isset($_POST['sort'])) {if($_POST['sort']=='Name_Z_A'){echo 'selected';}} ?>value="Name_Z_A">Name (Z-A)</option>
+          <option <?php if(isset($_POST['sort'])) {if($_POST['sort']=='Goals'){echo 'selected';}} ?>value="Goals">Goals</option>
+          <option <?php if(isset($_POST['sort'])) {if($_POST['sort']=='Assists'){echo 'selected';}} ?>value="Assists">Assists</option>
+          <option <?php if(isset($_POST['sort'])) {if($_POST['sort']=='MVPs'){echo 'selected';}} ?>value="MVPs">MVPs</option>
         </select>
       </div>
       <input type="submit" style="display: none" />
