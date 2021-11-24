@@ -25,28 +25,19 @@ if ($teaminfo['row_count'] == 1) {
   $awayColor = $user['awayColor'];
   $nationality = $user['nationality'];
   $teamid = $user['TeamID'];
-  try {
-    $pdo = new PDO(
-      "mysql:host=$dbHost;dbname=$dbName;charset=$dbChar",
-      $dbUser, $dbPass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NAMED
-      ]
-    );
-  } catch (Exception $ex) { exit($ex->getMessage()); }
-  
-  
-  header("Content-Type: application/octet-stream");
-  header("Content-Transfer-Encoding: Binary");
-  header("Content-disposition: attachment; filename=\"YourTeam.csv\"");
-   
-  
-  $stmt = $pdo->prepare("SELECT * FROM `users`");
-  $stmt->execute();
-  while ($row = $stmt->fetch()) {
-    echo implode(",", [$row["TeamID"], $row["UserID"], $row["dateCreated"],$row["name"],$row["description"],$row["homeColor"],$row["awayColor"],$row["nationality"]]);
-    echo "\r\n";
+  $dblink = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
+  if ($dblink->connect_errno) {
+    printf("Failed to connect to database");
+    exit();
+ }
+ $result = $dblink->query("SELECT * FROM Team ");
+ while ( $row = $result->fetch_assoc())  {
+	$dbdata[]=$row;
   }
+  echo json_encode($dbdata);
+  //$fp = fopen('result.json', 'w');
+   // fwrite($fp, json_encode($dbdata));
+    //fclose($fp);
 } else {
   $error_msg = "Error!";
 }
