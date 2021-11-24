@@ -2,6 +2,16 @@
 
 include_once "includes/header.php";
 include("./database/db-helpers.php");
+include("./database/db-connect.php");
+loginCheck();
+$dbHost = "mysql01.cs.virginia.edu";
+$dbName = "upper90";
+$dbChar = "utf8";
+$dbUser = "akh4rf";
+$dbPass = "GingerDog2011";
+
+
+
 
 //Team Information
 $myuserid = $_SESSION['UserID'];
@@ -15,6 +25,28 @@ if ($teaminfo['row_count'] == 1) {
   $awayColor = $user['awayColor'];
   $nationality = $user['nationality'];
   $teamid = $user['TeamID'];
+  try {
+    $pdo = new PDO(
+      "mysql:host=$dbHost;dbname=$dbName;charset=$dbChar",
+      $dbUser, $dbPass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NAMED
+      ]
+    );
+  } catch (Exception $ex) { exit($ex->getMessage()); }
+  
+  
+  header("Content-Type: application/octet-stream");
+  header("Content-Transfer-Encoding: Binary");
+  header("Content-disposition: attachment; filename=\"YourTeam.csv\"");
+   
+  
+  $stmt = $pdo->prepare("SELECT * FROM `users`");
+  $stmt->execute();
+  while ($row = $stmt->fetch()) {
+    echo implode(",", [$row["TeamID"], $row["UserID"], $row["dateCreated"],$row["name"],$row["description"],$row["homeColor"],$row["awayColor"],$row["nationality"]]);
+    echo "\r\n";
+  }
 } else {
   $error_msg = "Error!";
 }
@@ -51,6 +83,7 @@ for ($i = 0; $i < $rostersize; $i++) {
     <div class="profile-column" style="padding: 20px 0 20px 40px">
       <div class="profile-info-container">
         <div class="profile-info-header">
+        <i class="fas fa-download"></i>
           <h1 style="font-size: 1.25em;">Team Information</h1>
         </div>
         <div class="profile-info">
