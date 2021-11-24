@@ -55,8 +55,35 @@ if (isset($_POST['POST-TYPE'])) {
   } else if ($_POST['POST-TYPE'] == 'Search') {
     // Update results to match search terms
     $searchInput = "%" . $_POST['player-search'] . "%";
-    $sql .= ' WHERE name LIKE ?;';
+    $sql .= ' WHERE name LIKE ?';
     array_push($search_params, $searchInput);
+  }
+}
+
+if (isset($_POST['sort'])) {
+  switch ($_POST['sort']) {
+    case 'Name_A_Z':
+      // Sort by ascending name
+      $sql .= " ORDER BY name";
+      break;
+    case 'Name_Z_A':
+      // Sort by descending name
+      $sql .= " ORDER BY name DESC";
+      break;
+    case 'Goals':
+      // Sort by descending goals
+      $sql .= " ORDER BY goals DESC";
+      break;
+    case 'Assists':
+      // Sort by descending assists
+      $sql .= " ORDER BY assists DESC";
+      break;
+    case 'MVPs':
+      // Sort by descending mvps
+      $sql .= " ORDER BY mvps DESC";
+      break;
+    default:
+      break;
   }
 }
 
@@ -113,13 +140,13 @@ function textTD($contents)
       </div>
       <div class="ps-dropdown">
         <label for="sort">Sort By: </label>
-        <select name="sort" id="sort-input">
-          <option selected disabled value="">----- Select Option -----</option>
-          <option value="Name_A_Z">Name (A-Z)</option>
-          <option value="Name_Z_A">Name (Z-A)</option>
-          <option value="Goals">Goals</option>
-          <option value="Assists">Assists</option>
-          <option value="MVPs">MVPs</option>
+        <select name="sort" id="sort-input" onchange="this.form.submit()">
+          <option <?php if(! isset($_POST['sort'])){echo 'selected';} ?>disabled value="">----- Select Option -----</option>
+          <option <?php if(isset($_POST['sort'])) {if($_POST['sort']=='Name_A_Z'){echo 'selected';}} ?> value="Name_A_Z">Name (A-Z)</option>
+          <option <?php if(isset($_POST['sort'])) {if($_POST['sort']=='Name_Z_A'){echo 'selected';}} ?> value="Name_Z_A">Name (Z-A)</option>
+          <option <?php if(isset($_POST['sort'])) {if($_POST['sort']=='Goals'){echo 'selected';}} ?> value="Goals">Goals</option>
+          <option <?php if(isset($_POST['sort'])) {if($_POST['sort']=='Assists'){echo 'selected';}} ?> value="Assists">Assists</option>
+          <option <?php if(isset($_POST['sort'])) {if($_POST['sort']=='MVPs'){echo 'selected';}} ?> value="MVPs">MVPs</option>
         </select>
       </div>
       <input type="submit" style="display: none" />
@@ -153,14 +180,14 @@ function textTD($contents)
               </tr>
             <?php endfor;
             for (; $i < 5; $i++) : ?>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
             <?php endfor; ?>
           </tbody>
         </table>
