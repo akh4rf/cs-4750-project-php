@@ -3,28 +3,36 @@
 
 <div class="inner-page-contents">
 
-<div class="feedback-container">
-    <div class="feedback-title">
+<div class="htp-container">
+    <div class="htp-title">
       <h1>Background Information</h1>
     </div>
-    <div class="feedback-form">
-      <h2 style="margin-top: 25px; color: var(--dark-blue); font-weight: 700;">How Would You Rate Our App?</h2>
-      <input type="text" placeholder="Enter your title here..." name="title" id="title" style="margin-bottom: 10px; width: 75%; font-size: 1em; padding: 10px;" autofocus required>
-      <textarea name="comment" placeholder="Enter your review here..." required></textarea>
-      <button type="submit">Submit</button>
+    <div class="htp-content">
+      <h2 style="margin-top: 25px; color: var(--dark-blue); font-weight: 700;">Welcome to Upper90!</h2>
+      <div class="htp-information">
+      <p>You are in charge of a fantasy soccer team</p>
+      <p>A player's real life performance will earn you points</p>
+      <p>Use the 'Player Search' page to add players to your roster</p>
+      <p>Use the 'My Roster' page to keep track of your team</p>
+      <p>Remember that you can update your team throughout the season</p>
+      <p>Add your friends and check your stats on the leaderboard</p>
+      <p>Feel free to give us feedback as well</p>
+      </div>
     </div>
   </div>
 
-  <div class="feedback-container">
-    <div class="feedback-title">
+  <div class="htp-container">
+    <div class="htp-title">
       <h1>Scoring Breakdown</h1>
     </div>
-    <form class="feedback-form" action="submit-feedback" method="post">
-      <h2 style="margin-top: 25px; color: var(--dark-blue); font-weight: 700;">How Would You Rate Our App?</h2>
-      <input type="text" placeholder="Enter your title here..." name="title" id="title" style="margin-bottom: 10px; width: 75%; font-size: 1em; padding: 10px;" autofocus required>
-      <textarea name="comment" placeholder="Enter your review here..." required></textarea>
-      <button type="submit">Submit</button>
-    </form>
+    <div class="htp-content">
+      <h2 style="margin-top: 25px; color: var(--dark-blue); font-weight: 700;">A player will recieve:</h2>
+      <div class="htp-information">
+      <p>+5 points for MVP</p>
+      <p>+3 points for each goal</p>
+      <p>+1 points for each assist</p>
+      </div>
+    </div>
   </div>
 
   <!-- <div class="backgroundinfo">
