@@ -1,0 +1,40 @@
+.htpheader {
+  font-weight: bold;
+  text-align: center;
+}
+
+.pagecontents {
+  height: 100%;
+  width: 100%;
+  padding-left: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.htp-container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: 45%;
+  text-align: center;
+  margin: 2%;
+}
+
+.htp-title {
+  font-size: 1em;
+  padding: 10px;
+  background: var(--dark-blue);
+}
+
+.htp-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  background-color: var(--lightest-blue);
+}
+
+.htp-information p {
+  color: navy;
+  margin: 10px;
+}
