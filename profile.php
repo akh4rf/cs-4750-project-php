@@ -19,13 +19,13 @@ if($data['row_count']==1){
 }
 
 $teamid = execute_query("SELECT TeamID FROM Team WHERE UserID=?", array($_SESSION['UserID']))['rows_affected'][0]['TeamID'];
-$sql2="SELECT totalMVPS, totalGoals, totalAssists FROM TeamStat WHERE UserID=?;";
+$sql2="SELECT totalMVPS, totalGoals, totalAssists FROM TeamStat WHERE TeamID=? ORDER BY date DESC LIMIT 1;";
 $team_stats = execute_query($sql2, array($teamid));
 if($team_stats['row_count']==1){
-  $user=$team_stats['rows_affected'][0];
-  $MVPs = $user['totalMVPS'];
-  $Goals = $user['totalGoals'];
-  $Assists = $user['totalAssists'];
+  $stat=$team_stats['rows_affected'][0];
+  $MVPs = $stat['totalMVPS'];
+  $Goals = $stat['totalGoals'];
+  $Assists = $stat['totalAssists'];
 }else{
   $error_msg = "Error with teamStats";
 }
