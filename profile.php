@@ -96,7 +96,7 @@ foreach ($stats as $k => $v) {
         shuffle($colors);
         $c = 0;
 
-        foreach ($stats as $stat) :
+        foreach ($stats as $stat) {
 
           $color = $colors[$c++];
 
@@ -111,7 +111,7 @@ foreach ($stats as $k => $v) {
               <? endfor; ?>
             </div>
           </div>
-        <?php endforeach; ?>
+        <?php } ?>
         <div class="chart-covers">
           <?php for ($i = 0; $i < $days; $i++) : ?>
             <div class="chart-cover" style="width: <?php echo 100 / $days ?>%"></div>
