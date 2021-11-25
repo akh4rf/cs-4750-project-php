@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
     $data = execute_query($sql, array($myusername, $mypassword));
 
     if ($data['row_count'] == 1) {
-      $user = $data['rows_affected'][0];
+      // User's corresponding UserInfo and Team instances are created by SQL Triggers
       header("location: login");
     } else {
       $error_code = $data['error_info'][1];
