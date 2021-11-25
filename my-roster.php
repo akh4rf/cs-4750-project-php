@@ -2,16 +2,6 @@
 
 include_once "includes/header.php";
 include("./database/db-helpers.php");
-include("./database/db-connect.php");
-loginCheck();
-$dbHost = "mysql01.cs.virginia.edu";
-$dbName = "upper90";
-$dbChar = "utf8";
-$dbUser = "akh4rf";
-$dbPass = "GingerDog2011";
-
-
-
 
 loginCheck();
 
@@ -27,19 +17,6 @@ if ($teaminfo['row_count'] == 1) {
   $awayColor = $user['awayColor'];
   $nationality = $user['nationality'];
   $teamid = $user['TeamID'];
-  $dblink = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-  if ($dblink->connect_errno) {
-    printf("Failed to connect to database");
-    exit();
- }
- $result = $dblink->query("SELECT * FROM Team ");
- while ( $row = $result->fetch_assoc())  {
-	$dbdata[]=$row;
-  }
-  echo json_encode($dbdata);
-  //$fp = fopen('result.json', 'w');
-   // fwrite($fp, json_encode($dbdata));
-    //fclose($fp);
 } else {
   $error_msg = "Error!";
 }
@@ -65,6 +42,21 @@ for ($i = 0; $i < $rostersize; $i++) {
     }
   }
 }
+
+$jsonData = array(
+  "User ID" => $myuserid,
+  "Team ID" => $teamid,
+  "Team Name" => $teamname,
+  "Team Description" => $description,
+  "Home Color" => $homeColor,
+  "Away Color" => $awayColor,
+  "Nationality" => $nationality,
+  "Players" => $rosterinfo['rows_affected']
+);
+echo '<pre style="margin-left: 200px;">' . json_encode($jsonData, JSON_PRETTY_PRINT) . '</pre>';
+  //$fp = fopen('result.json', 'w');
+   // fwrite($fp, json_encode($dbdata));
+    //fclose($fp);
 
 ?>
 
