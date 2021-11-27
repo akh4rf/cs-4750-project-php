@@ -240,30 +240,31 @@ function textTD($contents)
           </tbody>
         </table>
       </form>
+      <ul class="pagination" style="display: flex; margin-top: 10px;">
+        <li><a href=<?php echo transformPath('/player-search/page/1') ?>><i class="fas fa-angle-double-left"></i> First</a></li>
+        <li class="<?php if ($pageno <= 1) {
+                      echo 'disabled';
+                    } ?>">
+          <a href=<?php if ($pageno <= 1) {
+                    echo '#';
+                  } else {
+                    echo transformPath('/player-search/page/' . ($pageno - 1));
+                  } ?>><i class="fas fa-angle-left"></i> Previous</a>
+        </li>
+        <li class="<?php if ($pageno >= $total_pages) {
+                      echo 'disabled';
+                    } ?>">
+          <a href="<?php if ($pageno >= $total_pages) {
+                      echo '#';
+                    } else {
+                      echo transformPath('/player-search/page/' . ($pageno + 1));
+                    } ?>"><i class="fas fa-angle-right"></i> Next</a>
+        </li>
+        <li><a href="<?php echo transformPath('/player-search/page/' . ceil($total_pages)); ?>"><i class="fas fa-angle-double-right"></i> Last</a></li>
+      </ul>
     </div>
   </div>
-  <ul class="pagination">
-    <li><a href=<?php echo transformPath('/player-search/page/1') ?>>First</a></li>
-    <li class="<?php if ($pageno <= 1) {
-                  echo 'disabled';
-                } ?>">
-      <a href=<?php if ($pageno <= 1) {
-                  echo '#';
-                } else {
-                  echo transformPath('/player-search/page/'. ($pageno - 1));
-                } ?>>Previous</a>
-    </li>
-    <li class="<?php if ($pageno >= $total_pages) {
-                  echo 'disabled';
-                } ?>">
-      <a href="<?php if ($pageno >= $total_pages) {
-                  echo '#';
-                } else {
-                  echo transformPath('/player-search/page/' . ($pageno + 1));
-                } ?>">Next</a>
-    </li>
-    <li><a href="<?php echo transformPath('/player-search/page/' . ceil($total_pages)); ?>">Last</a></li>
-  </ul>
+
 </div>
 
 
