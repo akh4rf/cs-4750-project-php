@@ -262,7 +262,7 @@ function textTD($contents)
                   echo transformPath('/player-search/page/' . ($pageno + 1));
                 } ?>">Next</a>
     </li>
-    <li><a href="?pageno=<?php echo transformPath('/player-search/page/' . $total_pages); ?>">Last</a></li>
+    <li><a href="<?php echo transformPath('/player-search/page/' . ceil($total_pages)); ?>">Last</a></li>
   </ul>
 </div>
 
