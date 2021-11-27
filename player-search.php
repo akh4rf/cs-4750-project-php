@@ -95,10 +95,11 @@ if (isset($_GET['pageno'])) {
 }
 $no_of_records_per_page = 10;
 $offset = ($pageno-1) * $no_of_records_per_page;
-//$total_pages_sql = "SELECT COUNT(*) FROM RLPlayer";
+$total_pages_sql = "SELECT COUNT(*) FROM RLPlayer";
 
-//$total_page = execute_query($total_pages_sql, array());
-$total_pages = 10;
+$total_page = execute_query($total_pages_sql, array());
+//print_r($total_page['row_count']);
+$total_pages = 1710/$no_of_records_per_page;
 $sql .= " LIMIT $offset, $no_of_records_per_page";
 
 $data = execute_query($sql, $search_params);
@@ -208,17 +209,18 @@ function textTD($contents)
       </form>
     </div>
   </div>
-  <div class="pagination">
+  <ul class="pagination">
       <li><a href="?pageno=1">First</a></li>
       <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?>">
-        <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>">Prev</a>
+        <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>">Previous</a>
       </li>
       <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
         <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?>">Next</a>
       </li>
       <li><a href="?pageno=<?php echo $total_pages; ?>">Last</a></li>
-  </div>
+  </ul>
 </div>
+
 
 
 <?php include_once "includes/footer.php" ?>
