@@ -208,20 +208,17 @@ function textTD($contents)
       </form>
     </div>
   </div>
+  <div class="pagination">
+      <li><a href="?pageno=1">First</a></li>
+      <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?>">
+        <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>">Prev</a>
+      </li>
+      <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
+        <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?>">Next</a>
+      </li>
+      <li><a href="?pageno=<?php echo $total_pages; ?>">Last</a></li>
+  </div>
 </div>
-/*
-<link rel="stylesheet" href="css/pagination.css">
-<ul class="pagination">
-  <li><a href="?pageno=1">First</a></li>
-  <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?>">
-      <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>">Prev</a>
-  </li>
-  <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
-      <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?>">Next</a>
-  </li>
-  <li><a href="?pageno=<?php echo $total_pages; ?>">Last</a></li>
-</ul>
-
 
 
 <?php include_once "includes/footer.php" ?>
