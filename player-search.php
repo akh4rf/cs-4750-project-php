@@ -18,18 +18,8 @@ for ($i = 0; $i < $team_players['row_count']; $i++) {
   array_push($current_players, intval($team_players['rows_affected'][$i]['RLPID']));
 }
 
-$pageno = 1;
-if (isset($_GET['pageno'])) {
-  $pageno = $_GET['pageno'];
-}
-$no_of_records_per_page = 10;
-$offset = ($pageno-1) * $no_of_records_per_page;
-//$total_pages_sql = "SELECT COUNT(*) FROM RLPlayer";
 
-//$total_page = execute_query($total_pages_sql, array());
-$total_pages = 10;
-
-$sql = "SELECT RLPID, name, position, mvps, goals, assists FROM RLPlayer LIMIT $offset, $no_of_records_per_page";
+$sql = "SELECT RLPID, name, position, mvps, goals, assists FROM RLPlayer";
 $search_params = array();
 
 if (isset($_POST['POST-TYPE'])) {
@@ -98,6 +88,18 @@ if (isset($_POST['sort'])) {
       break;
   }
 }
+
+$pageno = 1;
+if (isset($_GET['pageno'])) {
+  $pageno = $_GET['pageno'];
+}
+$no_of_records_per_page = 10;
+$offset = ($pageno-1) * $no_of_records_per_page;
+//$total_pages_sql = "SELECT COUNT(*) FROM RLPlayer";
+
+//$total_page = execute_query($total_pages_sql, array());
+$total_pages = 10;
+$sql .= " LIMIT $offset, $no_of_records_per_page";
 
 $data = execute_query($sql, $search_params);
 
