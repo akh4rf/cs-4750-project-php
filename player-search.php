@@ -6,6 +6,8 @@ include './database/db-helpers.php';
 
 loginCheck();
 
+
+
 $teamid = execute_query("SELECT TeamID FROM Team WHERE UserID=?", array($_SESSION['UserID']))['rows_affected'][0]['TeamID'];
 
 // Current Team Members
@@ -16,8 +18,18 @@ for ($i = 0; $i < $team_players['row_count']; $i++) {
   array_push($current_players, intval($team_players['rows_affected'][$i]['RLPID']));
 }
 
+$pageno = 1;
+if (isset($_GET['pageno'])) {
+  $pageno = $_GET['pageno'];
+}
+$no_of_records_per_page = 10;
+$offset = ($pageno-1) * $no_of_records_per_page;
+//$total_pages_sql = "SELECT COUNT(*) FROM RLPlayer";
 
-$sql = "SELECT RLPID, name, position, mvps, goals, assists FROM RLPlayer";
+//$total_page = execute_query($total_pages_sql, array());
+$total_pages = 10;
+
+$sql = "SELECT RLPID, name, position, mvps, goals, assists FROM RLPlayer LIMIT $offset, $no_of_records_per_page";
 $search_params = array();
 
 if (isset($_POST['POST-TYPE'])) {
@@ -195,5 +207,19 @@ function textTD($contents)
     </div>
   </div>
 </div>
+/*
+<link rel="stylesheet" href="css/pagination.css">
+<ul class="pagination">
+  <li><a href="?pageno=1">First</a></li>
+  <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?>">
+      <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>">Prev</a>
+  </li>
+  <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
+      <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?>">Next</a>
+  </li>
+  <li><a href="?pageno=<?php echo $total_pages; ?>">Last</a></li>
+</ul>
+
+
 
 <?php include_once "includes/footer.php" ?>
