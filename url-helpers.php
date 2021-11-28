@@ -6,8 +6,8 @@ function isCurrentPath($path) {
   if (strpos($uri, '/cs-4750-project-php/') !== false) {
     $uri = substr($uri, strlen('/cs-4750-project-php'));
   }
-
-  return $uri == $path;
+  // Need to check for home page, as otherwise this would always highlight the sidebar item for homepage
+  return ($path == '/' && $uri != $path) ? false : (strpos($uri, $path) !== false);
 }
 
 function getHoverClassFromURI($uri)
