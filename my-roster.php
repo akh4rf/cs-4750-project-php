@@ -3,8 +3,6 @@
 include_once "includes/header.php";
 include("./database/db-helpers.php");
 
-loginCheck();
-
 //Team Information
 $myuserid = $_SESSION['UserID'];
 $sql = "SELECT TeamID, name, description, homeColor, awayColor, nationality FROM Team WHERE userid=?;";
@@ -30,6 +28,8 @@ $sql2 = "SELECT RLPID, name, picURL, age, position, mvps, goals, assists FROM RL
 $rosterinfo = execute_query($sql2, array($teamid));
 $rostersize = $rosterinfo['row_count'];
 
+//Print array in JSON format
+// echo json_encode($jsonData);
 for ($i = 0; $i < $rostersize; $i++) {
   if (isset($_POST['button-' . $i])) {
     $sql3 = "DELETE FROM TeamPlayer WHERE TeamID=? AND RLPID=?";
@@ -53,10 +53,17 @@ $jsonData = array(
   "Nationality" => $nationality,
   "Players" => $rosterinfo['rows_affected']
 );
-echo '<pre style="margin-left: 200px;">' . json_encode($jsonData, JSON_PRETTY_PRINT) . '</pre>';
-  //$fp = fopen('result.json', 'w');
-   // fwrite($fp, json_encode($dbdata));
-    //fclose($fp);
+
+echo '<pre style="margin-left: 200px;">' .json_encode($jsonData, JSON_PRETTY_PRINT) . '</pre>';
+//header('Content-disposition: attachment; filename=TeamInfo.json');
+//header('Content-type: application/json');
+//echo $jsonData;
+//echo '<pre style="margin-left: 200px;">' . json_encode($jsonData1, JSON_PRETTY_PRINT) . '</pre>';
+//$jsonData=json_encode(array('data'=>$jsonData));
+
+//$fp = fopen('result.json', 'w');
+//fwrite($fp, json_encode($jsonData));
+//fclose($fp);
 
 ?>
 
@@ -68,7 +75,9 @@ echo '<pre style="margin-left: 200px;">' . json_encode($jsonData, JSON_PRETTY_PR
     <div class="profile-column" style="padding: 20px 0 20px 40px">
       <div class="profile-info-container">
         <div class="profile-info-header">
-        <i class="fas fa-download"></i>
+        <ul>
+        <i class="fas fa-download" style="color: green; font-size: 28px;"><a href="http://localhost:8080/cs-4750-project-php/teaminfo">Download your team data</a></i>
+          </ul>
           <h1 style="font-size: 1.25em;">Team Information</h1>
         </div>
         <div class="profile-info">
