@@ -1,5 +1,4 @@
 <?php
-
 include_once "includes/header.php";
 
 loginCheck();
@@ -52,7 +51,7 @@ foreach ($stats as $k => $v) {
             <h2 style="font-size: 1.5em; font-weight: 700; margin-top: 10px;">(ID #<?php echo $UserID?>)</h2>
             <p style="color: black; padding: 50px 75px; font-size: 1.25em;"><?php echo $description?></p>
           </div>
-          <button class="profile-button"> <i class="fas fa-pencil-alt"></i> Edit Profile </button>
+          <button class="profile-button" id = "myButton"> <i class="fas fa-pencil-alt"></i> Edit Profile </button>
         </div>
       </div>
     </div>
@@ -110,7 +109,17 @@ foreach ($stats as $k => $v) {
   </div>
 </div>
 
-<script src="js/chart.js"></script>
+
+<div class="profile-modal" id = "myModal" style= "height:100%; width:100%; display: none;">
+    <div class="modal-contents"> 
+        <span class="close">&times;</span>
+        <p> Test text </p>
+    </div>
+</div>
+
+<script src="./js/profile-modal.js"></script>
+
+<script src="js/chart.js"></script> 
 <?php
 echo '<script>
 let js_stats = ' . json_encode($stats) . ';
