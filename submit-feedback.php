@@ -1,7 +1,9 @@
 <?php include_once "includes/header.php";
 
 include './database/db-helpers.php';
-session_start();
+// session_start();
+
+loginCheck();
 
 // Get post data (see example on Emily's branch)
 // Construct SQL query, parameterize with "?"

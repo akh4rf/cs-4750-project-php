@@ -2,7 +2,6 @@
 include("./database/db-helpers.php");
 include("./includes/LR-error-bar.php");
 
-session_start();
 if ($_SERVER["REQUEST_METHOD"] === 'POST') {
   $myusername = $_POST['username'];
   $mypassword = $_POST['password'];

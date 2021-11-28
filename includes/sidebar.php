@@ -9,11 +9,14 @@ $sidebar_items = array(
   "Submit Feedback" => array("classes" => "fas fa-comment", "path" => "/submit-feedback")
 );
 
-function getIconClassFromValue($v) { echo 'class="' . $v . '"'; }
+function getIconClassFromValue($v)
+{
+  echo 'class="' . $v . '"';
+}
 
 ?>
 
-<link rel="stylesheet" href="css/sidebar.css">
+<link rel="stylesheet" href=<?php echo transformPath('/css/sidebar.css') ?>>
 
 <div style="position: absolute; height: 100%; z-index: 10;">
   <div class="sidebar-wrapper">
