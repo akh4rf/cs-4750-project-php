@@ -19,17 +19,10 @@ if ($teaminfo['row_count'] == 1) {
   $error_msg = "Error!";
 }
 
-//Roster
-//RLPlayer age, name, RLPID
-//TeamPlayer RLPID, TeamID
-//Team TeamID, UserID(input)
-
 $sql2 = "SELECT RLPID, name, picURL, age, position, mvps, goals, assists FROM RLPlayer NATURAL JOIN TeamPlayer WHERE TeamID=?";
 $rosterinfo = execute_query($sql2, array($teamid));
 $rostersize = $rosterinfo['row_count'];
 
-//Print array in JSON format
-// echo json_encode($jsonData);
 for ($i = 0; $i < $rostersize; $i++) {
   if (isset($_POST['button-' . $i])) {
     $sql3 = "DELETE FROM TeamPlayer WHERE TeamID=? AND RLPID=?";
@@ -38,32 +31,10 @@ for ($i = 0; $i < $rostersize; $i++) {
     // Decrement roster size and nullify player in returned team data
     $rostersize -= 1;
     for ($j = $i; $j < $rostersize; $j++) {
-      $rosterinfo['rows_affected'][$j] = $rosterinfo['rows_affected'][$j+1];
+      $rosterinfo['rows_affected'][$j] = $rosterinfo['rows_affected'][$j + 1];
     }
   }
 }
-
-$jsonData = array(
-  "User ID" => $myuserid,
-  "Team ID" => $teamid,
-  "Team Name" => $teamname,
-  "Team Description" => $description,
-  "Home Color" => $homeColor,
-  "Away Color" => $awayColor,
-  "Nationality" => $nationality,
-  "Players" => $rosterinfo['rows_affected']
-);
-
-//echo '<pre style="margin-left: 200px;">' .json_encode($jsonData, JSON_PRETTY_PRINT) . '</pre>';
-//header('Content-disposition: attachment; filename=TeamInfo.json');
-//header('Content-type: application/json');
-//echo $jsonData;
-//echo '<pre style="margin-left: 200px;">' . json_encode($jsonData1, JSON_PRETTY_PRINT) . '</pre>';
-//$jsonData=json_encode(array('data'=>$jsonData));
-
-//$fp = fopen('result.json', 'w');
-//fwrite($fp, json_encode($jsonData));
-//fclose($fp);
 
 ?>
 
@@ -75,9 +46,6 @@ $jsonData = array(
     <div class="profile-column" style="padding: 20px 0 20px 40px">
       <div class="profile-info-container">
         <div class="profile-info-header">
-        <ul>
-        <i class="fas fa-download" style="color: green; font-size: 28px;"><a href="http://localhost:8080/cs-4750-project-php/teaminfo">Download your team data</a></i>
-          </ul>
           <h1 style="font-size: 1.25em;">Team Information</h1>
         </div>
         <div class="profile-info">
@@ -96,7 +64,10 @@ $jsonData = array(
             <div class="team-color" style="margin-left: auto; background: <?php echo $homeColor ?>"></div>
             <div class="team-color" style="margin-left: 16px; background: <?php echo $awayColor ?>"></div>
           </div>
-          <button class="profile-button" style="margin-top: 15px;"> <i class="fas fa-cog"></i> Team Settings </button>
+          <div style="margin-top: 15px; display: flex; gap: 10px;">
+            <button class="profile-button"> <i class="fas fa-cog"></i> Team Settings </button>
+            <a class="profile-button" style="text-decoration: none;" href=<?php echo transformPath('/teaminfo') ?>><i class="fas fa-download"></i> Export Data</a>
+          </div>
         </div>
       </div>
     </div>
@@ -116,7 +87,7 @@ $jsonData = array(
                 <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; font-weight: 700;">
                   <div><?php echo $info['name'] ?></div>
                   <?php if ($info['age'] > 0) : ?>
-                  <div>Age: <?php echo $info['age'] ?></div>
+                    <div>Age: <?php echo $info['age'] ?></div>
                   <?php endif; ?>
                   <div><?php echo substr($info['position'], 0, strlen($info['position']) - 1) ?></div>
                 </div>

@@ -1,0 +1,62 @@
+{
+    "User ID": "100018",
+    "Team ID": "9",
+    "Team Name": "Liverpool",
+    "Team Description": "Testing",
+    "Home Color": "Purple",
+    "Away Color": "White",
+    "Nationality": "gb",
+    "Number of Players": 5,
+    "Players": [
+        {
+            "RLPID": "6",
+            "name": "M. Parcell",
+            "picURL": null,
+            "age": "0",
+            "position": "Defenders",
+            "mvps": "0",
+            "goals": "0",
+            "assists": "0"
+        },
+        {
+            "RLPID": "7",
+            "name": "R. Sutton",
+            "picURL": null,
+            "age": "0",
+            "position": "Defenders",
+            "mvps": "0",
+            "goals": "0",
+            "assists": "0"
+        },
+        {
+            "RLPID": "8",
+            "name": "E. Brown",
+            "picURL": null,
+            "age": "0",
+            "position": "Midfielders",
+            "mvps": "0",
+            "goals": "0",
+            "assists": "0"
+        },
+        {
+            "RLPID": "9",
+            "name": "J. Christou",
+            "picURL": null,
+            "age": "0",
+            "position": "Midfielders",
+            "mvps": "0",
+            "goals": "0",
+            "assists": "0"
+        },
+        {
+            "RLPID": "10",
+            "name": "J. Clark",
+            "picURL": null,
+            "age": "0",
+            "position": "Midfielders",
+            "mvps": "0",
+            "goals": "0",
+            "assists": "0"
+        }
+    ]
+}

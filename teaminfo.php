@@ -1,6 +1,6 @@
 <?php
 
-include_once "includes/header.php";
+session_start();
 include("./database/db-helpers.php");
 
 //Team Information
@@ -19,26 +19,14 @@ if ($teaminfo['row_count'] == 1) {
   $error_msg = "Error!";
 }
 
-//Roster
-//RLPlayer age, name, RLPID
-//TeamPlayer RLPID, TeamID
-//Team TeamID, UserID(input)
-
 $sql2 = "SELECT RLPID, name, picURL, age, position, mvps, goals, assists FROM RLPlayer NATURAL JOIN TeamPlayer WHERE TeamID=?";
 $rosterinfo = execute_query($sql2, array($teamid));
 $rostersize = $rosterinfo['row_count'];
 
-//Print array in JSON format
-// echo json_encode($jsonData);
 for ($i = 0; $i < $rostersize; $i++) {
-  if (isset($_POST['button-' . $i])) {
-    $sql3 = "DELETE FROM TeamPlayer WHERE TeamID=? AND RLPID=?";
-    // Delete player from team in DB
-    $removeinfo = execute_query($sql3, array($teamid, $rosterinfo['rows_affected'][$i]['RLPID']));
-    // Decrement roster size and nullify player in returned team data
-    $rostersize -= 1;
-    for ($j = $i; $j < $rostersize; $j++) {
-      $rosterinfo['rows_affected'][$j] = $rosterinfo['rows_affected'][$j+1];
+  foreach ($rosterinfo['rows_affected'][$i] as $key => $val) {
+    if (is_numeric($key)) {
+      unset($rosterinfo['rows_affected'][$i][$key]);
     }
   }
 }
@@ -51,19 +39,21 @@ $jsonData = array(
   "Home Color" => $homeColor,
   "Away Color" => $awayColor,
   "Nationality" => $nationality,
-  "number of Players" =>$rostersize,
+  "Number of Players" => $rostersize,
   "Players" => $rosterinfo['rows_affected']
 );
 
-echo '<pre style="margin-left: 200px;">' .json_encode($jsonData, JSON_PRETTY_PRINT) . '</pre>';
-header('Content-disposition: attachment; filename=TeamInfo.json');
+$file = "TeamInfo.json";
+$json = fopen($file, "w") or die("Unable to open file!");
+fwrite($json, json_encode($jsonData, JSON_PRETTY_PRINT));
+fclose($json);
+header('Content-Description: File Transfer');
+header('Content-Disposition: attachment; filename=' . basename($file));
+header('Expires: 0');
+header('Cache-Control: must-revalidate');
+header('Pragma: public');
+header('Content-Length: ' . filesize($file));
 header('Content-type: application/json');
-echo $jsonData;
-//echo '<pre style="margin-left: 200px;">' . json_encode($jsonData1, JSON_PRETTY_PRINT) . '</pre>';
-//$jsonData=json_encode(array('data'=>$jsonData));
-
-//$fp = fopen('result.json', 'w');
-//fwrite($fp, json_encode($jsonData));
-//fclose($fp);
+readfile($file);
 
 ?>
