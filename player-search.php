@@ -54,6 +54,7 @@ if (isset($_POST['POST-TYPE'])) {
     }
   } else if ($_POST['POST-TYPE'] == 'Search') {
     $_SESSION['player-search'] = $_POST['player-search'];
+    header("Location: " . transformPath('/player-search/page/1'));
   }
 }
 
@@ -74,6 +75,7 @@ if (isset($_SESSION['player-search'])) {
 
 if (isset($_POST['sort'])) {
   $_SESSION['sort'] = $_POST['sort'];
+  header("Location: " . transformPath('/player-search/page/1'));
 }
 
 if (isset($_SESSION['sort'])) {
@@ -161,7 +163,16 @@ function textTD($contents)
     <form class="player-search-top-section" action="" method="post">
       <div class="ps-input">
         <input type="text" name="POST-TYPE" value="Search" style="display: none;">
-        <input type="text" name="player-search" id="player-search" placeholder="Search Player Info..." autofocus>
+        <input type="text"
+              name="player-search"
+              id="player-search"
+              placeholder="Search Player Info..."
+              <?php if (isset($_SESSION['player-search'])) {
+                  echo 'value="' . $_SESSION['player-search'] . '"';
+                  if (strlen($_SESSION['player-search']) == 0) {echo ' autofocus';}
+                }
+                else {echo ' autofocus';}
+                ?>>
         <i class="fas fa-search"></i>
       </div>
       <div class="ps-dropdown">
