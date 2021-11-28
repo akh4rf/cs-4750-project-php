@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<?php include 'url-helpers.php';
+<?php include_once 'url-helpers.php';
 include 'login-check.php';
 session_start(); ?>
 

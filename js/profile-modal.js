@@ -1,7 +1,7 @@
 
 //if clicking on button, open modal
 document.getElementById("myButton").onclick = function() {
-    document.getElementById("myModal").style.display = "block";
+    document.getElementById("myModal").style.display = "flex";
 }
 
 //if clicking on x, close modal

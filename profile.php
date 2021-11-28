@@ -1,3 +1,14 @@
+<?php include_once "url-helpers.php"; ?>
+
+<link rel="stylesheet" href=<?php echo transformPath('/css/profile-modal.css') ?>>
+
+<div class="profile-modal" id="myModal">
+  <div class="modal-contents">
+    <span class="close">&times;</span>
+    <p> Test text </p>
+  </div>
+</div>
+
 <?php
 include_once "includes/header.php";
 
@@ -5,15 +16,15 @@ loginCheck();
 
 include("./database/db-helpers.php");
 $myuserid = $_SESSION['UserID'];
-$sql="SELECT UserID, username, description, profilePicURL FROM Users NATURAL JOIN UserInfo WHERE UserID=?;";
-$data=execute_query($sql,array($myuserid));
-if($data['row_count']==1){
-  $user=$data['rows_affected'][0];
+$sql = "SELECT UserID, username, description, profilePicURL FROM Users NATURAL JOIN UserInfo WHERE UserID=?;";
+$data = execute_query($sql, array($myuserid));
+if ($data['row_count'] == 1) {
+  $user = $data['rows_affected'][0];
   $UserID = $user['UserID'];
   $username = $user['username'];
   $description = $user['description'];
   $profilePicURL = $user['profilePicURL'];
-}else{
+} else {
   $error_msg = "Error";
 }
 
@@ -47,11 +58,11 @@ foreach ($stats as $k => $v) {
             <i class="far fa-user-circle"></i>
           </div>
           <div class="profile-contents">
-            <h1 style="font-size: 2.5em; font-weight: 700; margin-top: 20px;"><?php echo $username?></h1>
-            <h2 style="font-size: 1.5em; font-weight: 700; margin-top: 10px;">(ID #<?php echo $UserID?>)</h2>
-            <p style="color: black; padding: 50px 75px; font-size: 1.25em;"><?php echo $description?></p>
+            <h1 style="font-size: 2.5em; font-weight: 700; margin-top: 20px;"><?php echo $username ?></h1>
+            <h2 style="font-size: 1.5em; font-weight: 700; margin-top: 10px;">(ID #<?php echo $UserID ?>)</h2>
+            <p style="color: black; padding: 50px 75px; font-size: 1.25em;"><?php echo $description ?></p>
           </div>
-          <button class="profile-button" id = "myButton"> <i class="fas fa-pencil-alt"></i> Edit Profile </button>
+          <button class="profile-button" id="myButton"> <i class="fas fa-pencil-alt"></i> Edit Profile </button>
         </div>
       </div>
     </div>
@@ -109,17 +120,9 @@ foreach ($stats as $k => $v) {
   </div>
 </div>
 
-
-<div class="profile-modal" id = "myModal" style= "height:100%; width:100%; display: none;">
-    <div class="modal-contents"> 
-        <span class="close">&times;</span>
-        <p> Test text </p>
-    </div>
-</div>
-
 <script src="./js/profile-modal.js"></script>
 
-<script src="js/chart.js"></script> 
+<script src="js/chart.js"></script>
 <?php
 echo '<script>
 let js_stats = ' . json_encode($stats) . ';
