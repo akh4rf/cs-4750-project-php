@@ -54,7 +54,7 @@ $jsonData = array(
   "Players" => $rosterinfo['rows_affected']
 );
 
-echo '<pre style="margin-left: 200px;">' .json_encode($jsonData, JSON_PRETTY_PRINT) . '</pre>';
+//echo '<pre style="margin-left: 200px;">' .json_encode($jsonData, JSON_PRETTY_PRINT) . '</pre>';
 //header('Content-disposition: attachment; filename=TeamInfo.json');
 //header('Content-type: application/json');
 //echo $jsonData;
