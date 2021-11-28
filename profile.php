@@ -1,13 +1,5 @@
 <?php include_once "url-helpers.php"; ?>
 
-<link rel="stylesheet" href=<?php echo transformPath('/css/profile-modal.css') ?>>
-
-<div class="profile-modal" id="myModal">
-  <div class="modal-contents">
-    <span class="close">&times;</span>
-    <p> Test text </p>
-  </div>
-</div>
 
 <?php
 include_once "includes/header.php";
@@ -45,6 +37,27 @@ foreach ($stats as $k => $v) {
 }
 
 ?>
+
+<link rel="stylesheet" href=<?php echo transformPath('/css/profile-modal.css') ?>>
+
+<div class="profile-modal" id="myModal">
+  <div class="modal-contents">
+    <span class="close">&times;</span>
+    <h1 style="font-size: 2em; font-weight: 700; margin-top: 20px;"> Edit Profile </h1>
+    <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 45px; text-align: left;"> Current Information: </h2>
+    <p style="font-size: 1.25em; font-weight: 400; margin-top: 35px; text-align: left;"> Username: "<?php echo $username ?>"</p>
+    <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Description: "<?php echo $description ?>"</p>
+    <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Profile Picture: "<?php echo $profilePicURL ?>" </p>
+    <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 45px; text-align: left;"> New Information: </h2>
+    <form class="profile-form" action= "confirm-changes" method= "post">
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 35px; text-align: left;"> Username: <input type="text" name ="username" placeholder= "Enter new username:"></p>
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Description: <input type="text" name ="description" placeholder= "Enter new description:"></p>
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Profile Picture: <input type="text" name ="profilePic" placeholder= "Enter new URL: "></p>
+      <button type="submit">Confirm</button>
+    </form>
+  </div>
+</div>
+
 
 <div class="inner-page-contents">
   <div style="height: 100%; width: 100%; display: grid; grid-template-columns: 500px 1fr;">
