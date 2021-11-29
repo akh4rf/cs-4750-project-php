@@ -54,7 +54,7 @@ if (isset($_POST['POST-TYPE'])) {
     }
   } else if ($_POST['POST-TYPE'] == 'Search') {
     $_SESSION['player-search'] = $_POST['player-search'];
-    header("Location: " . transformPath('/player-search/page/1'));
+    redirectTo('/player-search/page/1');
   }
 }
 
@@ -75,7 +75,7 @@ if (isset($_SESSION['player-search'])) {
 
 if (isset($_POST['sort'])) {
   $_SESSION['sort'] = $_POST['sort'];
-  header("Location: " . transformPath('/player-search/page/1'));
+  redirectTo('/player-search/page/1');
 }
 
 if (isset($_SESSION['sort'])) {
