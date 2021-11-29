@@ -60,7 +60,16 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
   $data2 = execute_query($sql2, array($description, $profilePicURL, $UserID));
   $data3 = execute_query($sql3, array($username, $UserID));
 }
+
+
+$sql4 = "UPDATE UserInfo SET profilePicURL = ? WHERE UserID = ?;";
+
+if($sql4->num_rows > 0){
+  $profilePicURL = 'uploads/'.$row["file_name"];
+}
 ?>
+<img src="<?php echo $profilePicURL; ?>" alt="" />
+
 
 <link rel="stylesheet" href=<?php echo transformPath('/css/modal.css') ?>>
 
