@@ -1,3 +1,8 @@
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
+
+RedirectMatch "/cs\-4750\-project\-php/player\-search$" "/cs\-4750\-project\-php/player-search/page/1"
+RedirectMatch "/player\-search$" "/player-search/page/1"
+RewriteRule player\-search\/page\/([0-9]+)$ player-search.php?pageno=$1 [L]
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
+

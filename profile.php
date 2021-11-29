@@ -17,7 +17,19 @@ if ($data['row_count'] == 1) {
   $description = $user['description'];
   $profilePicURL = $user['profilePicURL'];
 } else {
-  $error_msg = "Error";
+  $error_msg = "Error with UserInfo";
+}
+
+$teamid = execute_query("SELECT TeamID FROM Team WHERE UserID=?", array($_SESSION['UserID']))['rows_affected'][0]['TeamID'];
+$sql2="SELECT totalMVPS, totalGoals, totalAssists FROM TeamStat WHERE TeamID=? ORDER BY date DESC LIMIT 1;";
+$team_stats = execute_query($sql2, array($teamid));
+if($team_stats['row_count']==1){
+  $stat=$team_stats['rows_affected'][0];
+  $MVPs = $stat['totalMVPS'];
+  $Goals = $stat['totalGoals'];
+  $Assists = $stat['totalAssists'];
+}else{
+  $error_msg = "Error with teamStats";
 }
 
 $stats = array(
@@ -37,23 +49,20 @@ foreach ($stats as $k => $v) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-    // Retrieve UserID from session storage
-    $UserID = $_SESSION['UserID'];
-    // Retrieve title, comment & rating from POST data
-    $username = $_POST['username'];
-    $description = $_POST['description'];
-    $profilePicURL = $_POST['profilePic'];
+  // Retrieve UserID from session storage
+  $UserID = $_SESSION['UserID'];
+  // Retrieve title, comment & rating from POST data
+  $username = $_POST['username'];
+  $description = $_POST['description'];
+  $profilePicURL = $_POST['profilePic'];
 
 
-    $sql2 = "UPDATE UserInfo VALUES (?, ?, ?);";
-    $sql3 = "UPDATE Users VALUES (?,?);";
+  $sql2 = "UPDATE UserInfo SET description = ?, profilePicURL = ? WHERE UserID = ?;";
+  $sql3 = "UPDATE Users SET username = ? WHERE UserID = ?;";
 
-    //check order of these values in database
-    $data2 = execute_query($sql2, array($UserID, $description, $profilePicURL));
-    $data3 = execute_query($sql3, array($UserID, $username));
-  // if(isset($_POST['rating'])){
-  //   echo '<script>alert("Thank you for your feedback!")</script>';
-  // }
+  //check order of these values in database
+  $data2 = execute_query($sql2, array($description, $profilePicURL, $UserID));
+  $data3 = execute_query($sql3, array($username, $UserID));
 }
 ?>
 
@@ -68,10 +77,10 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
     <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Description: "<?php echo $description ?>"</p>
     <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Profile Picture: "<?php echo $profilePicURL ?>" </p>
     <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 45px; text-align: left;"> New Information: </h2>
-    <form class="profile-form" action= "profile" method= "post">
-      <p style="font-size: 1.25em; font-weight: 400; margin-top: 35px; text-align: left;"> Username: <input type="text" name ="username" placeholder= "Enter new username:"></p>
-      <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Description: <input type="text" name ="description" placeholder= "Enter new description:"></p>
-      <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Profile Picture: <input type="text" name ="profilePic" placeholder= "Enter new URL: "></p>
+    <form class="profile-form" action="profile" method="post">
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 35px; text-align: left;"> Username: <input type="text" name="username" placeholder="Enter new username..." value="<?php echo $username ?>" autofocus required></p>
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Description: <input type="text" name="description" placeholder="Enter new description..." value="<?php echo $description ?>" required></p>
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Profile Picture: <input type="text" name="profilePic" placeholder="Enter new URL..." value="<?php echo $profilePicURL ?>"></p>
       <button type="submit" id="confirm">Confirm</button>
     </form>
   </div>
@@ -106,15 +115,15 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
       </div>
       <div id="stats-body">
         <div class="stat-box">
-          <p class="stat-num">17</p>
+          <p class="stat-num"><?php echo $MVPs?></p>
           <p class="stat-label">MVPs</p>
         </div>
         <div class="stat-box">
-          <p class="stat-num">24</p>
+          <p class="stat-num"><?php echo $Goals?></p>
           <p class="stat-label">Goals</p>
         </div>
         <div class="stat-box">
-          <p class="stat-num">33</p>
+          <p class="stat-num"><?php echo $Assists?></p>
           <p class="stat-label">Assists</p>
         </div>
       </div>
@@ -138,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
                 <?php if ($i < sizeof($stat) - 1) : ?>
                   <div class="line" style="background: <?php echo $color ?>;"></div>
                 <?php endif; ?>
-              <? endfor; ?>
+              <?php endfor; ?>
             </div>
           </div>
         <?php endforeach; ?>
