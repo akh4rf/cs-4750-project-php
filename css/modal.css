@@ -1,4 +1,4 @@
-.profile-modal{
+.modal {
     display: none;
     top: 0;
     overflow: auto;
@@ -34,22 +34,32 @@
   cursor: pointer;
 }
 
+.modal-contents > form {
+  margin-top: 15px;
+}
 
-.profile-form > button {
-    width: 30%;
-    background-color: var(--dark-blue);
-    color: white;
-    border: none;
-    padding: 1rem;
-    font-family: "Open Sans", sans-serif;
-    font-size: 1.25em;
-    cursor: pointer;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    transition: background 0.2s;
-  }
+.modal-contents > form > p {
+  font-size: 1.25em;
+  font-weight: 400;
+  margin-top: 15px;
+  text-align: left;
+}
 
-  .profile-form > button:hover {
-    background-color: var(--blue);
-    transition: background 0.2s;
-  }
+.modal-contents > form > button {
+  width: 30%;
+  background-color: var(--dark-blue);
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.25em;
+  cursor: pointer;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  transition: background 0.2s;
+}
+
+.modal-contents > form > button:hover {
+  background-color: var(--blue);
+  transition: background 0.2s;
+}

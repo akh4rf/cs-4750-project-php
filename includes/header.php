@@ -26,4 +26,4 @@ session_start(); ?>
     </div>
     <div style="height: 100%; width: 100%; position: relative;">
       <?php include_once "includes/sidebar.php" ?>
-      <div style="width: 100%; height: 100%; background: var(--light-blue); position: absolute; z-index: 5;">
+      <div style="width: 100%; height: 100%; position: absolute; z-index: 5;">

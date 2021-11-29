@@ -62,9 +62,9 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 }
 ?>
 
-<link rel="stylesheet" href=<?php echo transformPath('/css/profile-modal.css') ?>>
+<link rel="stylesheet" href=<?php echo transformPath('/css/modal.css') ?>>
 
-<div class="profile-modal" id="myModal">
+<div class="modal" id="myModal">
   <div class="modal-contents">
     <span class="close">&times;</span>
     <h1 style="font-size: 2em; font-weight: 700; margin-top: 20px;"> Edit Profile </h1>
@@ -73,10 +73,10 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
     <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Description: "<?php echo $description ?>"</p>
     <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Profile Picture: "<?php echo $profilePicURL ?>" </p>
     <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 45px; text-align: left;"> New Information: </h2>
-    <form class="profile-form" action="profile" method="post">
-      <p style="font-size: 1.25em; font-weight: 400; margin-top: 35px; text-align: left;"> Username: <input type="text" name="username" placeholder="Enter new username..." value="<?php echo $username ?>" autofocus required></p>
-      <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Description: <input type="text" name="description" placeholder="Enter new description..." value="<?php echo $description ?>" required></p>
-      <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Profile Picture: <input type="text" name="profilePic" placeholder="Enter new URL..." value="<?php echo $profilePicURL ?>"></p>
+    <form action="profile" method="post">
+      <p> Username: <input type="text" name="username" placeholder="Enter new username..." value="<?php echo $username ?>" autofocus required></p>
+      <p> Description: <input type="text" name="description" placeholder="Enter new description..." value="<?php echo $description ?>" required></p>
+      <p> Profile Picture: <input type="text" name="profilePic" placeholder="Enter new URL..." value="<?php echo $profilePicURL ?>"></p>
       <button type="submit" id="confirm">Confirm</button>
     </form>
   </div>
@@ -109,6 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
         <h1>STATS</h1>
         <hr style="margin-top: 10px;">
       </div>
+      <?php if (!isset($MVPs)) {$MVPs = $Goals = $Assists = 0;} ?>
       <div id="stats-body">
         <div class="stat-box">
           <p class="stat-num"><?php echo $MVPs?></p>
@@ -157,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
   </div>
 </div>
 
-<script src="./js/profile-modal.js"></script>
+<script src="./js/modal.js"></script>
 
 <script src="js/chart.js"></script>
 <?php

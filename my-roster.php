@@ -57,11 +57,11 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 
 ?>
 
-<link rel="stylesheet" href=<?php echo transformPath('/css/roster-modal.css') ?>>
+<link rel="stylesheet" href=<?php echo transformPath('/css/modal.css') ?>>
 
-<div class="roster-modal" id="myModal">
-  <div class="roster-modal-contents">
-    <span class="close-roster">&times;</span>
+<div class="modal" id="myModal">
+  <div class="modal-contents">
+    <span class="close">&times;</span>
     <h1 style="font-size: 2em; font-weight: 700; margin-top: 20px;"> Edit Roster Information </h1>
     <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> Current Information: </h2>
     <p style="font-size: 1.25em; font-weight: 400; margin-top: 25px; text-align: left;"> Team Name: "<?php echo $teamname ?>"</p>
@@ -69,12 +69,12 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
     <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Team Nationality: "<?php echo $nationality ?>" </p>
     <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Team Colors: "<?php echo $homeColor ?> and <?php echo $awayColor ?>" </p>
     <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> New Information: </h2>
-    <form class="roster-form" action="my-roster" method="post">
-      <p style="font-size: 1.25em; font-weight: 400; margin-top: 25px; text-align: left;"> Team Name: <input type="text" name="teamName" placeholder="Enter new team name..." value="<?php echo $teamname ?>" autofocus required></p>
-      <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Team Description: <input type="text" name="description" placeholder="Enter new description..." value="<?php echo $description ?>" required></p>
-      <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Team Nationality: <input type="text" name="nationality" placeholder="Enter new nationality... " value="<?php echo $nationality ?>"></p>
-      <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Home Color: <input type="text" name="homeColor" placeholder="Enter new home color... " value="<?php echo $homeColor ?>"></p>
-      <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Away Color: <input type="text" name="awayColor" placeholder="Enter new away color... " value="<?php echo $awayColor ?>"></p>
+    <form action="my-roster" method="post">
+      <p> Team Name: <input type="text" name="teamName" placeholder="Enter new team name..." value="<?php echo $teamname ?>" autofocus required></p>
+      <p> Team Description: <input type="text" name="description" placeholder="Enter new description..." value="<?php echo $description ?>" required></p>
+      <p> Team Nationality: <input type="text" name="nationality" placeholder="Enter new nationality... " value="<?php echo $nationality ?>" required></p>
+      <p> Home Color: <input type="color" name="homeColor" placeholder="Enter new home color... " value="<?php echo $homeColor ?>"></p>
+      <p> Away Color: <input type="color" name="awayColor" placeholder="Enter new away color... " value="<?php echo $awayColor ?>"></p>
       <button type="submit" id="confirm">Confirm</button>
     </form>
   </div>
@@ -179,6 +179,6 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
   </div>
 </div>
 
-<script src="./js/roster-modal.js"></script>
+<script src="./js/modal.js"></script>
 
 <?php include_once "includes/footer.php" ?>
