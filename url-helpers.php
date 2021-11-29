@@ -31,14 +31,7 @@ function transformPath($path)
 }
 
 function redirectTo($path) {
-  // Special thanks to https://stackoverflow.com/questions/8801340/php-header-location-redirect-https-to-https-http-to-http/8801413
-  $protocol = 'http';
-  if (isset($_SERVER['HTTPS'])) {
-    if (strtoupper($_SERVER['HTTPS']) == 'ON') {
-      $protocol = 'https';
-    }
-  }
-
+  $protocol = ($_SERVER['HTTP_HOST'] == "cs4750-fantasy-sports.herokuapp.com") ? 'https' : 'http';
   echo ("Location: $protocol://" . $_SERVER['HTTP_HOST'] . transformPath($path));
 }
 
