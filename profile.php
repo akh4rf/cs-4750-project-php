@@ -17,7 +17,19 @@ if ($data['row_count'] == 1) {
   $description = $user['description'];
   $profilePicURL = $user['profilePicURL'];
 } else {
-  $error_msg = "Error";
+  $error_msg = "Error with UserInfo";
+}
+
+$teamid = execute_query("SELECT TeamID FROM Team WHERE UserID=?", array($_SESSION['UserID']))['rows_affected'][0]['TeamID'];
+$sql2="SELECT totalMVPS, totalGoals, totalAssists FROM TeamStat WHERE TeamID=? ORDER BY date DESC LIMIT 1;";
+$team_stats = execute_query($sql2, array($teamid));
+if($team_stats['row_count']==1){
+  $stat=$team_stats['rows_affected'][0];
+  $MVPs = $stat['totalMVPS'];
+  $Goals = $stat['totalGoals'];
+  $Assists = $stat['totalAssists'];
+}else{
+  $error_msg = "Error with teamStats";
 }
 
 $stats = array(
@@ -103,15 +115,15 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
       </div>
       <div id="stats-body">
         <div class="stat-box">
-          <p class="stat-num">17</p>
+          <p class="stat-num"><?php echo $MVPs?></p>
           <p class="stat-label">MVPs</p>
         </div>
         <div class="stat-box">
-          <p class="stat-num">24</p>
+          <p class="stat-num"><?php echo $Goals?></p>
           <p class="stat-label">Goals</p>
         </div>
         <div class="stat-box">
-          <p class="stat-num">33</p>
+          <p class="stat-num"><?php echo $Assists?></p>
           <p class="stat-label">Assists</p>
         </div>
       </div>
@@ -135,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
                 <?php if ($i < sizeof($stat) - 1) : ?>
                   <div class="line" style="background: <?php echo $color ?>;"></div>
                 <?php endif; ?>
-              <? endfor; ?>
+              <?php endfor; ?>
             </div>
           </div>
         <?php endforeach; ?>

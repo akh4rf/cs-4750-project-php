@@ -21,11 +21,6 @@ if ($teaminfo['row_count'] == 1) {
   $error_msg = "Error!";
 }
 
-//Roster
-//RLPlayer age, name, RLPID
-//TeamPlayer RLPID, TeamID
-//Team TeamID, UserID(input)
-
 $sql2 = "SELECT RLPID, name, picURL, age, position, mvps, goals, assists FROM RLPlayer NATURAL JOIN TeamPlayer WHERE TeamID=?";
 $rosterinfo = execute_query($sql2, array($teamid));
 $rostersize = $rosterinfo['row_count'];
@@ -38,7 +33,7 @@ for ($i = 0; $i < $rostersize; $i++) {
     // Decrement roster size and nullify player in returned team data
     $rostersize -= 1;
     for ($j = $i; $j < $rostersize; $j++) {
-      $rosterinfo['rows_affected'][$j] = $rosterinfo['rows_affected'][$j+1];
+      $rosterinfo['rows_affected'][$j] = $rosterinfo['rows_affected'][$j + 1];
     }
   }
 }
@@ -71,7 +66,10 @@ for ($i = 0; $i < $rostersize; $i++) {
             <div class="team-color" style="margin-left: auto; background: <?php echo $homeColor ?>"></div>
             <div class="team-color" style="margin-left: 16px; background: <?php echo $awayColor ?>"></div>
           </div>
-          <button class="profile-button" style="margin-top: 15px;"> <i class="fas fa-cog"></i> Team Settings </button>
+          <div style="margin-top: 15px; display: flex; gap: 10px;">
+            <button class="profile-button"> <i class="fas fa-cog"></i> Team Settings </button>
+            <a class="profile-button" style="text-decoration: none;" href=<?php echo transformPath('/teaminfo') ?>><i class="fas fa-download"></i> Export Data</a>
+          </div>
         </div>
       </div>
     </div>
@@ -91,7 +89,7 @@ for ($i = 0; $i < $rostersize; $i++) {
                 <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; font-weight: 700;">
                   <div><?php echo $info['name'] ?></div>
                   <?php if ($info['age'] > 0) : ?>
-                  <div>Age: <?php echo $info['age'] ?></div>
+                    <div>Age: <?php echo $info['age'] ?></div>
                   <?php endif; ?>
                   <div><?php echo substr($info['position'], 0, strlen($info['position']) - 1) ?></div>
                 </div>
