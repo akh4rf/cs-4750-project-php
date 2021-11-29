@@ -32,7 +32,7 @@ function transformPath($path)
 
 function redirectTo($path) {
   $protocol = ($_SERVER['HTTP_HOST'] == "cs4750-fantasy-sports.herokuapp.com") ? 'https' : 'http';
-  echo ("Location: $protocol://" . $_SERVER['HTTP_HOST'] . transformPath($path));
+  header("Location: $protocol://" . $_SERVER['HTTP_HOST'] . transformPath($path));
 }
 
 ?>
