@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
     $user = $data['rows_affected'][0];
     $_SESSION['username'] = $user['username'];
     $_SESSION['UserID'] = $user['UserID'];
-    header("location: " . transformPath('/'));
+    redirectTo('/');
   } else {
     $error_msg = "Your Username or Password is invalid.";
   }

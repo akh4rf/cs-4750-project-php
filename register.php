@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 
     if ($data['row_count'] == 1) {
       // User's corresponding UserInfo and Team instances are created by SQL Triggers
-      header("location: login");
+      redirectTo('/login');
     } else {
       $error_code = $data['error_info'][1];
       if ($error_code == 1062) {
