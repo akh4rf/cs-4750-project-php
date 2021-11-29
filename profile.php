@@ -85,7 +85,7 @@ if($sql4->num_rows > 0){
     <form action="profile" method="post">
       <p> Username: <input type="text" name="username" placeholder="Enter new username..." value="<?php echo $username ?>" autofocus required></p>
       <p> Description: <input type="text" name="description" placeholder="Enter new description..." value="<?php echo $description ?>" required></p>
-      <p> Profile Picture: <input type="text" name="profilePic" placeholder="Enter new URL..." value="<?php echo $profilePicURL ?>"></p>
+      <p> Profile Picture: <input type="file" name="profilePic" placeholder="Enter new URL..." value="<?php echo $profilePicURL ?>"></p>
       <button type="submit" id="confirm">Confirm</button>
     </form>
   </div>
