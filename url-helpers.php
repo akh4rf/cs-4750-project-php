@@ -39,7 +39,7 @@ function redirectTo($path) {
     }
   }
 
-  header("Location: $protocol://" . $_SERVER['HTTP_HOST'] . transformPath($path));
+  echo ("Location: $protocol://" . $_SERVER['HTTP_HOST'] . transformPath($path));
 }
 
 ?>
