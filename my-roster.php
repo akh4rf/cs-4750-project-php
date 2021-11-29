@@ -43,8 +43,48 @@ for ($i = 0; $i < $rostersize; $i++) {
   }
 }
 
+if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+  // Retrieve UserID from session storage
+  $UserID = $_SESSION['UserID'];
+  // Retrieve title, comment & rating from POST data
+  $teamname = $_POST['teamName'];
+  $description = $_POST['description'];
+  $nationality = $_POST['nationality'];
+  $homeColor = $_POST['homeColor'];
+  $awayColor = $_POST['awayColor'];
+
+
+  $sql4 = "UPDATE Team SET name = ?, description = ?, homeColor = ?, awayColor = ?, nationality = ? WHERE UserID = ?;";
+
+  //check order of these values in database
+  $data2 = execute_query($sql4, array($teamname, $description, $homeColor, $awayColor, $nationality, $UserID));
+
+}
+
 ?>
 
+<link rel="stylesheet" href=<?php echo transformPath('/css/roster-modal.css') ?>>
+
+<div class="roster-modal" id="myModal">
+  <div class="roster-modal-contents">
+    <span class="close-roster">&times;</span>
+    <h1 style="font-size: 2em; font-weight: 700; margin-top: 20px;"> Edit Roster Information </h1>
+    <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> Current Information: </h2>
+    <p style="font-size: 1.25em; font-weight: 400; margin-top: 25px; text-align: left;"> Team Name: "<?php echo $teamname ?>"</p>
+    <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Team Description: "<?php echo $description ?>"</p>
+    <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Team Nationality: "<?php echo $nationality ?>" </p>
+    <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Team Colors: "<?php echo $homeColor ?> and <?php echo $awayColor ?>" </p>
+    <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> New Information: </h2>
+    <form class="roster-form" action= "my-roster" method= "post">
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 25px; text-align: left;"> Team Name: <input type="text" name ="teamName" placeholder= "Enter new team name..." value="<?php echo $teamname ?>" autofocus required></p>
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Team Description: <input type="text" name ="description" placeholder= "Enter new description..." value="<?php echo $description ?>" required></p>
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Team Nationality: <input type="text" name ="nationality" placeholder= "Enter new nationality... " value="<?php echo $nationality ?>"></p>
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Home Color: <input type="text" name ="homeColor" placeholder= "Enter new home color... "value="<?php echo $homeColor ?>"></p>
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Away Color: <input type="text" name ="awayColor" placeholder= "Enter new away color... "value="<?php echo $awayColor ?>"></p>
+      <button type="submit" id="confirm">Confirm</button>
+    </form>
+  </div>
+</div>
 
 <link rel="stylesheet" href="./vendor/components/flag-icon-css/css/flag-icon.min.css">
 
@@ -71,7 +111,7 @@ for ($i = 0; $i < $rostersize; $i++) {
             <div class="team-color" style="margin-left: auto; background: <?php echo $homeColor ?>"></div>
             <div class="team-color" style="margin-left: 16px; background: <?php echo $awayColor ?>"></div>
           </div>
-          <button class="profile-button" style="margin-top: 15px;"> <i class="fas fa-cog"></i> Team Settings </button>
+          <button class="profile-button" id = "myButton" style="margin-top: 15px;"> <i class="fas fa-cog"></i> Team Settings </button>
         </div>
       </div>
     </div>
@@ -141,5 +181,7 @@ for ($i = 0; $i < $rostersize; $i++) {
     </div>
   </div>
 </div>
+
+<script src="./js/roster-modal.js"></script>
 
 <?php include_once "includes/footer.php" ?>
