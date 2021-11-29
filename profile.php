@@ -1,20 +1,22 @@
-<?php
+<?php include_once "url-helpers.php"; ?>
 
+
+<?php
 include_once "includes/header.php";
 
 loginCheck();
 
 include("./database/db-helpers.php");
 $myuserid = $_SESSION['UserID'];
-$sql="SELECT UserID, username, description, profilePicURL FROM Users NATURAL JOIN UserInfo WHERE UserID=?;";
-$data=execute_query($sql,array($myuserid));
-if($data['row_count']==1){
-  $user=$data['rows_affected'][0];
+$sql = "SELECT UserID, username, description, profilePicURL FROM Users NATURAL JOIN UserInfo WHERE UserID=?;";
+$data = execute_query($sql, array($myuserid));
+if ($data['row_count'] == 1) {
+  $user = $data['rows_affected'][0];
   $UserID = $user['UserID'];
   $username = $user['username'];
   $description = $user['description'];
   $profilePicURL = $user['profilePicURL'];
-}else{
+} else {
   $error_msg = "Error with UserInfo";
 }
 
@@ -46,7 +48,44 @@ foreach ($stats as $k => $v) {
   }
 }
 
+if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+  // Retrieve UserID from session storage
+  $UserID = $_SESSION['UserID'];
+  // Retrieve title, comment & rating from POST data
+  $username = $_POST['username'];
+  $description = $_POST['description'];
+  $profilePicURL = $_POST['profilePic'];
+
+
+  $sql2 = "UPDATE UserInfo SET description = ?, profilePicURL = ? WHERE UserID = ?;";
+  $sql3 = "UPDATE Users SET username = ? WHERE UserID = ?;";
+
+  //check order of these values in database
+  $data2 = execute_query($sql2, array($description, $profilePicURL, $UserID));
+  $data3 = execute_query($sql3, array($username, $UserID));
+}
 ?>
+
+<link rel="stylesheet" href=<?php echo transformPath('/css/profile-modal.css') ?>>
+
+<div class="profile-modal" id="myModal">
+  <div class="modal-contents">
+    <span class="close">&times;</span>
+    <h1 style="font-size: 2em; font-weight: 700; margin-top: 20px;"> Edit Profile </h1>
+    <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 45px; text-align: left;"> Current Information: </h2>
+    <p style="font-size: 1.25em; font-weight: 400; margin-top: 35px; text-align: left;"> Username: "<?php echo $username ?>"</p>
+    <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Description: "<?php echo $description ?>"</p>
+    <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Profile Picture: "<?php echo $profilePicURL ?>" </p>
+    <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 45px; text-align: left;"> New Information: </h2>
+    <form class="profile-form" action="profile" method="post">
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 35px; text-align: left;"> Username: <input type="text" name="username" placeholder="Enter new username..." value="<?php echo $username ?>" autofocus required></p>
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Description: <input type="text" name="description" placeholder="Enter new description..." value="<?php echo $description ?>" required></p>
+      <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Profile Picture: <input type="text" name="profilePic" placeholder="Enter new URL..." value="<?php echo $profilePicURL ?>"></p>
+      <button type="submit" id="confirm">Confirm</button>
+    </form>
+  </div>
+</div>
+
 
 <div class="inner-page-contents">
   <div style="height: 100%; width: 100%; display: grid; grid-template-columns: 500px 1fr;">
@@ -60,11 +99,11 @@ foreach ($stats as $k => $v) {
             <i class="far fa-user-circle"></i>
           </div>
           <div class="profile-contents">
-            <h1 style="font-size: 2.5em; font-weight: 700; margin-top: 20px;"><?php echo $username?></h1>
-            <h2 style="font-size: 1.5em; font-weight: 700; margin-top: 10px;">(ID #<?php echo $UserID?>)</h2>
-            <p style="color: black; padding: 50px 75px; font-size: 1.25em;"><?php echo $description?></p>
+            <h1 style="font-size: 2.5em; font-weight: 700; margin-top: 20px;"><?php echo $username ?></h1>
+            <h2 style="font-size: 1.5em; font-weight: 700; margin-top: 10px;">(ID #<?php echo $UserID ?>)</h2>
+            <p style="color: black; padding: 50px 75px; font-size: 1.25em;"><?php echo $description ?></p>
           </div>
-          <button class="profile-button"> <i class="fas fa-pencil-alt"></i> Edit Profile </button>
+          <button class="profile-button" id="myButton"> <i class="fas fa-pencil-alt"></i> Edit Profile </button>
         </div>
       </div>
     </div>
@@ -121,6 +160,8 @@ foreach ($stats as $k => $v) {
     </div>
   </div>
 </div>
+
+<script src="./js/profile-modal.js"></script>
 
 <script src="js/chart.js"></script>
 <?php

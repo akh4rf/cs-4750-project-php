@@ -1,0 +1,55 @@
+.profile-modal{
+    display: none;
+    top: 0;
+    overflow: auto;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: rgba(128, 128, 128, 0.5);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-contents {
+    background-color: var(--lightest-blue);
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    text-align: center;
+    color:black
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+.profile-form > button {
+    width: 30%;
+    background-color: var(--dark-blue);
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1.25em;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    transition: background 0.2s;
+  }
+
+  .profile-form > button:hover {
+    background-color: var(--blue);
+    transition: background 0.2s;
+  }
