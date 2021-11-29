@@ -21,9 +21,10 @@
 }
 
 .inner-page-contents {
+  background: var(--light-blue);
   height: 100%;
-  width: 100%;
-  padding-left: 70px;
+  width: calc(100% - 70px);
+  margin-left: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
