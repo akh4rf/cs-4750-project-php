@@ -2,7 +2,6 @@
 
 loginCheck();
 
-include("./database/db-helpers.php");
 $myuserid = $_SESSION['UserID'];
 $sql = "SELECT UserID, username, description, profilePicURL FROM Users NATURAL JOIN UserInfo WHERE UserID=?;";
 $data = execute_query($sql, array($myuserid));

@@ -2,8 +2,6 @@
 
 include_once "includes/header.php";
 
-include './database/db-helpers.php';
-
 loginCheck();
 
 $teamid = execute_query("SELECT TeamID FROM Team WHERE UserID=?", array($_SESSION['UserID']))['rows_affected'][0]['TeamID'];

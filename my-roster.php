@@ -1,7 +1,6 @@
 <?php
 
 include_once "includes/header.php";
-include("./database/db-helpers.php");
 
 loginCheck();
 
