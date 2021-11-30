@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
   </div>
 </div>
 
-<link rel="stylesheet" href="./vendor/components/flag-icon-css/css/flag-icon.min.css">
+<link rel="stylesheet" href="./flag-icon-css/css/flag-icon.min.css">
 
 <div class="inner-page-contents">
   <div style="width: 100%; display: grid; grid-template-columns: 500px 1fr;">
