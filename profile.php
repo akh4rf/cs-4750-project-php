@@ -97,7 +97,11 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
         </div>
         <div class="profile-info">
           <div class="profile-photo">
-            <i class="far fa-user-circle"></i>
+            <?php if (strlen($profilePicURL) == 0) : ?>
+              <i class="far fa-user-circle"></i>
+            <?php else : ?>
+              <img src="<?php echo $profilePicURL ?>" style="width: 200px; height: 200px; border-radius: 999px; border: 4px solid black;" alt="<?php echo $username ?>'s profile picture">
+            <?php endif ?>
           </div>
           <div class="profile-contents">
             <h1 style="font-size: 2.5em; font-weight: 700; margin-top: 20px;"><?php echo $username ?></h1>
