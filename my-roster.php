@@ -55,6 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
   $data2 = execute_query($sql4, array($teamname, $description, $homeColor, $awayColor, $nationality, $UserID));
 }
 
+$countries = json_decode(file_get_contents('./countries.json'), true);
+
 ?>
 
 <link rel="stylesheet" href=<?php echo transformPath('/css/modal.css') ?>>
@@ -72,7 +74,11 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
     <form action="my-roster" method="post">
       <p> Team Name: <input type="text" name="teamName" placeholder="Enter new team name..." value="<?php echo $teamname ?>" autofocus required></p>
       <p> Team Description: <input type="text" name="description" placeholder="Enter new description..." value="<?php echo $description ?>" required></p>
-      <p> Team Nationality: <input type="text" name="nationality" placeholder="Enter new nationality... " value="<?php echo $nationality ?>" required></p>
+      <p> Team Nationality: <select name="nationality" id="nationality" required>
+        <?php foreach ($countries as $country) : ?>
+          <option <?php if ($nationality == $country['alpha2']) {echo 'selected';} ?> value="<?php echo $country['alpha2'] ?>"><?php echo $country['name'] ?></option>
+        <?php endforeach ?>
+      </select></p>
       <p> Home Color: <input type="color" name="homeColor" placeholder="Enter new home color... " value="<?php echo $homeColor ?>"></p>
       <p> Away Color: <input type="color" name="awayColor" placeholder="Enter new away color... " value="<?php echo $awayColor ?>"></p>
       <button type="submit" id="confirm">Confirm</button>
