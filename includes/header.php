@@ -3,6 +3,7 @@
 
 <?php include_once 'url-helpers.php';
 include 'login-check.php';
+require 'vendor/autoload.php';
 session_start(); ?>
 
 <head>
