@@ -72,18 +72,27 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 <div class="modal" id="myModal">
   <div class="modal-contents">
     <span class="close">&times;</span>
-    <h1 style="font-size: 2em; font-weight: 700; margin-top: 20px;"> Edit Profile </h1>
-    <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 45px; text-align: left;"> Current Information: </h2>
-    <p style="font-size: 1.25em; font-weight: 400; margin-top: 35px; text-align: left;"> Username: "<?php echo $username ?>"</p>
-    <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Description: "<?php echo $description ?>"</p>
-    <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Profile Picture: "<?php echo $profilePicURL ?>" </p>
-    <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 45px; text-align: left;"> New Information: </h2>
-    <form action="profile" method="post" enctype="multipart/form-data">
-      <p> Username: <input type="text" name="username" placeholder="Enter new username..." value="<?php echo $username ?>" autofocus required></p>
-      <p> Description: <input type="text" name="description" placeholder="Enter new description..." value="<?php echo $description ?>" required></p>
-      <p> Profile Picture: <input type="file" name="image" /></p>
-      <button type="submit" id="confirm">Confirm</button>
-    </form>
+    <div class="modal-contents-inner">
+      <h1 style="font-size: 2em; font-weight: 700; margin-top: 20px;"> Edit Profile </h1>
+      <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> Current Information: </h2>
+      <div style="margin-top: 15px; word-break: break-all;" class="grid">
+        <p> Username: </p>
+        <p style="text-align: left;">"<?php echo $username ?>"</p>
+        <p> Description: </p>
+        <p style="text-align: left;">"<?php echo $description ?>"</p>
+        <p> Profile Picture: </p>
+        <p style="text-align: left;">"<?php echo $profilePicURL ?>" </p>
+      </div>
+      <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> New Information: </h2>
+      <form action="profile" method="post" enctype="multipart/form-data">
+        <div class="grid">
+          <p> Username: </p><input type="text" name="username" placeholder="Enter new username..." value="<?php echo $username ?>" autofocus required>
+          <p> Description: </p><textarea name="description" placeholder="Enter new description..." maxlength="255" required><?php echo $description ?></textarea>
+          <p> Profile Picture: </p><input type="file" name="image" />
+        </div>
+        <button type="submit" id="confirm">Confirm</button>
+      </form>
+    </div>
   </div>
 </div>
 

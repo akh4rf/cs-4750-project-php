@@ -17,7 +17,8 @@
     border: 1px solid #888;
     width: 40%;
     text-align: center;
-    color:black
+    color:black;
+    position: relative;
 }
 
 .close {
@@ -25,6 +26,8 @@
   float: right;
   font-size: 28px;
   font-weight: bold;
+  position: absolute;
+  right: 25px;
 }
 
 .close:hover,
@@ -34,18 +37,17 @@
   cursor: pointer;
 }
 
-.modal-contents > form {
+.modal-contents-inner > form {
   margin-top: 15px;
 }
 
-.modal-contents > form > p {
+.modal-contents-inner p {
   font-size: 1.25em;
   font-weight: 400;
-  margin-top: 15px;
-  text-align: left;
+  text-align: right;
 }
 
-.modal-contents > form > button {
+.modal-contents-inner > form button {
   width: 30%;
   background-color: var(--dark-blue);
   color: white;
@@ -59,7 +61,22 @@
   transition: background 0.2s;
 }
 
-.modal-contents > form > button:hover {
+.modal-contents-inner > form button:hover {
   background-color: var(--blue);
   transition: background 0.2s;
+}
+
+.modal-contents-inner > form textarea {
+  resize: vertical;
+}
+
+.modal-contents-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-contents-inner .grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 15px;
 }
