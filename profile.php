@@ -17,14 +17,14 @@ if ($data['row_count'] == 1) {
 }
 
 $teamid = execute_query("SELECT TeamID FROM Team WHERE UserID=?", array($_SESSION['UserID']))['rows_affected'][0]['TeamID'];
-$sql2="SELECT totalMVPS, totalGoals, totalAssists FROM TeamStat WHERE TeamID=? ORDER BY date DESC LIMIT 1;";
+$sql2 = "SELECT totalMVPS, totalGoals, totalAssists FROM TeamStat WHERE TeamID=? ORDER BY date DESC LIMIT 1;";
 $team_stats = execute_query($sql2, array($teamid));
-if($team_stats['row_count']==1){
-  $stat=$team_stats['rows_affected'][0];
+if ($team_stats['row_count'] == 1) {
+  $stat = $team_stats['rows_affected'][0];
   $MVPs = $stat['totalMVPS'];
   $Goals = $stat['totalGoals'];
   $Assists = $stat['totalAssists'];
-}else{
+} else {
   $error_msg = "Error with teamStats";
 }
 
@@ -47,11 +47,32 @@ foreach ($stats as $k => $v) {
 if ($_SERVER["REQUEST_METHOD"] === 'POST') {
   // Retrieve UserID from session storage
   $UserID = $_SESSION['UserID'];
-  // Retrieve title, comment & rating from POST data
+  // Retrieve username & description from POST data
   $username = $_POST['username'];
   $description = $_POST['description'];
-  $profilePicURL = $_POST['profilePic'];
 
+  if ($_FILES['image']['size'] > 0) {
+    $name_parts = explode('.', $_FILES['image']['name']);
+    $file_name = $name_parts[0] . '_' . $_SESSION['UserID'] . '.' . $name_parts[1];
+    $temp_file_location = $_FILES['image']['tmp_name'];
+
+    $s3 = new Aws\S3\S3Client([
+        'region'  => 'us-east-2',
+        'version' => 'latest',
+        'credentials' => [
+          'key'    => "AKIAS5C45FJX6BLWNBOY",
+          'secret' => "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",
+        ]
+      ]);
+
+    $result = $s3->putObject([
+      'Bucket' => 'imageupload22',
+      'Key'    => $file_name,
+      'SourceFile' => $temp_file_location
+    ]);
+
+    $profilePicURL = $result['ObjectURL'];
+  }
 
   $sql2 = "UPDATE UserInfo SET description = ?, profilePicURL = ? WHERE UserID = ?;";
   $sql3 = "UPDATE Users SET username = ? WHERE UserID = ?;";
@@ -61,14 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
   $data3 = execute_query($sql3, array($username, $UserID));
 }
 
-
-$sql4 = "UPDATE UserInfo SET profilePicURL = ? WHERE UserID = ?;";
-
-if($sql4->num_rows > 0){
-  $profilePicURL = 'uploads/'.$row["file_name"];
-}
 ?>
-<img src="<?php echo $profilePicURL; ?>" alt="" />
 
 
 <link rel="stylesheet" href=<?php echo transformPath('/css/modal.css') ?>>
@@ -82,10 +96,10 @@ if($sql4->num_rows > 0){
     <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Description: "<?php echo $description ?>"</p>
     <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Profile Picture: "<?php echo $profilePicURL ?>" </p>
     <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 45px; text-align: left;"> New Information: </h2>
-    <form action="profile" method="post">
+    <form action="profile" method="post" enctype="multipart/form-data">
       <p> Username: <input type="text" name="username" placeholder="Enter new username..." value="<?php echo $username ?>" autofocus required></p>
       <p> Description: <input type="text" name="description" placeholder="Enter new description..." value="<?php echo $description ?>" required></p>
-      <p> Profile Picture: <input type="file" name="profilePic" placeholder="Enter new URL..." value="<?php echo $profilePicURL ?>"></p>
+      <p> Profile Picture: <input type="file" name="image" /></p>
       <button type="submit" id="confirm">Confirm</button>
     </form>
   </div>
@@ -118,18 +132,20 @@ if($sql4->num_rows > 0){
         <h1>STATS</h1>
         <hr style="margin-top: 10px;">
       </div>
-      <?php if (!isset($MVPs)) {$MVPs = $Goals = $Assists = 0;} ?>
+      <?php if (!isset($MVPs)) {
+        $MVPs = $Goals = $Assists = 0;
+      } ?>
       <div id="stats-body">
         <div class="stat-box">
-          <p class="stat-num"><?php echo $MVPs?></p>
+          <p class="stat-num"><?php echo $MVPs ?></p>
           <p class="stat-label">MVPs</p>
         </div>
         <div class="stat-box">
-          <p class="stat-num"><?php echo $Goals?></p>
+          <p class="stat-num"><?php echo $Goals ?></p>
           <p class="stat-label">Goals</p>
         </div>
         <div class="stat-box">
-          <p class="stat-num"><?php echo $Assists?></p>
+          <p class="stat-num"><?php echo $Assists ?></p>
           <p class="stat-label">Assists</p>
         </div>
       </div>
