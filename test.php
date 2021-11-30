@@ -1,12 +1,14 @@
 <?php
+session_start();
 	if(isset($_FILES['image'])){
-		$file_name = $_FILES['image']['name'];   
+        $name_parts = explode('.', $_FILES['image']['name']);
+		$file_name = $name_parts[0] . '_' . $_SESSION['UserID'] . '.' . $name_parts[1];   
 		$temp_file_location = $_FILES['image']['tmp_name']; 
 
 		require 'vendor/autoload.php';
 
 		$s3 = new Aws\S3\S3Client([
-			'region'  => '-- your region --',
+			'region'  => 'us-east-2',
 			'version' => 'latest',
 			'credentials' => [
 				'key'    => "AKIAS5C45FJX6BLWNBOY",
@@ -21,7 +23,8 @@
 		]);
         echo $result['ObjectURL'] . PHP_EOL;
 
-		var_dump($result);
+		// var_dump($result);
+        echo ($result->get("ObjectURL"));
 	}
 ?>
 
