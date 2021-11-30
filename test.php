@@ -24,7 +24,8 @@ session_start();
         echo $result['ObjectURL'] . PHP_EOL;
 
 		// var_dump($result);
-        echo ($result->get("ObjectURL"));
+        $picURL = $result->get("ObjectURL");
+        // UPDATE UserInfo SET profilePicURL = ? WHERE UserID = ?
 	}
 ?>
 
