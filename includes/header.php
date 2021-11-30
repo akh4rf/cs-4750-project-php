@@ -37,7 +37,7 @@ if ($data['row_count'] == 1) {
       <a style="height: 100%; text-decoration: none; padding: 0 25px; color: white;" href=<?php echo transformPath('/') ?>>
         <div style="display: flex; align-items: center; height: 100%; font-size: 32px;">Upper90</div>
       </a>
-      <div style="font-size: 45px; padding: 0 25px;"><a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href=<?php echo transformPath('/login') ?>><img src=<?php echo $profilePicURL ?> style="width:50px;height: 50px;"></a></div>
+      <div style="font-size: 45px; padding: 0 25px;"><a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href=<?php echo transformPath('/logout') ?>><img src=<?php echo $profilePicURL ?> style="width:50px;height: 50px;"></a></div>
     </div>
     <div style="height: 100%; width: 100%; position: relative;">
       <?php include_once "includes/sidebar.php" ?>
