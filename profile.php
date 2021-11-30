@@ -1,14 +1,16 @@
-<?php include_once "includes/header.php";
+<?php
 
+include_once "includes/header.php";
 loginCheck();
-
 include("./database/db-helpers.php");
-$myuserid = $_SESSION['UserID'];
-$sql = "SELECT UserID, username, description, profilePicURL FROM Users NATURAL JOIN UserInfo WHERE UserID=?;";
-$data = execute_query($sql, array($myuserid));
+
+// Retrieve UserID from session storage
+$UserID = $_SESSION['UserID'];
+
+$sql = "SELECT username, description, profilePicURL FROM Users NATURAL JOIN UserInfo WHERE UserID=?;";
+$data = execute_query($sql, array($UserID));
 if ($data['row_count'] == 1) {
   $user = $data['rows_affected'][0];
-  $UserID = $user['UserID'];
   $username = $user['username'];
   $description = $user['description'];
   $profilePicURL = $user['profilePicURL'];
@@ -16,7 +18,7 @@ if ($data['row_count'] == 1) {
   $error_msg = "Error with UserInfo";
 }
 
-$teamid = execute_query("SELECT TeamID FROM Team WHERE UserID=?", array($_SESSION['UserID']))['rows_affected'][0]['TeamID'];
+$teamid = execute_query("SELECT TeamID FROM Team WHERE UserID=?", array($UserID))['rows_affected'][0]['TeamID'];
 $sql2 = "SELECT totalMVPS, totalGoals, totalAssists FROM TeamStat WHERE TeamID=? ORDER BY date DESC LIMIT 1;";
 $team_stats = execute_query($sql2, array($teamid));
 if ($team_stats['row_count'] == 1) {
@@ -45,33 +47,13 @@ foreach ($stats as $k => $v) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-  // Retrieve UserID from session storage
-  $UserID = $_SESSION['UserID'];
   // Retrieve username & description from POST data
   $username = $_POST['username'];
   $description = $_POST['description'];
 
   if ($_FILES['image']['size'] > 0) {
-    $name_parts = explode('.', $_FILES['image']['name']);
-    $file_name = $name_parts[0] . '_' . $_SESSION['UserID'] . '.' . $name_parts[1];
-    $temp_file_location = $_FILES['image']['tmp_name'];
-
-    $s3 = new Aws\S3\S3Client([
-        'region'  => 'us-east-2',
-        'version' => 'latest',
-        'credentials' => [
-          'key'    => "AKIAS5C45FJX6BLWNBOY",
-          'secret' => "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",
-        ]
-      ]);
-
-    $result = $s3->putObject([
-      'Bucket' => 'imageupload22',
-      'Key'    => $file_name,
-      'SourceFile' => $temp_file_location
-    ]);
-
-    $profilePicURL = $result['ObjectURL'];
+    include 'image-upload.php';
+    $profilePicURL = upload_image($_FILES['image']['name']);
   }
 
   $sql2 = "UPDATE UserInfo SET description = ?, profilePicURL = ? WHERE UserID = ?;";
