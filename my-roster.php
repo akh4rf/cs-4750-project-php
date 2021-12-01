@@ -5,9 +5,9 @@ include_once "includes/header.php";
 loginCheck();
 
 //Team Information
-$myuserid = $_SESSION['UserID'];
-$sql = "SELECT TeamID, name, description, homeColor, awayColor, nationality FROM Team WHERE userid=?;";
-$teaminfo = execute_query($sql, array($myuserid));
+$UserID = $_SESSION['UserID'];
+$sql = "SELECT TeamID, name, description, homeColor, awayColor, nationality FROM Team WHERE UserID=?;";
+$teaminfo = execute_query($sql, array($UserID));
 if ($teaminfo['row_count'] == 1) {
   $user = $teaminfo['rows_affected'][0];
   $teamname = $user['name'];
@@ -24,35 +24,37 @@ $sql2 = "SELECT RLPID, name, picURL, age, position, mvps, goals, assists FROM RL
 $rosterinfo = execute_query($sql2, array($teamid));
 $rostersize = $rosterinfo['row_count'];
 
-for ($i = 0; $i < $rostersize; $i++) {
-  if (isset($_POST['button-' . $i])) {
-    $sql3 = "DELETE FROM TeamPlayer WHERE TeamID=? AND RLPID=?";
-    // Delete player from team in DB
-    $removeinfo = execute_query($sql3, array($teamid, $rosterinfo['rows_affected'][$i]['RLPID']));
-    // Decrement roster size and nullify player in returned team data
-    $rostersize -= 1;
-    for ($j = $i; $j < $rostersize; $j++) {
-      $rosterinfo['rows_affected'][$j] = $rosterinfo['rows_affected'][$j + 1];
+if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+  if ($_POST['POST-TYPE'] == 'RemovePlayer') {
+    for ($i = 0; $i < $rostersize; $i++) {
+      if (isset($_POST['button-' . $i])) {
+        $sql3 = "DELETE FROM TeamPlayer WHERE TeamID=? AND RLPID=?";
+        // Delete player from team in DB
+        $removeinfo = execute_query($sql3, array($teamid, $rosterinfo['rows_affected'][$i]['RLPID']));
+        // Decrement roster size and nullify player in returned team data
+        $rostersize -= 1;
+        for ($j = $i; $j < $rostersize; $j++) {
+          $rosterinfo['rows_affected'][$j] = $rosterinfo['rows_affected'][$j + 1];
+        }
+      }
     }
+  } else if ($_POST['POST-TYPE'] == 'EditTeamInfo') {
+    // Retrieve title, comment & rating from POST data
+    $teamname = $_POST['teamName'];
+    $description = $_POST['description'];
+    $nationality = $_POST['nationality'];
+    $homeColor = $_POST['homeColor'];
+    $awayColor = $_POST['awayColor'];
+
+
+    $sql4 = "UPDATE Team SET name = ?, description = ?, homeColor = ?, awayColor = ?, nationality = ? WHERE UserID = ?;";
+
+    //check order of these values in database
+    $data2 = execute_query($sql4, array($teamname, $description, $homeColor, $awayColor, $nationality, $UserID));
   }
 }
 
-if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-  // Retrieve UserID from session storage
-  $UserID = $_SESSION['UserID'];
-  // Retrieve title, comment & rating from POST data
-  $teamname = $_POST['teamName'];
-  $description = $_POST['description'];
-  $nationality = $_POST['nationality'];
-  $homeColor = $_POST['homeColor'];
-  $awayColor = $_POST['awayColor'];
-
-
-  $sql4 = "UPDATE Team SET name = ?, description = ?, homeColor = ?, awayColor = ?, nationality = ? WHERE UserID = ?;";
-
-  //check order of these values in database
-  $data2 = execute_query($sql4, array($teamname, $description, $homeColor, $awayColor, $nationality, $UserID));
-}
+$countries = json_decode(file_get_contents('./countries.json'), true);
 
 ?>
 
@@ -61,25 +63,42 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 <div class="modal" id="myModal">
   <div class="modal-contents">
     <span class="close">&times;</span>
-    <h1 style="font-size: 2em; font-weight: 700; margin-top: 20px;"> Edit Roster Information </h1>
-    <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> Current Information: </h2>
-    <p style="font-size: 1.25em; font-weight: 400; margin-top: 25px; text-align: left;"> Team Name: "<?php echo $teamname ?>"</p>
-    <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Team Description: "<?php echo $description ?>"</p>
-    <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Team Nationality: "<?php echo $nationality ?>" </p>
-    <p style="font-size: 1.25em; font-weight: 400; margin-top: 10px; text-align: left;"> Team Colors: "<?php echo $homeColor ?> and <?php echo $awayColor ?>" </p>
-    <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> New Information: </h2>
-    <form action="my-roster" method="post">
-      <p> Team Name: <input type="text" name="teamName" placeholder="Enter new team name..." value="<?php echo $teamname ?>" autofocus required></p>
-      <p> Team Description: <input type="text" name="description" placeholder="Enter new description..." value="<?php echo $description ?>" required></p>
-      <p> Team Nationality: <input type="text" name="nationality" placeholder="Enter new nationality... " value="<?php echo $nationality ?>" required></p>
-      <p> Home Color: <input type="color" name="homeColor" placeholder="Enter new home color... " value="<?php echo $homeColor ?>"></p>
-      <p> Away Color: <input type="color" name="awayColor" placeholder="Enter new away color... " value="<?php echo $awayColor ?>"></p>
-      <button type="submit" id="confirm">Confirm</button>
-    </form>
+    <div class="modal-contents-inner">
+      <h1 style="font-size: 2em; font-weight: 700; margin-top: 20px;"> Edit Roster Information </h1>
+      <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> Current Information: </h2>
+      <div style="margin-top: 15px; word-break: break-all;" class="grid">
+        <p> Team Name: </p>
+        <p style="text-align: left;">"<?php echo $teamname ?>"</p>
+        <p> Team Description: </p>
+        <p style="text-align: left;">"<?php echo $description ?>"</p>
+        <p> Team Nationality: </p>
+        <p style="text-align: left;">"<?php echo $nationality ?>" </p>
+        <p> Team Colors: </p>
+        <p style="text-align: left;">"<?php echo $homeColor ?> and <?php echo $awayColor ?>" </p>
+      </div>
+      <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> New Information: </h2>
+      <form action="my-roster" method="post">
+        <input type="text" name="POST-TYPE" value="EditTeamInfo" style="display: none;">
+        <div class="grid">
+          <p> Team Name: </p><input type="text" name="teamName" placeholder="Enter new team name..." value="<?php echo $teamname ?>" autofocus required>
+          <p> Team Description: </p><textarea name="description" placeholder="Enter new description..." maxlength="255" required><?php echo $description ?></textarea>
+          <p> Team Nationality: </p><select name="nationality" id="nationality" style="max-width: 100%; width: 100%;" required>
+            <?php foreach ($countries as $country) : ?>
+              <option <?php if ($nationality == $country['alpha2']) {
+                        echo 'selected';
+                      } ?> value="<?php echo $country['alpha2'] ?>"><?php echo $country['name'] ?></option>
+            <?php endforeach ?>
+          </select>
+          <p> Home Color: </p><input type="color" name="homeColor" placeholder="Enter new home color... " value="<?php echo $homeColor ?>">
+          <p> Away Color: </p><input type="color" name="awayColor" placeholder="Enter new away color... " value="<?php echo $awayColor ?>">
+        </div>
+        <button type="submit" id="confirm">Confirm</button>
+      </form>
+    </div>
   </div>
 </div>
 
-<link rel="stylesheet" href="./vendor/components/flag-icon-css/css/flag-icon.min.css">
+<link rel="stylesheet" href="./flag-icon-css/css/flag-icon.min.css">
 
 <div class="inner-page-contents">
   <div style="width: 100%; display: grid; grid-template-columns: 500px 1fr;">
@@ -173,6 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
             </div>
           </div>
         <?php endfor ?>
+        <input type="text" name="POST-TYPE" value="RemovePlayer" style="display: none;">
       </form>
     </div>
   </div>

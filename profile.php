@@ -1,13 +1,15 @@
-<?php include_once "includes/header.php";
+<?php
 
+include_once "includes/header.php";
 loginCheck();
 
-$myuserid = $_SESSION['UserID'];
-$sql = "SELECT UserID, username, description, profilePicURL FROM Users NATURAL JOIN UserInfo WHERE UserID=?;";
-$data = execute_query($sql, array($myuserid));
+// Retrieve UserID from session storage
+$UserID = $_SESSION['UserID'];
+
+$sql = "SELECT username, description, profilePicURL FROM Users NATURAL JOIN UserInfo WHERE UserID=?;";
+$data = execute_query($sql, array($UserID));
 if ($data['row_count'] == 1) {
   $user = $data['rows_affected'][0];
-  $UserID = $user['UserID'];
   $username = $user['username'];
   $description = $user['description'];
   $profilePicURL = $user['profilePicURL'];
@@ -15,15 +17,15 @@ if ($data['row_count'] == 1) {
   $error_msg = "Error with UserInfo";
 }
 
-$teamid = execute_query("SELECT TeamID FROM Team WHERE UserID=?", array($_SESSION['UserID']))['rows_affected'][0]['TeamID'];
-$sql2="SELECT totalMVPS, totalGoals, totalAssists FROM TeamStat WHERE TeamID=? ORDER BY date DESC LIMIT 1;";
+$teamid = execute_query("SELECT TeamID FROM Team WHERE UserID=?", array($UserID))['rows_affected'][0]['TeamID'];
+$sql2 = "SELECT totalMVPS, totalGoals, totalAssists FROM TeamStat WHERE TeamID=? ORDER BY date DESC LIMIT 1;";
 $team_stats = execute_query($sql2, array($teamid));
-if($team_stats['row_count']==1){
-  $stat=$team_stats['rows_affected'][0];
+if ($team_stats['row_count'] == 1) {
+  $stat = $team_stats['rows_affected'][0];
   $MVPs = $stat['totalMVPS'];
   $Goals = $stat['totalGoals'];
   $Assists = $stat['totalAssists'];
-}else{
+} else {
   $error_msg = "Error with teamStats";
 }
 
@@ -44,40 +46,55 @@ foreach ($stats as $k => $v) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-  // Retrieve UserID from session storage
-  $UserID = $_SESSION['UserID'];
-  // Retrieve title, comment & rating from POST data
-  $username = $_POST['username'];
-  $description = $_POST['description'];
-  $profilePicURL = $_POST['profilePic'];
+  if ($_POST['POST-TYPE'] == 'EditUserInfo') {
+    // Retrieve username & description from POST data
+    $username = $_POST['username'];
+    $description = $_POST['description'];
 
+    if ($_FILES['image']['size'] > 0) {
+      include 'image-upload.php';
+      $profilePicURL = upload_image($_FILES['image']['name']);
+    }
 
-  $sql2 = "UPDATE UserInfo SET description = ?, profilePicURL = ? WHERE UserID = ?;";
-  $sql3 = "UPDATE Users SET username = ? WHERE UserID = ?;";
+    $sql2 = "UPDATE UserInfo SET description = ?, profilePicURL = ? WHERE UserID = ?;";
+    $sql3 = "UPDATE Users SET username = ? WHERE UserID = ?;";
 
-  //check order of these values in database
-  $data2 = execute_query($sql2, array($description, $profilePicURL, $UserID));
-  $data3 = execute_query($sql3, array($username, $UserID));
+    //check order of these values in database
+    $data2 = execute_query($sql2, array($description, $profilePicURL, $UserID));
+    $data3 = execute_query($sql3, array($username, $UserID));
+  }
 }
+
 ?>
+
 
 <link rel="stylesheet" href=<?php echo transformPath('/css/modal.css') ?>>
 
 <div class="modal" id="myModal">
   <div class="modal-contents">
     <span class="close">&times;</span>
-    <h1 style="font-size: 2em; font-weight: 700; margin-top: 20px;"> Edit Profile </h1>
-    <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 45px; text-align: left;"> Current Information: </h2>
-    <p style="font-size: 1.25em; font-weight: 400; margin-top: 35px; text-align: left;"> Username: "<?php echo $username ?>"</p>
-    <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Description: "<?php echo $description ?>"</p>
-    <p style="font-size: 1.25em; font-weight: 400; margin-top: 15px; text-align: left;"> Profile Picture: "<?php echo $profilePicURL ?>" </p>
-    <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 45px; text-align: left;"> New Information: </h2>
-    <form action="profile" method="post">
-      <p> Username: <input type="text" name="username" placeholder="Enter new username..." value="<?php echo $username ?>" autofocus required></p>
-      <p> Description: <input type="text" name="description" placeholder="Enter new description..." value="<?php echo $description ?>" required></p>
-      <p> Profile Picture: <input type="text" name="profilePic" placeholder="Enter new URL..." value="<?php echo $profilePicURL ?>"></p>
-      <button type="submit" id="confirm">Confirm</button>
-    </form>
+    <div class="modal-contents-inner">
+      <h1 style="font-size: 2em; font-weight: 700; margin-top: 20px;"> Edit Profile </h1>
+      <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> Current Information: </h2>
+      <div style="margin-top: 15px; word-break: break-all;" class="grid">
+        <p> Username: </p>
+        <p style="text-align: left;">"<?php echo $username ?>"</p>
+        <p> Description: </p>
+        <p style="text-align: left;">"<?php echo $description ?>"</p>
+        <p> Profile Picture: </p>
+        <p style="text-align: left;">"<?php echo $profilePicURL ?>" </p>
+      </div>
+      <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> New Information: </h2>
+      <form action="profile" method="post" enctype="multipart/form-data">
+        <input type="text" name="POST-TYPE" value="EditUserInfo" style="display: none;">
+        <div class="grid">
+          <p> Username: </p><input type="text" name="username" placeholder="Enter new username..." value="<?php echo $username ?>" autofocus required>
+          <p> Description: </p><textarea name="description" placeholder="Enter new description..." maxlength="255" required><?php echo $description ?></textarea>
+          <p> Profile Picture: </p><input type="file" name="image" />
+        </div>
+        <button type="submit" id="confirm">Confirm</button>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -91,7 +108,11 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
         </div>
         <div class="profile-info">
           <div class="profile-photo">
-            <i class="far fa-user-circle"></i>
+            <?php if (strlen($profilePicURL) == 0) : ?>
+              <i class="far fa-user-circle"></i>
+            <?php else : ?>
+              <img src="<?php echo $profilePicURL ?>" style="width: 200px; height: 200px; border-radius: 999px; border: 4px solid black;" alt="<?php echo $username ?>'s profile picture">
+            <?php endif ?>
           </div>
           <div class="profile-contents">
             <h1 style="font-size: 2.5em; font-weight: 700; margin-top: 20px;"><?php echo $username ?></h1>
@@ -108,18 +129,20 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
         <h1>STATS</h1>
         <hr style="margin-top: 10px;">
       </div>
-      <?php if (!isset($MVPs)) {$MVPs = $Goals = $Assists = 0;} ?>
+      <?php if (!isset($MVPs)) {
+        $MVPs = $Goals = $Assists = 0;
+      } ?>
       <div id="stats-body">
         <div class="stat-box">
-          <p class="stat-num"><?php echo $MVPs?></p>
+          <p class="stat-num"><?php echo $MVPs ?></p>
           <p class="stat-label">MVPs</p>
         </div>
         <div class="stat-box">
-          <p class="stat-num"><?php echo $Goals?></p>
+          <p class="stat-num"><?php echo $Goals ?></p>
           <p class="stat-label">Goals</p>
         </div>
         <div class="stat-box">
-          <p class="stat-num"><?php echo $Assists?></p>
+          <p class="stat-num"><?php echo $Assists ?></p>
           <p class="stat-label">Assists</p>
         </div>
       </div>

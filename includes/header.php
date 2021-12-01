@@ -2,6 +2,7 @@
 <html lang="en">
 
 <?php include_once 'url-helpers.php';
+require 'vendor/autoload.php';
 session_start();
 include("./database/db-helpers.php");
 include 'login-check.php';
