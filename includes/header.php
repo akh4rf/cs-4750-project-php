@@ -41,17 +41,33 @@ if (isset($_SESSION['UserID'])) {
         <div style="display: flex; align-items: center; height: 100%; font-size: 32px;">Upper90</div>
       </a>
       <div style="font-size: 45px; padding: 0 25px;">
-        <?php if (!isset($profilePicURL)) : ?>
+        <?php if (strlen($profilePicURL)==0) : ?>
           <a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href=<?php echo transformPath('/login') ?>>
             <i class="far fa-user-circle"></i>
           </a>
         <?php else : ?>
-          <a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href=<?php echo transformPath('/logout') ?>>
-            <img src="<?php echo $profilePicURL ?>" style="width: 50px; height: 50px;">
-          </a>
+          <a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href="#" onclick="toggle_visibility('foo');">Click here</a>
+          <div id="foo">This is foo
+          <a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center; z-index:100; position: fixed;" href=<?php echo transformPath('/logout') ?>>
+            <img src="<?php echo $profilePicURL ?>" style="width: 50px; height: 50px; border-radius: 999px;">        
+        </a>
+          </div>
+          
         <?php endif ?>
       </div>
     </div>
     <div style="height: 100%; width: 100%; position: relative;">
       <?php include_once "includes/sidebar.php" ?>
       <div style="width: 100%; height: 100%; position: absolute; z-index: 5;">
+
+      <script type="text/javascript">
+<!--
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+    }
+//-->
+</script>
