@@ -47,21 +47,23 @@ foreach ($stats as $k => $v) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-  // Retrieve username & description from POST data
-  $username = $_POST['username'];
-  $description = $_POST['description'];
+  if ($_POST['POST-TYPE'] == 'EditUserInfo') {
+    // Retrieve username & description from POST data
+    $username = $_POST['username'];
+    $description = $_POST['description'];
 
-  if ($_FILES['image']['size'] > 0) {
-    include 'image-upload.php';
-    $profilePicURL = upload_image($_FILES['image']['name']);
+    if ($_FILES['image']['size'] > 0) {
+      include 'image-upload.php';
+      $profilePicURL = upload_image($_FILES['image']['name']);
+    }
+
+    $sql2 = "UPDATE UserInfo SET description = ?, profilePicURL = ? WHERE UserID = ?;";
+    $sql3 = "UPDATE Users SET username = ? WHERE UserID = ?;";
+
+    //check order of these values in database
+    $data2 = execute_query($sql2, array($description, $profilePicURL, $UserID));
+    $data3 = execute_query($sql3, array($username, $UserID));
   }
-
-  $sql2 = "UPDATE UserInfo SET description = ?, profilePicURL = ? WHERE UserID = ?;";
-  $sql3 = "UPDATE Users SET username = ? WHERE UserID = ?;";
-
-  //check order of these values in database
-  $data2 = execute_query($sql2, array($description, $profilePicURL, $UserID));
-  $data3 = execute_query($sql3, array($username, $UserID));
 }
 
 ?>
@@ -85,6 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
       </div>
       <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> New Information: </h2>
       <form action="profile" method="post" enctype="multipart/form-data">
+        <input type="text" name="POST-TYPE" value="EditUserInfo" style="display: none;">
         <div class="grid">
           <p> Username: </p><input type="text" name="username" placeholder="Enter new username..." value="<?php echo $username ?>" autofocus required>
           <p> Description: </p><textarea name="description" placeholder="Enter new description..." maxlength="255" required><?php echo $description ?></textarea>

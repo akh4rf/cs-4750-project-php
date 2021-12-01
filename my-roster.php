@@ -6,9 +6,9 @@ include("./database/db-helpers.php");
 loginCheck();
 
 //Team Information
-$myuserid = $_SESSION['UserID'];
-$sql = "SELECT TeamID, name, description, homeColor, awayColor, nationality FROM Team WHERE userid=?;";
-$teaminfo = execute_query($sql, array($myuserid));
+$UserID = $_SESSION['UserID'];
+$sql = "SELECT TeamID, name, description, homeColor, awayColor, nationality FROM Team WHERE UserID=?;";
+$teaminfo = execute_query($sql, array($UserID));
 if ($teaminfo['row_count'] == 1) {
   $user = $teaminfo['rows_affected'][0];
   $teamname = $user['name'];
@@ -25,34 +25,34 @@ $sql2 = "SELECT RLPID, name, picURL, age, position, mvps, goals, assists FROM RL
 $rosterinfo = execute_query($sql2, array($teamid));
 $rostersize = $rosterinfo['row_count'];
 
-for ($i = 0; $i < $rostersize; $i++) {
-  if (isset($_POST['button-' . $i])) {
-    $sql3 = "DELETE FROM TeamPlayer WHERE TeamID=? AND RLPID=?";
-    // Delete player from team in DB
-    $removeinfo = execute_query($sql3, array($teamid, $rosterinfo['rows_affected'][$i]['RLPID']));
-    // Decrement roster size and nullify player in returned team data
-    $rostersize -= 1;
-    for ($j = $i; $j < $rostersize; $j++) {
-      $rosterinfo['rows_affected'][$j] = $rosterinfo['rows_affected'][$j + 1];
-    }
-  }
-}
-
 if ($_SERVER["REQUEST_METHOD"] === 'POST') {
-  // Retrieve UserID from session storage
-  $UserID = $_SESSION['UserID'];
-  // Retrieve title, comment & rating from POST data
-  $teamname = $_POST['teamName'];
-  $description = $_POST['description'];
-  $nationality = $_POST['nationality'];
-  $homeColor = $_POST['homeColor'];
-  $awayColor = $_POST['awayColor'];
+  if ($_POST['POST-TYPE'] == 'RemovePlayer') {
+    for ($i = 0; $i < $rostersize; $i++) {
+      if (isset($_POST['button-' . $i])) {
+        $sql3 = "DELETE FROM TeamPlayer WHERE TeamID=? AND RLPID=?";
+        // Delete player from team in DB
+        $removeinfo = execute_query($sql3, array($teamid, $rosterinfo['rows_affected'][$i]['RLPID']));
+        // Decrement roster size and nullify player in returned team data
+        $rostersize -= 1;
+        for ($j = $i; $j < $rostersize; $j++) {
+          $rosterinfo['rows_affected'][$j] = $rosterinfo['rows_affected'][$j + 1];
+        }
+      }
+    }
+  } else if ($_POST['POST-TYPE'] == 'EditTeamInfo') {
+    // Retrieve title, comment & rating from POST data
+    $teamname = $_POST['teamName'];
+    $description = $_POST['description'];
+    $nationality = $_POST['nationality'];
+    $homeColor = $_POST['homeColor'];
+    $awayColor = $_POST['awayColor'];
 
 
-  $sql4 = "UPDATE Team SET name = ?, description = ?, homeColor = ?, awayColor = ?, nationality = ? WHERE UserID = ?;";
+    $sql4 = "UPDATE Team SET name = ?, description = ?, homeColor = ?, awayColor = ?, nationality = ? WHERE UserID = ?;";
 
-  //check order of these values in database
-  $data2 = execute_query($sql4, array($teamname, $description, $homeColor, $awayColor, $nationality, $UserID));
+    //check order of these values in database
+    $data2 = execute_query($sql4, array($teamname, $description, $homeColor, $awayColor, $nationality, $UserID));
+  }
 }
 
 $countries = json_decode(file_get_contents('./countries.json'), true);
@@ -79,6 +79,7 @@ $countries = json_decode(file_get_contents('./countries.json'), true);
       </div>
       <h2 style="font-size: 1.5em; font-weight: 500; margin-top: 35px; text-align: left;"> New Information: </h2>
       <form action="my-roster" method="post">
+        <input type="text" name="POST-TYPE" value="EditTeamInfo" style="display: none;">
         <div class="grid">
           <p> Team Name: </p><input type="text" name="teamName" placeholder="Enter new team name..." value="<?php echo $teamname ?>" autofocus required>
           <p> Team Description: </p><textarea name="description" placeholder="Enter new description..." maxlength="255" required><?php echo $description ?></textarea>
@@ -192,6 +193,7 @@ $countries = json_decode(file_get_contents('./countries.json'), true);
             </div>
           </div>
         <?php endfor ?>
+        <input type="text" name="POST-TYPE" value="RemovePlayer" style="display: none;">
       </form>
     </div>
   </div>
