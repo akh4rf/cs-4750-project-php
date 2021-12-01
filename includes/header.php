@@ -9,6 +9,7 @@ session_start();
 
 // loginCheck();
 
+$profilePicURL="";
 if (isset($_SESSION['UserID'])) {
   $myuserid = $_SESSION['UserID'];
   $sql = "SELECT profilePicURL FROM UserInfo WHERE UserID=?;";
@@ -46,11 +47,12 @@ if (isset($_SESSION['UserID'])) {
             <i class="far fa-user-circle"></i>
           </a>
         <?php else : ?>
-          <a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href="#" onclick="toggle_visibility('foo');">Click here</a>
-          <div id="foo">This is foo
-          <a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center; z-index:100; position: fixed;" href=<?php echo transformPath('/logout') ?>>
-            <img src="<?php echo $profilePicURL ?>" style="width: 50px; height: 50px; border-radius: 999px;">        
+          <a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href="#" onclick="toggle_visibility('menu');">
+          <img src="<?php echo $profilePicURL ?>" style="width: 50px; height: 50px; border-radius: 999px;">  
         </a>
+          <div id="menu" style="text-decoration: none; color: black; background-color: var(--lightest-blue); height: 80px; display: flex; flex-direction: column; align-items: center; z-index:100; position: fixed;">
+          <a style="text-decoration: none; font-size: 20px; margin-top: 10px; color: var(--dark-blue); font-weight: 700;" href=<?php echo transformPath('/logout') ?>>Logout</a>
+          <a style="text-decoration: none; font-size: 20px; margin-top: 25px; color: var(--dark-blue); font-weight: 700;" href=<?php echo transformPath('/profile') ?>>Profile</a>
           </div>
           
         <?php endif ?>
@@ -68,6 +70,7 @@ if (isset($_SESSION['UserID'])) {
           e.style.display = 'none';
        else
           e.style.display = 'block';
+
     }
 //-->
 </script>
