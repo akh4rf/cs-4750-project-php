@@ -50,7 +50,7 @@ if (isset($_SESSION['UserID'])) {
           <a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href="#" onclick="toggle_visibility('menu');">
           <img src="<?php echo $profilePicURL ?>" style="width: 50px; height: 50px; border-radius: 999px;">  
         </a>
-          <div id="menu" style="text-decoration: none; color: black; background-color: var(--lightest-blue); height: 80px; display: flex; flex-direction: column; align-items: center; z-index:100; position: fixed;">
+          <div id="menu" style="text-decoration: none; color: black; background-color: var(--lightest-blue); height: 80px; display: flex; flex-direction: column; align-items: center; z-index:-1; position: fixed;">
           <a style="text-decoration: none; font-size: 20px; margin-top: 10px; color: var(--dark-blue); font-weight: 700;" href=<?php echo transformPath('/logout') ?>>Logout</a>
           <a style="text-decoration: none; font-size: 20px; margin-top: 25px; color: var(--dark-blue); font-weight: 700;" href=<?php echo transformPath('/profile') ?>>Profile</a>
           </div>
@@ -66,10 +66,10 @@ if (isset($_SESSION['UserID'])) {
 <!--
     function toggle_visibility(id) {
        var e = document.getElementById(id);
-       if(e.style.display == 'block')
-          e.style.display = 'none';
+       if(e.style.zIndex == '-1')
+       e.style.zIndex="100";
        else
-          e.style.display = 'block';
+       e.style.zIndex="-1";
 
     }
 //-->
