@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<?php
-include_once 'url-helpers.php';
+<?php include_once 'url-helpers.php';
+session_start();
 include("./database/db-helpers.php");
 include 'login-check.php';
-session_start();
 
-// loginCheck();
-
-$profilePicURL="";
+$profilePicURL = "";
 if (isset($_SESSION['UserID'])) {
   $myuserid = $_SESSION['UserID'];
   $sql = "SELECT profilePicURL FROM UserInfo WHERE UserID=?;";
@@ -23,6 +17,9 @@ if (isset($_SESSION['UserID'])) {
 }
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -41,20 +38,24 @@ if (isset($_SESSION['UserID'])) {
       <a style="height: 100%; text-decoration: none; padding: 0 25px; color: white;" href=<?php echo transformPath('/') ?>>
         <div style="display: flex; align-items: center; height: 100%; font-size: 32px;">Upper90</div>
       </a>
-      <div style="font-size: 45px; padding: 0 25px;">
-        <?php if (strlen($profilePicURL)==0) : ?>
+      <div style="font-size: 50px; padding: 0 25px; position: relative;">
+        <?php if (strlen($profilePicURL) == 0) : ?>
           <a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href=<?php echo transformPath('/login') ?>>
-            <i class="far fa-user-circle"></i>
+            <i class="far fa-user-circle" style="width: 50px;"></i>
           </a>
         <?php else : ?>
-          <a style="text-decoration: none; color: white; height: 100%; display: flex; align-items: center;" href="#" onclick="toggle_visibility('menu');">
-          <img src="<?php echo $profilePicURL ?>" style="width: 50px; height: 50px; border-radius: 999px;">  
-        </a>
-          <div id="menu" style="text-decoration: none; color: black; background-color: var(--lightest-blue); height: 80px; display: flex; flex-direction: column; align-items: center; z-index:-1; position: fixed;">
-          <a style="text-decoration: none; font-size: 20px; margin-top: 10px; color: var(--dark-blue); font-weight: 700;" href=<?php echo transformPath('/logout') ?>>Logout</a>
-          <a style="text-decoration: none; font-size: 20px; margin-top: 25px; color: var(--dark-blue); font-weight: 700;" href=<?php echo transformPath('/profile') ?>>Profile</a>
+          <div id="menu-wrapper" style="display: flex; align-items: center; height: 100%;">
+            <button id="menu-button" onclick="toggle_visibility('menu');">
+              <img src="<?php echo $profilePicURL ?>" style="width: 50px; height: 50px; border-radius: 999px;">
+            </button>
+            <div id="menu">
+              <div id="menu-inner">
+                <div style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%); height: 25px; background-color: var(--lightest-blue); width: 25px; position: absolute; top: -12px; z-index: 1;"></div>
+                <a href=<?php echo transformPath('/logout') ?>>Logout</a>
+                <a href=<?php echo transformPath('/profile') ?>>Profile</a>
+              </div>
+            </div>
           </div>
-          
         <?php endif ?>
       </div>
     </div>
@@ -62,15 +63,34 @@ if (isset($_SESSION['UserID'])) {
       <?php include_once "includes/sidebar.php" ?>
       <div style="width: 100%; height: 100%; position: absolute; z-index: 5;">
 
-      <script type="text/javascript">
-<!--
-    function toggle_visibility(id) {
-       var e = document.getElementById(id);
-       if(e.style.zIndex == '-1')
-       e.style.zIndex="100";
-       else
-       e.style.zIndex="-1";
+        <script type="text/javascript">
+          function toggle_visibility(id) {
+            let e = document.getElementById(id);
+            if (e.classList.contains('active')) {
+              e.classList.remove('active');
+            } else {
+              e.classList.add('active');
+            }
+          }
 
-    }
-//-->
-</script>
+          const isDescendant = function(parent, child) {
+            let node = child.parentNode;
+            while (node) {
+              if (node === parent) {
+                return true;
+              }
+
+              // Traverse up to the parent
+              node = node.parentNode;
+            }
+
+            // Go up until the root but couldn't find the `parent`
+            return false;
+          };
+
+          document.addEventListener('click', (event) => {
+            if (!isDescendant(document.getElementById('menu-wrapper'), event.target)) {
+              document.getElementById('menu').classList.remove('active');
+            }
+          });
+        </script>
