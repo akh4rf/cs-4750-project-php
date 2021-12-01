@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <?php include_once 'url-helpers.php';
 session_start();
 include("./database/db-helpers.php");
@@ -17,9 +20,6 @@ if (isset($_SESSION['UserID'])) {
 }
 
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -62,35 +62,3 @@ if (isset($_SESSION['UserID'])) {
     <div style="height: 100%; width: 100%; position: relative;">
       <?php include_once "includes/sidebar.php" ?>
       <div style="width: 100%; height: 100%; position: absolute; z-index: 5;">
-
-        <script type="text/javascript">
-          function toggle_visibility(id) {
-            let e = document.getElementById(id);
-            if (e.classList.contains('active')) {
-              e.classList.remove('active');
-            } else {
-              e.classList.add('active');
-            }
-          }
-
-          const isDescendant = function(parent, child) {
-            let node = child.parentNode;
-            while (node) {
-              if (node === parent) {
-                return true;
-              }
-
-              // Traverse up to the parent
-              node = node.parentNode;
-            }
-
-            // Go up until the root but couldn't find the `parent`
-            return false;
-          };
-
-          document.addEventListener('click', (event) => {
-            if (!isDescendant(document.getElementById('menu-wrapper'), event.target)) {
-              document.getElementById('menu').classList.remove('active');
-            }
-          });
-        </script>

@@ -1,5 +1,10 @@
 <?php
 
+function redirectTo($path) {
+  $protocol = ($_SERVER['HTTP_HOST'] == "cs4750-fantasy-sports.herokuapp.com") ? 'https' : 'http';
+  header("Location: $protocol://" . $_SERVER['HTTP_HOST'] . transformPath($path));
+}
+
 function isCurrentPath($path) {
   $uri = $_SERVER['REQUEST_URI'];
 
@@ -28,11 +33,6 @@ function transformPath($path)
     $path = '/cs-4750-project-php' . $path;
   }
   return $path;
-}
-
-function redirectTo($path) {
-  $protocol = ($_SERVER['HTTP_HOST'] == "cs4750-fantasy-sports.herokuapp.com") ? 'https' : 'http';
-  header("Location: $protocol://" . $_SERVER['HTTP_HOST'] . transformPath($path));
 }
 
 ?>
