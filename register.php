@@ -1,5 +1,4 @@
 <?php include_once "includes/header.php";
-include("./database/db-helpers.php");
 include("./includes/LR-error-bar.php");
 
 if ($_SERVER["REQUEST_METHOD"] === 'POST') {

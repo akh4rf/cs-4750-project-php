@@ -2,7 +2,6 @@
 
 include_once "includes/header.php";
 loginCheck();
-include("./database/db-helpers.php");
 
 // Retrieve UserID from session storage
 $UserID = $_SESSION['UserID'];

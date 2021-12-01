@@ -20,6 +20,59 @@
   justify-content: space-between;
 }
 
+#menu {
+  z-index: -1;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s linear, z-index 0.2s step-end;
+}
+
+#menu.active {
+  z-index: 100;
+  opacity: 1;
+  transition: opacity 0.2s linear, z-index 0.2s step-start;
+}
+
+#menu-button {
+  cursor: pointer;
+  height: 100%;
+  background: inherit;
+  border: none;
+  padding: unset;
+}
+
+#menu-inner {
+  background-color: var(--lightest-blue);
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  position: relative;
+  align-items: center;
+}
+
+#menu-inner > a {
+  text-decoration: none;
+  font-size: 20px;
+  color: var(--dark-blue);
+  font-weight: 700;
+  padding: 10px 0;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+  transition: color 0.2s linear, background 0.2s linear;
+}
+
+#menu-inner > a:hover {
+  color: white;
+  background: var(--dark-blue);;
+  transition: color 0.2s linear, background 0.2s linear;
+}
+
 .inner-page-contents {
   background: var(--light-blue);
   height: 100%;
